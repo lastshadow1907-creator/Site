@@ -3,113 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sonsuza Dek Biz ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&family=Pacifico&display=swap" rel="stylesheet">
+    <title>Sonsuza Dek ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&display=swap" rel="stylesheet">
     <style>
-        :root { --kalp-kirmizi: #ff4d6d; --vurgu-sarisi: #fec10d; --ana-mavi: #002d72; }
-        body { font-family: 'Poppins', sans-serif; background: #fff0f3; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
+        :root { --ana-renk: #002d72; --vurgu: #fec10d; --kalp: #ff4d6d; --bg: #fff0f3; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         
-        /* Sayaç Kutusu */
-        .sayaç-karti { 
-            background: rgba(255, 255, 255, 0.9); 
-            padding: 30px; border-radius: 30px; 
-            text-align: center; border: 4px solid var(--vurgu-sarisi);
-            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2);
-            width: 320px; margin: 20px 0;
+        .card { 
+            background: white; padding: 25px; border-radius: 25px; text-align: center; 
+            border: 4px solid var(--vurgu); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            width: 90%; max-width: 350px; margin-top: 20px;
         }
-        #gun-sayisi { font-size: 3.5rem; font-weight: 800; color: var(--kalp-kirmizi); display: block; }
-        #saat-alani { font-size: 1.5rem; font-weight: 600; color: var(--ana-mavi); letter-spacing: 2px; }
+        #gun-sayi { font-size: 3.5rem; font-weight: 800; color: var(--kalp); display: block; line-height: 1; }
+        #saat-alani { font-size: 1.3rem; font-weight: 600; color: var(--ana-renk); margin-top: 10px; display: block; }
 
-        /* Fotoğraflar */
-        .album { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 20px 0; }
-        .polaroid { background: white; padding: 10px 10px 25px 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 130px; transform: rotate(-2deg); }
-        .polaroid img { width: 100%; height: 120px; object-fit: cover; }
+        .album { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 25px 0; width: 100%; }
+        .polaroid { 
+            background: white; padding: 8px 8px 20px 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+            width: 120px; transform: rotate(-2deg); transition: 0.3s;
+        }
+        .polaroid:nth-child(even) { transform: rotate(3deg); }
+        .polaroid img { width: 100%; height: 110px; object-fit: cover; border-radius: 2px; }
 
-        /* Butonlar */
-        .kalp-butonu { font-size: 5rem; background: none; border: none; cursor: pointer; }
-        .yukle-vurgu { position: fixed; bottom: 20px; right: 20px; background: var(--kalp-kirmizi); color: white; width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; font-size: 30px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .btn-kalp { font-size: 4rem; background: none; border: none; cursor: pointer; transition: 0.3s; }
+        .btn-kalp:active { transform: scale(1.3); }
+
+        .btn-ekle { 
+            position: fixed; bottom: 20px; right: 20px; background: var(--kalp); color: white; 
+            width: 55px; height: 55px; border-radius: 50%; border: 3px solid white; 
+            font-size: 25px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+        }
     </style>
 </head>
 <body>
 
-    <h1 style="font-family: 'Pacifico'; color: var(--kalp-kirmizi);">Bizim Hikayemiz</h1>
+    <h1 style="font-family: 'Pacifico'; color: var(--kalp); margin-bottom: 0;">Bizim Hikayemiz</h1>
 
-    <div class="sayaç-karti">
-        <span id="gun-sayisi">Yükleniyor...</span>
+    <div class="card">
+        <span id="gun-sayi">Hesaplanıyor...</span>
         <span id="saat-alani">00 : 00 : 00</span>
     </div>
 
-    <div id="resimler" class="album"></div>
+    <div id="album-container" class="album"></div>
 
-    <button onclick="kalpGonder()" class="kalp-butonu">❤️</button>
-    <div id="uyari" style="color: var(--kalp-kirmizi); font-weight: bold; height: 20px;"></div>
+    <button onclick="kalpAt()" class="btn-kalp">❤️</button>
+    <div id="bilgi" style="color: var(--kalp); font-weight: 600; margin-top: 10px; height: 20px;"></div>
 
-    <button class="yukle-vurgu" onclick="document.getElementById('gizliSecici').click()">+</button>
-    <input type="file" id="gizliSecici" style="display: none;" accept="image/*" onchange="resimYukle(event)">
+    <button class="btn-ekle" onclick="document.getElementById('resimSecici').click()">+</button>
+    <input type="file" id="resimSecici" style="display: none;" accept="image/*" onchange="yukle(event)">
 
     <script>
         const API_KEY = '5767fb3279ed0b1f20bf5beab37300d4';
-        const baslangic = new Date("2026-03-14T00:08:00"); 
+        // 14 Mart 2026, 00:08 (JavaScript'te Mart ayı 2. indekstir)
+        const baslangic = new Date(2026, 2, 14, 0, 8, 0);
 
-        // SAYAÇ - KESİN ÇALIŞAN MANTIK
-        function sayaciGuncelle() {
+        // 1. Sayaç Fonksiyonu
+        function sayac() {
             const simdi = new Date();
-            const farkMs = simdi - baslangic;
-            
-            const toplamSaniye = Math.floor(farkMs / 1000);
-            const gun = Math.floor(toplamSaniye / 86400);
-            const saat = Math.floor((toplamSaniye % 86400) / 3600);
-            const dakika = Math.floor((toplamSaniye % 3600) / 60);
-            const saniye = toplamSaniye % 60;
+            const fark = simdi - baslangic;
 
-            document.getElementById('gun-sayisi').innerText = gun + " GÜN";
+            const d = Math.floor(fark / (1000 * 60 * 60 * 24));
+            const h = Math.floor((fark / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((fark / 1000 / 60) % 60);
+            const s = Math.floor((fark / 1000) % 60);
+
+            document.getElementById('gun-sayi').innerText = d + " GÜN";
             document.getElementById('saat-alani').innerText = 
-                `${String(saat).padStart(2,'0')} : ${String(dakika).padStart(2,'0')} : ${String(saniye).padStart(2,'0')}`;
+                `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
         }
-        setInterval(sayaciGuncelle, 1000);
-        sayaciGuncelle();
+        setInterval(sayac, 1000); sayac();
 
-        // RESİM YÜKLEME VE HAFIZA
+        // 2. Resim Yükleme ve Kaydetme
         window.onload = () => {
-            const kayıtlılar = JSON.parse(localStorage.getItem('fotolar') || '[]');
-            kayıtlılar.forEach(url => ekranaBas(url));
+            const fotolar = JSON.parse(localStorage.getItem('anı_listesi') || '[]');
+            fotolar.forEach(url => bas(url));
         };
 
-        async function resimYukle(e) {
-            const dosya = e.target.files[0];
-            if(!dosya) return;
-            
-            const form = new FormData();
-            form.append('image', dosya);
-            
-            document.getElementById('uyari').innerText = "Yükleniyor... ✨";
+        async function yukle(e) {
+            const file = e.target.files[0];
+            if(!file) return;
+            document.getElementById('bilgi').innerText = "Yükleniyor... ✨";
 
+            const fd = new FormData(); fd.append('image', file);
             try {
-                const yanit = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, { method: 'POST', body: form });
-                const veri = await yanit.json();
-                if(veri.success) {
-                    const url = veri.data.url;
-                    ekranaBas(url);
-                    // Hafızaya ekle
-                    const liste = JSON.parse(localStorage.getItem('fotolar') || '[]');
+                const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {method:'POST', body:fd});
+                const data = await res.json();
+                if(data.success) {
+                    const url = data.data.url;
+                    bas(url);
+                    const liste = JSON.parse(localStorage.getItem('anı_listesi') || '[]');
                     liste.push(url);
-                    localStorage.setItem('fotolar', JSON.stringify(liste));
-                    document.getElementById('uyari').innerText = "Eklendi! ❤️";
+                    localStorage.setItem('anı_listesi', JSON.stringify(liste));
+                    document.getElementById('bilgi').innerText = "Anı eklendi! ❤️";
+                    setTimeout(() => document.getElementById('bilgi').innerText = "", 2000);
                 }
-            } catch(hata) { document.getElementById('uyari').innerText = "Hata!"; }
+            } catch(err) { document.getElementById('bilgi').innerText = "Hata!"; }
         }
 
-        function ekranaBas(url) {
-            const div = document.createElement('div');
-            div.className = 'polaroid';
-            div.innerHTML = `<img src="${url}">`;
-            document.getElementById('resimler').prepend(div);
+        function bas(url) {
+            const d = document.createElement('div');
+            d.className = 'polaroid';
+            d.innerHTML = `<img src="${url}">`;
+            document.getElementById('album-container').prepend(d);
         }
 
-        function kalpGonder() {
-            fetch(`https://api.telegram.org/bot8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w/sendMessage?chat_id=6555602691&text=Sana bir kalp geldi! ❤️`);
-            document.getElementById('uyari').innerText = "Kalbini aldı! ❤️";
-            setTimeout(() => document.getElementById('uyari').innerText = "", 3000);
+        // 3. Telegram Bildirimi
+        function kalpAt() {
+            fetch(`https://api.telegram.org/bot8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w/sendMessage?chat_id=6555602691&text=Sana kocaman bir kalp gönderdi! ❤️`);
+            document.getElementById('bilgi').innerText = "Kalbini gönderdin! ❤️";
+            setTimeout(() => document.getElementById('bilgi').innerText = "", 3000);
         }
     </script>
 </body>
