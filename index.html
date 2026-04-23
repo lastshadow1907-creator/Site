@@ -9,27 +9,18 @@
         :root { --ana-renk: #002d72; --vurgu: #fec10d; --kalp: #ff4d6d; --bg: #fff0f3; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         
-        .card { 
-            background: white; padding: 25px; border-radius: 25px; text-align: center; 
-            border: 4px solid var(--vurgu); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            width: 90%; max-width: 350px; margin-top: 20px;
-        }
-        #gun-sayi { font-size: 3.5rem; font-weight: 800; color: var(--kalp); display: block; line-height: 1; }
-        #saat-alani { font-size: 1.3rem; font-weight: 600; color: var(--ana-renk); margin-top: 10px; display: block; }
+        .card { background: white; padding: 25px; border-radius: 25px; text-align: center; border: 4px solid var(--vurgu); width: 90%; max-width: 350px; margin-top: 20px; }
+        #gun-sayi { font-size: 3.5rem; font-weight: 800; color: var(--kalp); display: block; }
+        #saat-alani { font-size: 1.3rem; font-weight: 600; color: var(--ana-renk); }
 
         .album { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 25px 0; width: 100%; }
-        .polaroid { 
-            background: white; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
-            width: 140px; border-radius: 5px; text-align: center;
-        }
+        .polaroid { background: white; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 140px; border-radius: 5px; }
         .polaroid img { width: 100%; height: 130px; object-fit: cover; border-radius: 3px; }
         
-        .btn-mini { border: none; background: #eee; cursor: pointer; font-size: 0.8rem; padding: 5px; border-radius: 5px; margin-top: 5px; }
-
-        .btn-kalp { font-size: 4rem; background: none; border: none; cursor: pointer; }
+        .ani-kutusu { background: white; margin: 10px 0; padding: 15px; border-radius: 15px; border-left: 5px solid var(--kalp); width: 90%; max-width: 350px; }
         .btn-ekle { position: fixed; bottom: 20px; right: 20px; background: var(--kalp); color: white; width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; font-size: 30px; cursor: pointer; z-index: 100; }
         
-        #link-alani { background: white; padding: 10px; border-radius: 10px; display: none; margin-top: 10px; border: 1px dashed var(--kalp); font-size: 0.8rem; }
+        #link-paneli { display: none; background: #fff; padding: 15px; border-radius: 15px; border: 2px solid var(--kalp); position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 200; width: 80%; max-width: 300px; text-align: center; }
     </style>
 </head>
 <body>
@@ -37,18 +28,16 @@
     <h1 style="font-family: 'Pacifico'; color: var(--kalp);">Bizim Hikayemiz</h1>
 
     <div class="card">
-        <span id="gun-sayi">Yükleniyor...</span>
+        <span id="gun-sayi">...</span>
         <span id="saat-alani">00 : 00 : 00</span>
     </div>
 
     <div id="album-container" class="album"></div>
 
-    <button onclick="kalpAt()" class="btn-kalp">❤️</button>
-    <div id="bilgi" style="color: var(--kalp); font-weight: 600; margin-top: 10px; height: 20px;"></div>
-
-    <div id="link-alani">
-        Resim yüklendi! Bu linki kopyalayıp e-tabloya ekle ki o da görsün:<br>
-        <strong id="resim-linki"></strong>
+    <div id="link-paneli">
+        <p>Resim yüklendi! Linki kopyala ve şimdi açılacak formda "Anı" kısmına yapıştır.</p>
+        <input type="text" id="resim-url" style="width: 100%; margin-bottom: 10px;" readonly>
+        <button onclick="kopyalaVeGit()" style="background: var(--kalp); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer;">Linkle Beraber Forma Git</button>
     </div>
 
     <div id="etablo-anilar" style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
@@ -60,6 +49,7 @@
 
     <script>
         const API_KEY = '5767fb3279ed0b1f20bf5beab37300d4';
+        const FORM_URL = 'BURAYA_GOOGLE_FORM_LINKINI_YAPISTIR'; // Örn: https://docs.google.com/forms/d/e/.../viewform
         const baslangic = new Date(2026, 2, 14, 0, 8, 0); 
 
         function sayac() {
@@ -74,36 +64,33 @@
         setInterval(sayac, 1000); sayac();
 
         async function verileriGetir() {
-            try {
-                const sheetID = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
-                const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
-                const yanit = await fetch(url);
-                const csv = await yanit.text();
-                const satirlar = csv.split('\n').slice(1).reverse();
-                
-                const listeDiv = document.getElementById('etablo-anilar');
-                const albumDiv = document.getElementById('album-container');
-                albumDiv.innerHTML = ""; // Temizle
+            const sheetID = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
+            const yanit = await fetch(url);
+            const csv = await yanit.text();
+            const satirlar = csv.split('\n').slice(1).reverse();
+            
+            const listeDiv = document.getElementById('etablo-anilar');
+            const albumDiv = document.getElementById('album-container');
+            albumDiv.innerHTML = ""; 
 
-                satirlar.forEach(satir => {
-                    const hucreler = satir.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    const icerik = hucreler[0]?.replace(/"/g,'');
-                    const tarih = hucreler[1]?.replace(/"/g,'');
+            satirlar.forEach(satir => {
+                const hucreler = satir.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                const icerik = hucreler[0]?.replace(/"/g,'');
+                const tarih = hucreler[1]?.replace(/"/g,'');
 
-                    // Eğer içerik "http" ile başlıyorsa bunu resim olarak bas
-                    if(icerik && icerik.startsWith('http')) {
-                        const d = document.createElement('div');
-                        d.className = 'polaroid';
-                        d.innerHTML = `<img src="${icerik}"><button class="btn-mini" onclick="window.open('${icerik}')">İndir</button>`;
-                        albumDiv.appendChild(d);
-                    } else if(icerik) {
-                        const anı = document.createElement('div');
-                        anı.className = 'ani-kutusu';
-                        anı.innerHTML = `<div class="ani-tarih">${tarih}</div><div class="ani-metin">${icerik}</div>`;
-                        listeDiv.appendChild(anı);
-                    }
-                });
-            } catch (e) {}
+                if(icerik && icerik.includes('i.ibb.co')) { // ImgBB linki mi?
+                    const d = document.createElement('div');
+                    d.className = 'polaroid';
+                    d.innerHTML = `<img src="${icerik}">`;
+                    albumDiv.appendChild(d);
+                } else if(icerik) {
+                    const anı = document.createElement('div');
+                    anı.className = 'ani-kutusu';
+                    anı.innerHTML = `<div style="font-size:0.7rem; color:#888;">${tarih}</div><div>${icerik}</div>`;
+                    listeDiv.appendChild(anı);
+                }
+            });
         }
 
         window.onload = verileriGetir;
@@ -111,25 +98,23 @@
         async function yukle(e) {
             const file = e.target.files[0];
             if(!file) return;
-            document.getElementById('bilgi').innerText = "Yükleniyor... ✨";
             const fd = new FormData(); fd.append('image', file);
             try {
                 const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {method:'POST', body:fd});
                 const data = await res.json();
                 if(data.success) {
-                    const url = data.data.url;
-                    document.getElementById('link-alani').style.display = 'block';
-                    document.getElementById('resim-linki').innerText = url;
-                    document.getElementById('bilgi').innerText = "Link oluşturuldu! ❤️";
-                    alert("Resim yüklendi! Şimdi çıkan linki e-tabloda 'Anı' kısmına yapıştır ki sevgilin de görebilsin.");
+                    document.getElementById('resim-url').value = data.data.url;
+                    document.getElementById('link-paneli').style.display = 'block';
                 }
-            } catch(e) { document.getElementById('bilgi').innerText = "Hata!"; }
+            } catch(e) { alert("Hata!"); }
         }
 
-        function kalpAt() {
-            fetch(`https://api.telegram.org/bot8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w/sendMessage?chat_id=6555602691&text=Sana bir kalp gönderdi! ❤️`);
-            document.getElementById('bilgi').innerText = "Gönderildi! ❤️";
-            setTimeout(() => document.getElementById('bilgi').innerText = "", 2000);
+        function kopyalaVeGit() {
+            const copyText = document.getElementById("resim-url");
+            copyText.select();
+            navigator.clipboard.writeText(copyText.value);
+            window.open(FORM_URL, '_blank');
+            document.getElementById('link-paneli').style.display = 'none';
         }
     </script>
 </body>
