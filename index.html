@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bizim Dünyamız ❤️</title>
+    <title>MULY ❤️ OLCAY</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&display=swap" rel="stylesheet">
     <style>
         :root { --ana-renk: #002d72; --vurgu: #fec10d; --kalp: #ff4d6d; --bg: #fff0f3; }
@@ -28,7 +28,7 @@
 </head>
 <body>
 
-    <h1 style="font-family: 'Pacifico'; color: var(--kalp); margin-bottom: 0;">Bizim Hikayemiz</h1>
+    <h1 style="font-family: 'Pacifico'; color: var(--kalp); margin-bottom: 0;">Hikayemiz</h1>
 
     <div class="card">
         <span id="gun-sayi">Yükleniyor...</span>
@@ -108,18 +108,18 @@
                 if(data.success) {
                     const url = data.data.url;
                     // SANA BİLDİRİM GELİYOR
-                    const msg = `📸 Yeni Anı Geldi!\n\nSevgilin bir fotoğraf yükledi. Bu linki e-tabloya ekle:\n${url}`;
+                    const msg = `📸 Yeni Anı Geldi!\n\nMULY bir fotoğraf yükledi. Bu linki e-tabloya ekle:\n${url}`;
                     fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${MY_ID}&text=${encodeURIComponent(msg)}`);
                     
                     document.getElementById('bilgi').innerText = "Anı gönderildi! ❤️";
-                    alert("Fotoğraf başarıyla yüklendi! Sevgiline bildirim olarak iletildi.");
+                    alert("Fotoğraf başarıyla yüklendi! Olcaya bildirim olarak iletildi.");
                 }
             } catch(e) { alert("Hata oluştu!"); }
         }
 
         function kalpAt() {
             // SANA KALP BİLDİRİMİ GELİYOR
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${MY_ID}&text=Sevgilin sana bir kalp gönderdi! ❤️`);
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${MY_ID}&text=MULY sana bir kalp gönderdi! ❤️`);
             document.getElementById('bilgi').innerText = "Kalbini gönderdin! ❤️";
             setTimeout(() => document.getElementById('bilgi').innerText = "", 2000);
         }
