@@ -12,7 +12,7 @@
         .card { 
             background: white; padding: 25px; border-radius: 25px; text-align: center; 
             border: 4px solid var(--vurgu); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            width: 90%; max-width: 350px; margin-top: 20px;
+            width: 90%; max-width: 350px; margin-top: 20px; z-index: 10;
         }
         #gun-sayi { font-size: 3.5rem; font-weight: 800; color: var(--kalp); display: block; line-height: 1; }
         #saat-alani { font-size: 1.3rem; font-weight: 600; color: var(--ana-renk); margin-top: 10px; display: block; }
@@ -22,17 +22,15 @@
             background: white; padding: 8px 8px 20px 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
             width: 120px; transform: rotate(-2deg); transition: 0.3s;
         }
-        .polaroid:nth-child(even) { transform: rotate(3deg); }
         .polaroid img { width: 100%; height: 110px; object-fit: cover; border-radius: 2px; }
 
-        .btn-kalp { font-size: 4rem; background: none; border: none; cursor: pointer; transition: 0.3s; }
-        .btn-kalp:active { transform: scale(1.3); }
+        /* E-Tablo Anıları Stili */
+        .ani-kutusu { background: white; margin: 10px 0; padding: 15px; border-radius: 15px; border-left: 5px solid var(--kalp); width: 90%; max-width: 350px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .ani-tarih { font-size: 0.75rem; color: #888; font-weight: 600; }
+        .ani-metin { font-size: 0.95rem; color: var(--ana-renk); margin-top: 5px; }
 
-        .btn-ekle { 
-            position: fixed; bottom: 20px; right: 20px; background: var(--kalp); color: white; 
-            width: 55px; height: 55px; border-radius: 50%; border: 3px solid white; 
-            font-size: 25px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-        }
+        .btn-kalp { font-size: 4rem; background: none; border: none; cursor: pointer; transition: 0.3s; }
+        .btn-ekle { position: fixed; bottom: 20px; right: 20px; background: var(--kalp); color: white; width: 55px; height: 55px; border-radius: 50%; border: 3px solid white; font-size: 25px; cursor: pointer; z-index: 100; }
     </style>
 </head>
 <body>
@@ -40,7 +38,7 @@
     <h1 style="font-family: 'Pacifico'; color: var(--kalp); margin-bottom: 0;">Bizim Hikayemiz</h1>
 
     <div class="card">
-        <span id="gun-sayi">Hesaplanıyor...</span>
+        <span id="gun-sayi">Yükleniyor...</span>
         <span id="saat-alani">00 : 00 : 00</span>
     </div>
 
@@ -49,69 +47,91 @@
     <button onclick="kalpAt()" class="btn-kalp">❤️</button>
     <div id="bilgi" style="color: var(--kalp); font-weight: 600; margin-top: 10px; height: 20px;"></div>
 
+    <div id="etablo-anilar" style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
+        <h3 style="color: var(--kalp); font-family: 'Pacifico';">Anı Defterimiz</h3>
+        </div>
+
     <button class="btn-ekle" onclick="document.getElementById('resimSecici').click()">+</button>
     <input type="file" id="resimSecici" style="display: none;" accept="image/*" onchange="yukle(event)">
 
     <script>
         const API_KEY = '5767fb3279ed0b1f20bf5beab37300d4';
-        // 14 Mart 2026, 00:08 (JavaScript'te Mart ayı 2. indekstir)
-        const baslangic = new Date(2026, 2, 14, 0, 8, 0);
+        const baslangic = new Date(2026, 2, 14, 0, 8, 0); 
 
-        // 1. Sayaç Fonksiyonu
+        // 1. Sayaç
         function sayac() {
-            const simdi = new Date();
-            const fark = simdi - baslangic;
-
-            const d = Math.floor(fark / (1000 * 60 * 60 * 24));
-            const h = Math.floor((fark / (1000 * 60 * 60)) % 24);
-            const m = Math.floor((fark / 1000 / 60) % 60);
-            const s = Math.floor((fark / 1000) % 60);
-
+            const fark = new Date() - baslangic;
+            const d = Math.floor(fark / 86400000);
+            const h = Math.floor((fark % 86400000) / 3600000);
+            const m = Math.floor((fark % 3600000) / 60000);
+            const s = Math.floor((fark % 60000) / 1000);
             document.getElementById('gun-sayi').innerText = d + " GÜN";
-            document.getElementById('saat-alani').innerText = 
-                `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
+            document.getElementById('saat-alani').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
         }
         setInterval(sayac, 1000); sayac();
 
-        // 2. Resim Yükleme ve Kaydetme
+        // 2. E-Tablo Verilerini Çekme (Anı Defteri)
+        async function tabloyuGetir() {
+            try {
+                const sheetID = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
+                const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
+                const yanit = await fetch(url);
+                const csv = await yanit.text();
+                
+                const satirlar = csv.split('\n').slice(1).reverse();
+                const listeDiv = document.getElementById('etablo-anilar');
+                
+                satirlar.forEach(satir => {
+                    const hucreler = satir.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    if(hucreler[0]) {
+                        const anı = document.createElement('div');
+                        anı.className = 'ani-kutusu';
+                        anı.innerHTML = `
+                            <div class="ani-tarih">${hucreler[1].replace(/"/g,'')}</div>
+                            <div class="ani-metin">${hucreler[0].replace(/"/g,'')}</div>
+                        `;
+                        listeDiv.appendChild(anı);
+                    }
+                });
+            } catch (e) { console.log("Tablo hatası"); }
+        }
+
+        // 3. Fotoğraf Hafızası ve Yükleme
         window.onload = () => {
             const fotolar = JSON.parse(localStorage.getItem('anı_listesi') || '[]');
             fotolar.forEach(url => bas(url));
+            tabloyuGetir();
         };
 
         async function yukle(e) {
             const file = e.target.files[0];
             if(!file) return;
             document.getElementById('bilgi').innerText = "Yükleniyor... ✨";
-
             const fd = new FormData(); fd.append('image', file);
             try {
                 const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {method:'POST', body:fd});
                 const data = await res.json();
                 if(data.success) {
-                    const url = data.data.url;
-                    bas(url);
+                    bas(data.data.url);
                     const liste = JSON.parse(localStorage.getItem('anı_listesi') || '[]');
-                    liste.push(url);
+                    liste.push(data.data.url);
                     localStorage.setItem('anı_listesi', JSON.stringify(liste));
-                    document.getElementById('bilgi').innerText = "Anı eklendi! ❤️";
+                    document.getElementById('bilgi').innerText = "Eklendi! ❤️";
                     setTimeout(() => document.getElementById('bilgi').innerText = "", 2000);
                 }
-            } catch(err) { document.getElementById('bilgi').innerText = "Hata!"; }
+            } catch(e) { document.getElementById('bilgi').innerText = "Hata!"; }
         }
 
         function bas(url) {
-            const d = document.createElement('div');
-            d.className = 'polaroid';
+            const d = document.createElement('div'); d.className = 'polaroid';
             d.innerHTML = `<img src="${url}">`;
             document.getElementById('album-container').prepend(d);
         }
 
-        // 3. Telegram Bildirimi
         function kalpAt() {
-            fetch(`https://api.telegram.org/bot8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w/sendMessage?chat_id=6555602691&text=Sana kocaman bir kalp gönderdi! ❤️`);
-            document.getElementById('bilgi').innerText = "Kalbini gönderdin! ❤️";
-            setTimeout(() => document.getElementById('bilgi').innerText = "", 3000);
+            fetch(`https://api.telegram.org/bot8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w/sendMessage?chat_id=6555602691&text=Sana kalp gönderdi! ❤️`);
+            document.getElementById('bilgi').innerText = "Gönderildi! ❤️";
+            setTimeout(() => document.getElementById('bilgi').innerText = "", 2000);
         }
     </script>
 </body>
