@@ -8,13 +8,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --ana: #5d7fb9; --bg: #e9f1fa; --neon: #ff0000; --card: #ffffff; --text: #333; }
-        
         body.gece { --bg: #0b0d17; --ana: #a29bfe; --card: rgba(255,255,255,0.1); --text: #fff; background: linear-gradient(135deg, #0b0d17 0%, #1c1e33 100%); }
-
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; color: var(--text); transition: 0.8s; overflow-x: hidden; }
         
         .card { background: var(--card); width: 92%; max-width: 380px; border-radius: 35px; padding: 30px 15px; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); margin-top: 20px; }
-        
         .neon-inf { font-size: 4rem; color: var(--neon); text-shadow: 0 0 15px rgba(255,0,0,0.6); animation: pulse 2s infinite; margin: 10px 0; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
 
@@ -22,38 +19,47 @@
         body.gece #gun { color: #ff758c; text-shadow: 0 0 10px rgba(255,117,140,0.4); }
         #saat { font-size: 2rem; font-weight: 600; color: var(--ana); letter-spacing: 2px; }
 
+        /* Oyun Alanı Tasarımı */
+        .game-box { background: var(--card); width: 92%; max-width: 380px; border-radius: 25px; padding: 20px; text-align: center; margin-top: 20px; border: 2px dashed var(--ana); position: relative; }
+        .game-btn { background: var(--ana); color: white; border: none; padding: 12px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; width: 100%; }
+        .game-btn:disabled { background: #ccc; cursor: not-allowed; }
+        #task-display { font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: #b02a3a; margin-top: 15px; min-height: 50px; }
+        body.gece #task-display { color: #ff758c; }
+
         .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 25px 0; width: 92%; max-width: 380px; border: 1px solid rgba(0,0,0,0.05); }
-        .tab { flex: 1; padding: 15px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; font-size: 0.9rem; }
+        .tab { flex: 1; padding: 15px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; }
         .tab.active { border-bottom: 3px solid var(--ana); }
 
         .album { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; }
         .pol { background: white; padding: 8px; border-radius: 5px; width: 110px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transform: rotate(-1.5deg); }
-        .pol img { width: 100%; height: 100px; object-fit: cover; border-radius: 2px; }
+        .pol img { width: 100%; height: 100px; object-fit: cover; }
         
-        /* Kalp Butonları Tasarımı */
-        .kalpler { display: flex; gap: 40px; margin: 30px 0; align-items: center; justify-content: center; }
-        .k-btn { background: none; border: none; cursor: pointer; font-size: 3.8rem; transition: 0.4s; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
-        .k-btn:hover { transform: scale(1.2) rotate(5deg); }
-        .k-etiket { font-family: 'Pacifico', cursive; font-size: 0.8rem; color: var(--ana); margin-top: 5px; }
+        .kalpler { display: flex; gap: 40px; margin: 30px 0; }
+        .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.4s; }
+        .k-etiket { font-family: 'Pacifico', cursive; font-size: 0.8rem; color: var(--ana); }
         
         #yildizlar { position: fixed; inset: 0; pointer-events: none; z-index: -1; display: none; }
         body.gece #yildizlar { display: block; }
-        
-        .add-btn { position: fixed; bottom: 25px; right: 25px; background: #b02a3a; color: white; width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; font-size: 30px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 100; }
     </style>
 </head>
 <body>
 
     <div id="yildizlar"></div>
 
-    <h1 id="baslik" style="font-family:'Pacifico'; color:#b02a3a; margin:20px 0 10px 0; font-weight: normal; text-align: center;">İyi ki Varsın...</h1>
+    <h1 id="baslik" style="font-family:'Pacifico'; color:#b02a3a; margin:20px 0 10px 0; font-weight: normal;">İyi ki Varsın...</h1>
 
     <div class="card">
         <div class="neon-inf">♾️</div>
         <div style="font-family:'Dancing Script'; font-size:2rem; color:var(--ana)">Aşkımız Başlayalı;</div>
-        <div id="gun">Yükleniyor...</div>
+        <div id="gun">...</div>
         <div id="saat">00 : 00 : 00</div>
-        <div style="font-family:'Dancing Script'; font-size:1.5rem; margin-top:15px; color: var(--text);">Sonsuza dek sürecek bir AŞK... ✨</div>
+    </div>
+
+    <div class="game-box">
+        <div style="font-weight: bold; font-size: 0.9rem; color: var(--ana);">✨ Muly'ye Özel Görev Kutusu ✨</div>
+        <div id="task-display">Bugünkü görevini almaya hazır mısın?</div>
+        <button id="draw-btn" class="game-btn" onclick="getTask()">Görevi Çek 🎁</button>
+        <div id="timer-display" style="font-size: 0.7rem; margin-top: 8px; opacity: 0.7;"></div>
     </div>
 
     <div class="tabs">
@@ -65,46 +71,93 @@
     <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
 
     <div class="kalpler">
-        <div style="text-align: center;">
-            <div class="k-etiket">Muly'nin Kalbi</div>
-            <button onclick="at('M')" class="k-btn">💖</button>
-        </div>
-        <div style="text-align: center;">
-            <div class="k-etiket">Olcay'ın Kalbi</div>
-            <button onclick="at('O')" class="k-btn">💝</button>
-        </div>
+        <div style="text-align: center;"><div class="k-etiket">Muly</div><button onclick="at('M')" class="k-btn">💖</button></div>
+        <div style="text-align: center;"><div class="k-etiket">Olcay</div><button onclick="at('O')" class="k-btn">💝</button></div>
     </div>
 
-    <div id="not" style="font-size:1rem; font-weight:bold; color:var(--ana); height:25px; text-align: center; margin-bottom: 80px;"></div>
-
-    <button class="add-btn" onclick="document.getElementById('f').click()">+</button>
-    <input type="file" id="f" style="display:none" accept="image/*" onchange="up(event)">
+    <div id="not" style="font-size:1rem; font-weight:bold; color:var(--ana); height:25px; margin-bottom: 50px;"></div>
 
     <script>
         const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w', M='6555602691', O='8697863466', S='1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
         const start = new Date(2026, 2, 14, 0, 8, 0);
+        
+        const tasks = [
+            "Olcay'a anlık foto at, hiç hazırlanmadan! 📸",
+            "Olcay'a 'En çok sen beni seviyorsun' de! ❤️",
+            "Olcay'a o güzel sesinle bir ses at ve 'Seni seviyorum' de! 🎙️",
+            "Olcay'a o güzel sesinle bir ses at ve 'İyi ki varsın' de! ✨",
+            "Olcay'a almak istediğin bir ürünün görselini at ve nasıl olduğunu sor! 🛍️"
+        ];
 
-        function mode() {
-            const h = new Date().getHours();
-            if (h >= 20 || h < 6) {
-                document.body.classList.add('gece');
-                document.getElementById('baslik').innerText = "Gökyüzündeki En Parlak Yıldızım Muly...";
-                stars();
+        function getTask() {
+            const now = new Date().getTime();
+            let data = JSON.parse(localStorage.getItem('muly_tasks') || '{"count":0, "last":0, "date":""}');
+            const today = new Date().toLocaleDateString();
+
+            // Gün değişmişse sıfırla
+            if(data.date !== today) { data = {count:0, last:0, date:today}; }
+
+            // KONTROLLER
+            if(data.count >= 2) {
+                alert("Bugünlük 2 görev limitini doldurdun Muly! Yarın devam ederiz. ❤️");
+                return;
+            }
+            if(now - data.last < 3 * 60 * 60 * 1000) { // 3 Saat kontrolü
+                alert("Henüz çok erken! Bir sonraki görev için 3 saat beklemelisin. 😊");
+                return;
+            }
+
+            // GÖREV VER
+            const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
+            document.getElementById('task-display').innerText = randomTask;
+            
+            // KAYDET
+            data.count++;
+            data.last = now;
+            localStorage.setItem('muly_tasks', JSON.stringify(data));
+            
+            checkGameStatus();
+            
+            // Telegram'a Olcay'a haber ver (Opsiyonel)
+            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${O}&text=${encodeURIComponent("Muly yeni bir görev çekti! Görevi: " + randomTask)}`);
+        }
+
+        function checkGameStatus() {
+            const data = JSON.parse(localStorage.getItem('muly_tasks') || '{"count":0, "last":0, "date":""}');
+            const now = new Date().getTime();
+            const btn = document.getElementById('draw-btn');
+            const timer = document.getElementById('timer-display');
+
+            if(data.count >= 2) {
+                btn.disabled = true;
+                btn.innerText = "Günlük Limit Doldu 🔒";
+                timer.innerText = "Yarın yeni görevler gelecek!";
+            } else if(now - data.last < 3 * 60 * 60 * 1000) {
+                btn.disabled = true;
+                const kalan = Math.ceil((3 * 60 * 60 * 1000 - (now - data.last)) / 60000);
+                btn.innerText = "Görev Kilitli ⏳";
+                timer.innerText = `Sonraki görev için yaklaşık ${kalan} dakika kaldı.`;
             } else {
-                document.body.classList.remove('gece');
-                document.getElementById('baslik').innerText = "İyi ki Varsın...";
+                btn.disabled = false;
+                btn.innerText = "Görevi Çek 🎁";
+                timer.innerText = `Bugün yapılan: ${data.count}/2`;
             }
         }
 
+        // --- DİĞER FONKSİYONLAR ---
+        function mode() {
+            const h = new Date().getHours();
+            if (h >= 20 || h < 6) { document.body.classList.add('gece'); document.getElementById('baslik').innerText = "Gökyüzündeki En Parlak Yıldızım Muly..."; stars(); }
+            else { document.body.classList.remove('gece'); document.getElementById('baslik').innerText = "İyi ki Varsın..."; }
+        }
         function stars() {
             const k = document.getElementById('yildizlar'); k.innerHTML = "";
-            for(let i=0; i<45; i++) {
+            for(let i=0; i<40; i++) {
                 let s = document.createElement('div');
                 s.style.cssText = `position:absolute; width:2px; height:2px; background:white; border-radius:50%; top:${Math.random()*100}%; left:${Math.random()*100}%; opacity:${Math.random()}; animation: pulse 3s infinite;`;
                 k.appendChild(s);
             }
         }
-
         async function load() {
             try {
                 const r = await fetch(`https://docs.google.com/spreadsheets/d/${S}/gviz/tq?tqx=out:csv&cb=${Math.random()}`);
@@ -116,27 +169,23 @@
                     const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
                     if(img?.includes('http')) g.insertAdjacentHTML('afterbegin', `<div class="pol"><img src="${img}"></div>`);
-                    if(txt && !txt.includes('http')) a.insertAdjacentHTML('afterbegin', `<div style="background:var(--card); margin:10px; padding:15px; border-radius:20px; width:85%; border-left:5px solid var(--neon); box-shadow: 0 4px 10px rgba(0,0,0,0.05);">${txt}</div>`);
+                    if(txt && !txt.includes('http')) a.insertAdjacentHTML('afterbegin', `<div style="background:var(--card); margin:10px; padding:15px; border-radius:20px; width:85%; border-left:5px solid var(--neon);">${txt}</div>`);
                 });
             } catch(e) {}
         }
-
         function count() {
             const f = new Date() - start;
             const d = Math.floor(f/86400000), h = Math.floor((f%86400000)/3600000), m = Math.floor((f%3600000)/60000), s = Math.floor((f%60000)/1000);
             document.getElementById('gun').innerText = d + " GÜN";
             document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
         }
-
         function at(k) {
             let id = (k === 'M') ? M : O;
-            // İSTEDİĞİN ÖZEL MESAJLAR BURADA
             let msg = (k === 'M') ? "Olcay, Muly seni çok özledi! ❤️" : "Muly, Olcay'ın yine aklındasın 💝 Pardon, ne zaman çıktın ki?";
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${id}&text=${encodeURIComponent(msg)}`);
             document.getElementById('not').innerText = "Sevgi gönderildi! ❤️";
-            setTimeout(()=>document.getElementById('not').innerText="", 2500);
+            setTimeout(()=>document.getElementById('not').innerText="", 2000);
         }
-
         function tab(x) {
             document.getElementById('gs').style.display = x==='g'?'flex':'none';
             document.getElementById('as').style.display = x==='a'?'flex':'none';
@@ -145,8 +194,8 @@
         }
 
         setInterval(count, 1000);
-        setInterval(mode, 60000);
-        window.onload = () => { mode(); load(); count(); };
+        setInterval(checkGameStatus, 60000); // Sayaç için dakikada bir kontrol
+        window.onload = () => { mode(); load(); count(); checkGameStatus(); };
     </script>
 </body>
 </html>
