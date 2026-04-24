@@ -44,12 +44,15 @@
         .ani-menu-item { background: var(--bg); color: var(--ana); border: none; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer; text-align: left; }
 
         #yildizlar { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
+        .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .popup-box { background: var(--card); width: 85%; max-width: 320px; border-radius: 25px; padding: 20px; text-align: center; }
         #loading-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); color:white; z-index:3000; align-items:center; justify-content:center; flex-direction:column; }
+        #ani-input { width: 100%; height: 100px; border-radius: 10px; padding: 10px; margin: 10px 0; border: 1px solid var(--ana); box-sizing: border-box; font-family: inherit; }
     </style>
 </head>
 <body>
 
-    <div id="loading-overlay">🚀 Bağlantı Olcay'a Gönderiliyor...</div>
+    <div id="loading-overlay">🚀 Dosya Olcay'a Gönderiliyor...</div>
     <div id="yildizlar"></div>
 
     <h1 id="baslik" style="font-family:'Pacifico'; color:#b02a3a; margin:10px 0; text-align: center;">İyi ki Varsın...</h1>
@@ -86,61 +89,81 @@
 
     <div class="ani-panel">
         <div id="aniMenu" class="ani-menu">
-            <button class="ani-menu-item" onclick="checkQuestion()">📸 Fotoğraf Gönder (Soru)</button>
+            <button class="ani-menu-item" onclick="openFoto()">📸 Fotoğraf Gönder</button>
+            <button class="ani-menu-item" onclick="openText()">✍️ Anı Yaz</button>
         </div>
         <div class="ani-btn" onclick="toggleAniMenu()">➕</div>
     </div>
 
+    <div id="popupOverlay" class="popup-overlay">
+        <div class="popup-box">
+            <h3 style="margin:0; color:var(--ana)">Anı Defteri ✨</h3>
+            <textarea id="ani-input" placeholder="Anımızı buraya yazabilirsin..."></textarea>
+            <button class="game-btn" style="background:#b02a3a" onclick="saveTextAni()">Kaydet ✅</button>
+            <button class="game-btn" style="background:#ccc; color:#333; margin-top:5px;" onclick="closePopup()">Kapat</button>
+        </div>
+    </div>
+
     <script>
         const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
-        const M = '8697863466'; // Muly (8...)
-        const O = '6555602691'; // Olcay (6...)
+        const M = '8697863466'; 
+        const O = '6555602691'; 
         const S = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbx8rPIYa0_45eRuMm2f63Rc_ygES5tQidQIi5gTTN9BgA-CiRUw4pcHpD6cfOEzZ-ZT/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
 
         function sendTele(msg, target) {
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
         }
 
-        // Soru ve Fotoğraf Seçme
-        function checkQuestion() {
-            const answer = prompt("Dünyada Muly'yi en çok kim seviyor? ❤️");
-            if(answer && answer.trim().toLowerCase() === 'olcay') {
-                alert("Doğru! ✨ Şimdi fotoğrafını seç, Olcay'a bağlantısı gidecek.");
-                document.getElementById('fotoInput').click();
-            } else if(answer !== null) {
-                alert("Yanlış cevap! 😋");
-            }
+        function openFoto() {
+            document.getElementById('fotoInput').click();
             toggleAniMenu();
         }
 
-        // FOTOĞRAFI BASE64 YAPIP TELEGRAMDAN SANA GÖNDERME
-        // (Not: Çok büyük fotoğraflarda Telegram URL limiti nedeniyle hata verebilir, 
-        // bu yüzden mesajda "Muly foto seçti" bilgisi ve talimat gönderiyoruz.)
+        // FOTOĞRAFI DOSYA OLARAK SANA ATAN FONKSİYON
         async function handleFile(input) {
             const file = input.files[0];
             if (!file) return;
-            
+
             document.getElementById('loading-overlay').style.display = 'flex';
-            
-            // Not: Tarayıcı üzerinden doğrudan fotoğraf dosyası göndermek yerine 
-            // Muly'nin seçtiği bilgisini sana anlık veriyoruz.
-            // Sen tabloya manuel ekleyeceğin için ona bir "HızlıResim" linki almasını önerebiliriz
-            // ya da sen bu dosyayı bir yere yüklemesini isteyebilirsin.
-            
-            sendTele(`📸 Muly bir fotoğraf seçti! \nDosya Adı: ${file.name}\n\nOlcay, Muly'den bu fotoğrafı sana Telegram'dan atmasını iste, sonra linkini tabloya eklersin. ❤️`, O);
-            
-            setTimeout(() => {
+
+            const formData = new FormData();
+            formData.append('chat_id', O); // Doğrudan Olcay'a gidiyor
+            formData.append('photo', file);
+            formData.append('caption', "📸 Muly senin için bir fotoğraf gönderdi! ❤️");
+
+            try {
+                await fetch(`https://api.telegram.org/bot${T}/sendPhoto`, {
+                    method: 'POST',
+                    body: formData
+                });
+                alert("Fotoğraf Olcay'a başarıyla gönderildi! ❤️");
+            } catch (err) {
+                alert("Gönderilirken bir hata oluştu, lütfen tekrar dene.");
+            } finally {
                 document.getElementById('loading-overlay').style.display = 'none';
-                alert("Fotoğraf bilgisi Olcay'a iletildi! ❤️");
-            }, 1500);
+            }
         }
 
-        function at(k) {
-            if (k === 'M') { sendTele("Muly seni çok özledi ❤️", O); } 
-            else { sendTele("Olcay aklındasın 💝", M); }
-            document.getElementById('not').innerText = "Sevgi gönderildi! ❤️";
-            setTimeout(()=>document.getElementById('not').innerText="", 2000);
+        async function saveTextAni() {
+            const txt = document.getElementById('ani-input').value.trim();
+            if(!txt) return;
+            document.getElementById('loading-overlay').style.display = 'flex';
+            await fetch(`${scriptUrl}?ani=${encodeURIComponent(txt)}&foto=`, { mode: 'no-cors' });
+            document.getElementById('ani-input').value = "";
+            closePopup();
+            load();
+            sendTele("✍️ Muly yeni bir anı ekledi! Bakabilirsin Olcay. ❤️", O);
+            document.getElementById('loading-overlay').style.display = 'none';
+        }
+
+        async function sil(item) {
+            if(!confirm("Bu kaydı silmek istediğine emin misin?")) return;
+            document.getElementById('loading-overlay').style.display = 'flex';
+            await fetch(`${scriptUrl}?action=delete&text=${encodeURIComponent(item)}`, { mode: 'no-cors' });
+            load();
+            document.getElementById('loading-overlay').style.display = 'none';
         }
 
         async function load() {
@@ -153,12 +176,19 @@
                 const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
                 if(img?.includes('http')) {
-                    g.insertAdjacentHTML('afterbegin', `<div class="pol"><img src="${img}"><a href="${img}" target="_blank" class="dl-btn">Gör</a></div>`);
+                    g.insertAdjacentHTML('afterbegin', `<div class="pol"><button class="del-btn" onclick="sil('${img}')">×</button><img src="${img}"><a href="${img}" target="_blank" class="dl-btn">Gör</a></div>`);
                 }
                 if(txt && !txt.includes('http')) {
-                    a.insertAdjacentHTML('afterbegin', `<div class="ani-card">${txt}</div>`);
+                    a.insertAdjacentHTML('afterbegin', `<div class="ani-card"><button class="del-btn" onclick="sil('${txt}')">×</button>${txt}</div>`);
                 }
             });
+        }
+
+        function at(k) {
+            if (k === 'M') { sendTele("Muly seni çok özledi ❤️", O); } 
+            else { sendTele("Olcay aklındasın 💝", M); }
+            document.getElementById('not').innerText = "Sevgi gönderildi! ❤️";
+            setTimeout(()=>document.getElementById('not').innerText="", 2000);
         }
 
         function count() {
@@ -207,6 +237,8 @@
         }
 
         function toggleAniMenu() { const m = document.getElementById('aniMenu'); m.style.display = (m.style.display === 'flex' ? 'none' : 'flex'); }
+        function openText() { document.getElementById('popupOverlay').style.display = 'flex'; toggleAniMenu(); }
+        function closePopup() { document.getElementById('popupOverlay').style.display = 'none'; }
         function tab(x) {
             document.getElementById('gs').style.display = x==='g'?'flex':'none';
             document.getElementById('as').style.display = x==='a'?'flex':'none';
