@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MULY ❤️ OLCAY</title>
+    <title>Bizim Dünyamız ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&display=swap" rel="stylesheet">
     <style>
         :root { --ana-renk: #002d72; --vurgu: #fec10d; --kalp: #ff4d6d; --bg: #fff0f3; }
@@ -28,7 +28,7 @@
 </head>
 <body>
 
-    <h1 style="font-family: 'Pacifico'; color: var(--kalp); margin-bottom: 0;">Hikayemiz</h1>
+    <h1 style="font-family: 'Pacifico'; color: var(--kalp); margin-bottom: 0;">Bizim Hikayemiz</h1>
 
     <div class="card">
         <span id="gun-sayi">Yükleniyor...</span>
@@ -41,88 +41,4 @@
     <div id="bilgi" style="color: var(--kalp); font-weight: 600; margin-top: 10px; height: 20px; text-align:center;"></div>
 
     <div id="etablo-anilar" style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
-        <h3 style="color: var(--kalp); font-family: 'Pacifico';">Anı Defterimiz</h3>
-    </div>
-
-    <button class="btn-ekle" onclick="document.getElementById('resimSecici').click()">+</button>
-    <input type="file" id="resimSecici" style="display: none;" accept="image/*" onchange="yukle(event)">
-
-    <script>
-        const API_KEY = '5767fb3279ed0b1f20bf5beab37300d4';
-        const BOT_TOKEN = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
-        const MY_ID = '6555602691';
-        const SHEET_ID = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
-        const baslangic = new Date(2026, 2, 14, 0, 8, 0); 
-
-        function sayac() {
-            const fark = new Date() - baslangic;
-            const d = Math.floor(fark / 86400000);
-            const h = Math.floor((fark % 86400000) / 3600000);
-            const m = Math.floor((fark % 3600000) / 60000);
-            const s = Math.floor((fark % 60000) / 1000);
-            document.getElementById('gun-sayi').innerText = d + " GÜN";
-            document.getElementById('saat-alani').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
-        }
-        setInterval(sayac, 1000); sayac();
-
-        async function verileriGetir() {
-            try {
-                const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
-                const yanit = await fetch(url);
-                const csv = await yanit.text();
-                const satirlar = csv.split('\n').slice(1).reverse();
-                
-                const listeDiv = document.getElementById('etablo-anilar');
-                const albumDiv = document.getElementById('album-container');
-                albumDiv.innerHTML = ""; 
-
-                satirlar.forEach(satir => {
-                    const hucreler = satir.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    const icerik = hucreler[0]?.replace(/"/g,'');
-                    const tarih = hucreler[1]?.replace(/"/g,'');
-
-                    if(icerik && icerik.includes('i.ibb.co')) { 
-                        const d = document.createElement('div');
-                        d.className = 'polaroid';
-                        d.innerHTML = `<img src="${icerik}"><button class="btn-mini" onclick="window.open('${icerik}')">İndir</button>`;
-                        albumDiv.appendChild(d);
-                    } else if(icerik) {
-                        const anı = document.createElement('div');
-                        anı.className = 'ani-kutusu';
-                        anı.innerHTML = `<div style="font-size:0.7rem; color:#888;">${tarih}</div><div>${icerik}</div>`;
-                        listeDiv.appendChild(anı);
-                    }
-                });
-            } catch(e) {}
-        }
-        window.onload = verileriGetir;
-
-        async function yukle(e) {
-            const file = e.target.files[0];
-            if(!file) return;
-            document.getElementById('bilgi').innerText = "Yükleniyor... ✨";
-            const fd = new FormData(); fd.append('image', file);
-            try {
-                const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {method:'POST', body:fd});
-                const data = await res.json();
-                if(data.success) {
-                    const url = data.data.url;
-                    // SANA BİLDİRİM GELİYOR
-                    const msg = `📸 Yeni Anı Geldi!\n\nMULY bir fotoğraf yükledi. Bu linki e-tabloya ekle:\n${url}`;
-                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${MY_ID}&text=${encodeURIComponent(msg)}`);
-                    
-                    document.getElementById('bilgi').innerText = "Anı gönderildi! ❤️";
-                    alert("Fotoğraf başarıyla yüklendi! Olcaya bildirim olarak iletildi.");
-                }
-            } catch(e) { alert("Hata oluştu!"); }
-        }
-
-        function kalpAt() {
-            // SANA KALP BİLDİRİMİ GELİYOR
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${MY_ID}&text=MULY sana bir kalp gönderdi! ❤️`);
-            document.getElementById('bilgi').innerText = "Kalbini gönderdin! ❤️";
-            setTimeout(() => document.getElementById('bilgi').innerText = "", 2000);
-        }
-    </script>
-</body>
-</html>
+        <h3 style="color:
