@@ -8,7 +8,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --ana: #5d7fb9; --bg: #e9f1fa; --neon: #ff0000; --card: #ffffff; --text: #333; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; color: var(--text); transition: 0.8s; overflow-x: hidden; padding-bottom: 120px; }
+        
+        /* Değişen Arka Plan İçin Animasyon Tanımı */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            /* Değişen Arka Plan İçin Stil Ayarları */
+            background: linear-gradient(-45deg, #e9f1fa, #ffebee, #e8f5e9, #fff3e0);
+            background-size: 400% 400%;
+            animation: gradientBG 30s ease infinite; /* 30 saniyede bir döngüyü tamamlar */
+            
+            margin: 0; 
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+            color: var(--text); 
+            transition: 0.8s; 
+            overflow-x: hidden; 
+            padding-bottom: 120px; 
+        }
         
         .sayaç-ust-yazi { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #b02a3a; margin-bottom: 5px; }
         .neon-inf { font-size: 3.5rem; color: var(--neon); text-shadow: 0 0 15px rgba(255,0,0,0.6); animation: pulse 2s infinite; display: block; }
