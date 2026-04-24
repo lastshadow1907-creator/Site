@@ -21,10 +21,6 @@
         .game-box { background: var(--card); width: 92%; max-width: 380px; border-radius: 25px; padding: 20px; text-align: center; margin-top: 20px; border: 2px dashed var(--ana); }
         .game-btn { background: var(--ana); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
 
-        .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 20px 0; width: 92%; max-width: 380px; overflow: hidden; }
-        .tab { flex: 1; padding: 15px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; }
-        .tab.active { background: var(--ana); color: white; }
-
         .album { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; width: 100%; }
         .pol { background: white; padding: 6px; border-radius: 4px; width: 105px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .pol img { width: 100%; height: 100px; object-fit: cover; }
@@ -50,11 +46,11 @@
 <div id="gs" class="album"></div>
 <div id="as" style="display:none;"></div>
 
+<!-- STREAK GÖSTERİM -->
 <div id="streakBox"></div>
 
 <script>
 const start = new Date(2026,2,14,0,8,0);
-let clicks = 0;
 
 function count(){
     const f = new Date() - start;
@@ -71,7 +67,7 @@ function getTask(){
     document.getElementById('task-display').innerText = tasks[Math.floor(Math.random()*tasks.length)];
 }
 
-// 🔥 STREAK SİSTEMİ EKLENDİ
+// 🔥 STREAK SİSTEMİ
 const today = new Date().toISOString().split("T")[0];
 const last = localStorage.getItem("last_day");
 let streak = Number(localStorage.getItem("streak") || 0);
@@ -82,11 +78,17 @@ if(last !== today){
     localStorage.setItem("last_day", today);
 }
 
-document.getElementById("streakBox").innerHTML = 
-`<div style='position:fixed;top:10px;right:10px;background:#b02a3a;color:white;padding:8px 12px;border-radius:10px;'>🔥 Seri: ${streak}</div>`;
+// ekranda göster
+function showStreak(){
+    document.getElementById("streakBox").innerHTML = 
+    `<div style='position:fixed;top:10px;right:10px;background:#b02a3a;color:white;padding:8px 12px;border-radius:10px;z-index:9999'>🔥 Seri: ${streak}</div>`;
+}
 
 setInterval(count,1000);
-window.onload = count;
+window.onload = () => {
+    count();
+    showStreak();
+};
 </script>
 
 </body>
