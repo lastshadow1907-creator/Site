@@ -27,13 +27,20 @@
 
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; transition: 1s ease; }
         
+        /* Sayaç Kartı ve Sonsuzluk Simgesi */
         .card { background: white; padding: 30px 20px; border-radius: 30px; text-align: center; border: 2px solid rgba(255, 77, 109, 0.2); width: 90%; max-width: 380px; margin-top: 10px; box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15); position: relative; transition: 0.5s; color: #333; }
+        .card::before { content: '♾️'; position: absolute; top: -15px; background: inherit; padding: 0 10px; color: var(--kalp); font-size: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 2; }
+        
         body.gece-modu .card { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(10px); border-color: var(--romantik); color: white; }
 
         .sayac-baslik { font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--romantik); margin-bottom: 10px; }
         #gun-sayi { font-size: 3.5rem; font-weight: 800; color: var(--kalp); display: block; line-height: 1; }
         #saat-alani { font-size: 1.4rem; font-weight: 600; color: var(--ana-renk); display: block; margin-top: 12px; letter-spacing: 2px; }
         
+        /* Sonsuz Aşk Metni */
+        .sonsuzluk-metni { font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: var(--kalp); margin-top: 15px; animation: nefes 3s infinite ease-in-out; display: block; }
+        @keyframes nefes { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.08); opacity: 1; } }
+
         #yildizlar { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; display: none; }
         body.gece-modu #yildizlar { display: block; }
 
@@ -41,20 +48,17 @@
         .tab-btn { flex: 1; padding: 12px; border: none; border-radius: 20px; background: white; color: var(--ana-renk); font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 0.85rem; }
         .tab-btn.active { background: var(--kalp); color: white; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3); }
 
-        /* Fotoğraf ve Anı Stilleri */
         .album { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; width: 100%; }
         .polaroid { background: white; padding: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); width: 145px; border-radius: 5px; transform: rotate(-1.5deg); text-align: center; border: 1px solid #ffe5ec; color: #333; }
         .polaroid img { width: 100%; height: 135px; object-fit: cover; border-radius: 3px; }
         
         .ani-kutusu { background: white; margin: 12px 0; padding: 18px; border-radius: 20px; border-right: 4px solid var(--vurgu); border-left: 4px solid var(--kalp); width: 90%; max-width: 360px; text-align: left; color: #333; }
-        body.gece-modu .ani-kutusu { background: rgba(255,255,255,0.9); }
-
+        
         .kalp-bolumu { display: flex; gap: 40px; align-items: center; justify-content: center; margin: 25px 0; }
         .btn-kalp-suslu { font-size: 3.8rem; background: none; border: none; cursor: pointer; transition: 0.5s; filter: drop-shadow(0 8px 15px rgba(255, 77, 109, 0.3)); }
         .btn-kalp-suslu:hover { transform: scale(1.3) rotate(8deg); }
 
         #bilgi { color: var(--kalp); font-weight: 600; margin-top: 10px; text-align: center; min-height: 25px; }
-        
         .btn-ekle { position: fixed; bottom: 25px; right: 25px; background: var(--kalp); color: white; width: 65px; height: 65px; border-radius: 50%; border: 4px solid white; font-size: 35px; cursor: pointer; z-index: 100; box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4); }
     </style>
 </head>
@@ -67,6 +71,7 @@
         <div class="sayac-baslik">Aşkımız Başlayalı;</div>
         <span id="gun-sayi">Yükleniyor...</span>
         <span id="saat-alani">00 : 00 : 00</span>
+        <div class="sonsuzluk-metni">Sonsuza dek sürecek bir AŞK... ✨</div>
     </div>
 
     <div class="tab-container">
@@ -109,7 +114,6 @@
         function modKontrol() {
             const saat = new Date().getHours();
             const baslik = document.getElementById('ana-baslik');
-            // Saat 20:00 olduktan sonra veya sabah 06:00'dan önce
             if (saat >= 20 || saat < 6) {
                 document.body.classList.add('gece-modu');
                 baslik.innerText = "Gökyüzündeki En Parlak Yıldızım Muly...";
@@ -146,13 +150,11 @@
                 const albumDiv = document.getElementById('album-container');
                 const listeDiv = document.getElementById('etablo-anilar');
                 albumDiv.innerHTML = ""; listeDiv.innerHTML = "";
-                
                 satirlar.forEach(satir => {
                     const hucreler = satir.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     let ani = hucreler[0]?.replace(/"/g,'').trim();
                     let foto = hucreler[1]?.replace(/"/g,'').trim();
                     let tarih = hucreler[2]?.replace(/"/g,'').trim() || "";
-                    
                     if(foto && foto.includes('http')) { 
                         albumDiv.insertAdjacentHTML('afterbegin', `<div class="polaroid"><img src="${foto}" onclick="window.open('${foto}')"></div>`);
                     } 
@@ -160,7 +162,7 @@
                         listeDiv.insertAdjacentHTML('afterbegin', `<div class="ani-kutusu"><div><small style="color:var(--kalp)">✨ ${tarih}</small></div><div>${ani}</div></div>`);
                     }
                 });
-            } catch(e) { console.log("Veri çekme hatası"); }
+            } catch(e) { }
         }
 
         async function yukle(e) {
