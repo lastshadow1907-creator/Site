@@ -77,7 +77,7 @@
 
         function sayac() {
             const fark = new Date() - baslangic;
-            if (fark < 0) { document.getElementById('gun-sayi').innerText = "Yakında"; return; }
+            if (fark < 0) { document.getElementById('gun-sayi').innerText = "Geri Sayım"; return; }
             const d = Math.floor(fark / 86400000);
             const h = Math.floor((fark % 86400000) / 3600000);
             const m = Math.floor((fark % 3600000) / 60000);
@@ -112,22 +112,31 @@
 
                 satirlar.forEach(satir => {
                     const hucreler = satir.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    let icerik = hucreler[0]?.replace(/"/g,'').trim();
-                    let tarih = hucreler[1]?.replace(/"/g,'').trim() || "";
+                    
+                    // SÜTUN A (Yazılar)
+                    let aniIcerik = hucreler[0]?.replace(/"/g,'').trim();
+                    // SÜTUN B (Fotoğraflar)
+                    let fotoLink = hucreler[1]?.replace(/"/g,'').trim();
+                    // SÜTUN C (Tarih)
+                    let tarih = hucreler[2]?.replace(/"/g,'').trim() || "";
 
-                    if(icerik && (icerik.includes('i.ibb.co') || icerik.includes('http'))) { 
+                    // Eğer sütun B'de fotoğraf varsa Galeriye ekle
+                    if(fotoLink && fotoLink.includes('http')) { 
                         const d = document.createElement('div');
                         d.className = 'polaroid';
-                        d.innerHTML = `<img src="${icerik}" onclick="window.open('${icerik}')"><button class="btn-indir" onclick="indirResim('${icerik}')">İndir ✨</button>`;
+                        d.innerHTML = `<img src="${fotoLink}" onclick="window.open('${fotoLink}')"><button class="btn-indir" onclick="indirResim('${fotoLink}')">İndir ✨</button>`;
                         albumDiv.prepend(d);
-                    } else if(icerik) {
+                    } 
+                    
+                    // Eğer sütun A'da yazı varsa Anılara ekle
+                    if(aniIcerik && !aniIcerik.includes('http')) {
                         const anı = document.createElement('div');
                         anı.className = 'ani-kutusu';
-                        anı.innerHTML = `<div style="font-size:0.7rem; color:#888;">${tarih}</div><div>${icerik}</div>`;
+                        anı.innerHTML = `<div style="font-size:0.7rem; color:#888;">${tarih}</div><div>${aniIcerik}</div>`;
                         listeDiv.prepend(anı);
                     }
                 });
-            } catch(e) { console.error("Veri çekilemedi."); }
+            } catch(e) { console.error("Hata!"); }
         }
         window.onload = verileriGetir;
 
@@ -144,9 +153,9 @@
                 const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {method:'POST', body:fd});
                 const data = await res.json();
                 if(data.success) {
-                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${MY_ID}&text=${encodeURIComponent('📸 Yeni resim geldi Olcay: ' + data.data.url)}`);
+                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${MY_ID}&text=${encodeURIComponent('📸 Olcay yeni fotoğraf linkin (B sütununa ekle): ' + data.data.url)}`);
                     document.getElementById('bilgi').innerText = "Gönderildi! ❤️";
-                    alert("Olcay'a iletildi.");
+                    alert("Olcay'a iletildi. B sütununa eklemesini bekleyebilirsin.");
                 }
             } catch(e) { alert("Yükleme hatası!"); }
         }
