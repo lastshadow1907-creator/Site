@@ -2,215 +2,150 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Muly ❤️ Olcay</title>
     
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Muly & Olcay">
-    <meta name="theme-color" content="#ff4d6d">
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --ana-renk: #5d7fb9; --bg: #e9f1fa; --kalp-neon: #ff0000; 
-            --text: #333; --card-bg: #ffffff;
-        }
-
-        /* GECE MODU AYARLARI (Saat 20:00'den sonra) */
-        body.gece-modu {
-            --bg: #0b0d17; --ana-renk: #a29bfe; 
-            --text: #ffffff; --card-bg: rgba(255, 255, 255, 0.1);
-            background: linear-gradient(135deg, #0b0d17 0%, #1c1e33 100%);
-        }
-
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; transition: 1s ease; color: var(--text); }
+        :root { --ana: #5d7fb9; --bg: #e9f1fa; --neon: #ff0000; --card: #ffffff; --text: #333; }
         
-        /* LOGO */
-        .logo-container { width: 180px; margin-bottom: 10px; text-align: center; }
-        .logo-container img { width: 100%; height: auto; transition: 0.5s; }
-        body.gece-modu .logo-container img { filter: drop-shadow(0 0 10px rgba(162, 155, 254, 0.8)); }
+        /* OTOMATİK GECE MODU (20:00 - 06:00) */
+        body.gece { --bg: #0b0d17; --ana: #a29bfe; --card: rgba(255,255,255,0.1); --text: #fff; background: linear-gradient(135deg, #0b0d17 0%, #1c1e33 100%); }
 
-        /* ANA KART */
-        .main-card {
-            background: var(--card-bg);
-            width: 95%; max-width: 380px;
-            border-radius: 40px; padding: 30px 20px;
-            text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            position: relative; border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px); transition: 0.5s;
-        }
-
-        .neon-infinity {
-            font-size: 4rem; color: var(--kalp-neon);
-            line-height: 1; margin: 10px 0;
-            text-shadow: 0 0 15px rgba(255,0,0,0.7);
-            animation: pulse 2s infinite;
-        }
-
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; color: var(--text); transition: 0.8s; overflow-x: hidden; }
+        
+        .card { background: var(--card); width: 92%; max-width: 380px; border-radius: 35px; padding: 30px 15px; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); margin-top: 20px; }
+        
+        .neon-inf { font-size: 4rem; color: var(--neon); text-shadow: 0 0 15px rgba(255,0,0,0.6); animation: pulse 2s infinite; margin: 10px 0; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
 
-        .sayac-baslik { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--ana-renk); }
-        #gun-sayi { font-size: 3.2rem; font-weight: 800; color: #b02a3a; display: block; margin: 5px 0; }
-        body.gece-modu #gun-sayi { color: #ff758c; text-shadow: 0 0 10px rgba(255, 117, 140, 0.5); }
-        #saat-alani { font-size: 2rem; font-weight: 600; color: var(--ana-renk); letter-spacing: 2px; }
+        #gun { font-size: 3.2rem; font-weight: 800; color: #b02a3a; line-height: 1; margin: 10px 0; }
+        body.gece #gun { color: #ff758c; text-shadow: 0 0 10px rgba(255,117,140,0.4); }
+        #saat { font-size: 2rem; font-weight: 600; color: var(--ana); letter-spacing: 2px; }
 
-        /* YILDIZLAR */
-        #yildizlar { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; display: none; }
-        body.gece-modu #yildizlar { display: block; }
+        .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 25px 0; width: 92%; max-width: 380px; border: 1px solid rgba(0,0,0,0.05); }
+        .tab { flex: 1; padding: 15px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; font-size: 0.9rem; }
+        .tab.active { border-bottom: 3px solid var(--ana); }
 
-        /* SEKMELER */
-        .tab-box { display: flex; background: var(--card-bg); border-radius: 20px; margin: 25px 0; width: 95%; max-width: 380px; border: 1px solid rgba(255,255,255,0.1); }
-        .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: var(--ana-renk); cursor: pointer; transition: 0.3s; }
-        .tab-btn.active { border-bottom: 3px solid var(--ana-renk); transform: translateY(-2px); }
-
-        /* ALBÜM VE ANILAR */
         .album { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; }
-        .polaroid { background: white; padding: 8px; border-radius: 5px; width: 110px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transform: rotate(-2deg); }
-        .polaroid img { width: 100%; height: 100px; object-fit: cover; }
-        .ani-kutusu { background: var(--card-bg); margin: 10px 0; padding: 15px; border-radius: 20px; width: 90%; border-left: 5px solid var(--kalp-neon); color: var(--text); }
-
-        /* KALP BUTONLARI */
-        .kalp-bolumu { display: flex; gap: 40px; margin: 30px 0; }
-        .kalp-btn { background: none; border: none; cursor: pointer; transition: 0.4s; text-align: center; }
-        .kalp-btn img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 2px solid var(--ana-renk); }
-        .kalp-btn:hover { transform: scale(1.2); }
-        .kalp-etiket { font-family: 'Pacifico', cursive; font-size: 0.8rem; margin-top: 8px; color: var(--ana-renk); }
+        .pol { background: white; padding: 8px; border-radius: 5px; width: 110px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transform: rotate(-1.5deg); }
+        .pol img { width: 100%; height: 100px; object-fit: cover; border-radius: 2px; }
         
-        .btn-ekle { position: fixed; bottom: 25px; right: 25px; background: #b02a3a; color: white; width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; font-size: 30px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .kalpler { display: flex; gap: 40px; margin: 30px 0; }
+        .k-btn { background: none; border: none; cursor: pointer; text-align: center; transition: 0.3s; }
+        .k-btn:hover { transform: scale(1.1); }
+        .k-btn img { width: 75px; height: 75px; border-radius: 50%; border: 2px solid var(--ana); object-fit: cover; }
+        
+        #yildizlar { position: fixed; inset: 0; pointer-events: none; z-index: -1; display: none; }
+        body.gece #yildizlar { display: block; }
+        
+        .add-btn { position: fixed; bottom: 25px; right: 25px; background: #b02a3a; color: white; width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; font-size: 30px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 100; }
     </style>
 </head>
 <body>
 
     <div id="yildizlar"></div>
 
-    <div class="logo-container">
-        <img src="moli.png" alt="MOLI Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/833/833472.png'">
+    <h1 id="baslik" style="font-family:'Pacifico'; color:#b02a3a; margin:20px 0 10px 0; font-weight: normal; text-align: center;">İyi ki Varsın...</h1>
+
+    <div class="card">
+        <div class="neon-inf">♾️</div>
+        <div style="font-family:'Dancing Script'; font-size:2rem; color:var(--ana)">Aşkımız Başlayalı;</div>
+        <div id="gun">Yükleniyor...</div>
+        <div id="saat">00 : 00 : 00</div>
+        <div style="font-family:'Dancing Script'; font-size:1.5rem; margin-top:15px; color: var(--text);">Sonsuza dek sürecek bir AŞK... ✨</div>
     </div>
 
-    <h1 id="ana-baslik" style="font-family: 'Pacifico'; margin: 10px 0; font-weight: normal; color: #b02a3a;">İyi ki Varsın...</h1>
-
-    <div class="main-card">
-        <div class="neon-infinity">♾️</div>
-        <div class="sayac-baslik">Aşkımız Başlayalı;</div>
-        <span id="gun-sayi">Yükleniyor...</span>
-        <span id="saat-alani">00 : 00 : 00</span>
-        <div style="font-family: 'Dancing Script'; font-size: 1.4rem; margin-top: 15px;">Sonsuza dek sürecek bir AŞK... ✨</div>
+    <div class="tabs">
+        <button id="t1" class="tab active" onclick="tab('g')">🖼️ Fotoğraflar</button>
+        <button id="t2" class="tab" onclick="tab('a')">✍️ Anılar</button>
     </div>
 
-    <div class="tab-box">
-        <button id="btn-galeri" class="tab-btn active" onclick="tabDegistir('galeri')">🖼️ Fotoğraflar</button>
-        <button id="btn-anilar" class="tab-btn" onclick="tabDegistir('anilar')">✍️ Anılar</button>
-    </div>
+    <div id="gs" class="album"></div>
+    <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
 
-    <div id="galeri-section" class="album">
-        <div id="album-container" class="album"></div>
-    </div>
-
-    <div id="anilar-section" style="display: none; width: 100%; flex-direction: column; align-items: center;">
-        <div id="etablo-anilar" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
-    </div>
-
-    <div class="kalp-bolumu">
-        <button onclick="kalpAt('Muly')" class="kalp-btn">
-            <img src="https://img.freepik.com/premium-vector/gold-heart-with-diamonds-white-background-vector-illustration_562306-193.jpg" alt="Muly">
-            <div class="kalp-etiket">Muly'nin Kalbi</div>
+    <div class="kalpler">
+        <button onclick="at('M')" class="k-btn">
+            <img src="https://img.freepik.com/premium-vector/gold-heart-with-diamonds-white-background-vector-illustration_562306-193.jpg">
+            <div style="font-size:0.8rem; font-weight:bold; color:var(--ana); margin-top:5px;">Muly'nin Kalbi</div>
         </button>
-        <button onclick="kalpAt('Olcay')" class="kalp-btn">
-            <img src="https://img.freepik.com/premium-vector/silver-heart-with-diamonds-white-background-vector-illustration_562306-192.jpg" alt="Olcay">
-            <div class="kalp-etiket">Olcay'ın Kalbi</div>
+        <button onclick="at('O')" class="k-btn">
+            <img src="https://img.freepik.com/premium-vector/silver-heart-with-diamonds-white-background-vector-illustration_562306-192.jpg">
+            <div style="font-size:0.8rem; font-weight:bold; color:var(--ana); margin-top:5px;">Olcay'ın Kalbi</div>
         </button>
     </div>
 
-    <div id="bilgi" style="height: 20px; font-weight: bold; color: var(--ana-renk);"></div>
+    <div id="not" style="font-size:1rem; font-weight:bold; color:var(--ana); height:25px; text-align: center;"></div>
 
-    <button class="btn-ekle" onclick="document.getElementById('resimSecici').click()">+</button>
-    <input type="file" id="resimSecici" style="display: none;" accept="image/*" onchange="yukle(event)">
+    <button class="add-btn" onclick="document.getElementById('f').click()">+</button>
+    <input type="file" id="f" style="display:none" accept="image/*" onchange="up(event)">
 
     <script>
-        const BOT_TOKEN = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
-        const MY_ID = '6555602691'; const ONUN_ID = '8697863466'; 
-        const SHEET_ID = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
-        const baslangic = new Date(2026, 2, 14, 0, 8, 0);
+        const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w', M='6555602691', O='8697863466', S='1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
+        const start = new Date(2026, 2, 14, 0, 8, 0);
 
-        function modKontrol() {
-            const saat = new Date().getHours();
-            const baslik = document.getElementById('ana-baslik');
-            if (saat >= 20 || saat < 6) {
-                document.body.classList.add('gece-modu');
-                baslik.innerText = "Gökyüzündeki En Parlak Yıldızım Muly...";
-                yildizOlustur();
+        function mode() {
+            const h = new Date().getHours();
+            if (h >= 20 || h < 6) {
+                document.body.classList.add('gece');
+                document.getElementById('baslik').innerText = "Gökyüzündeki En Parlak Yıldızım Muly...";
+                stars();
             } else {
-                document.body.classList.remove('gece-modu');
-                baslik.innerText = "İyi ki Varsın...";
+                document.body.classList.remove('gece');
+                document.getElementById('baslik').innerText = "İyi ki Varsın...";
             }
         }
 
-        function yildizOlustur() {
-            const konteynir = document.getElementById('yildizlar');
-            konteynir.innerHTML = "";
-            for (let i = 0; i < 50; i++) {
-                const yildiz = document.createElement('div');
-                yildiz.style.position = 'absolute'; yildiz.style.width = '2px'; yildiz.style.height = '2px';
-                yildiz.style.backgroundColor = 'white'; yildiz.style.borderRadius = '50%';
-                yildiz.style.top = Math.random() * 100 + '%'; yildiz.style.left = Math.random() * 100 + '%';
-                yildiz.style.animation = `pulse ${Math.random() * 3 + 2}s infinite`;
-                konteynir.appendChild(yildiz);
+        function stars() {
+            const k = document.getElementById('yildizlar'); k.innerHTML = "";
+            for(let i=0; i<45; i++) {
+                let s = document.createElement('div');
+                s.style.cssText = `position:absolute; width:2px; height:2px; background:white; border-radius:50%; top:${Math.random()*100}%; left:${Math.random()*100}%; opacity:${Math.random()}; animation: pulse 3s infinite;`;
+                k.appendChild(s);
             }
         }
 
-        async function verileriGetir() {
+        async function load() {
             try {
-                const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&cb=${Math.random()}`;
-                const yanit = await fetch(url);
-                const csv = await yanit.text();
-                const satirlar = csv.split('\n').slice(1);
-                const albumDiv = document.getElementById('album-container');
-                const listeDiv = document.getElementById('etablo-anilar');
-                albumDiv.innerHTML = ""; listeDiv.innerHTML = "";
-                satirlar.forEach(satir => {
-                    const hucreler = satir.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    let ani = hucreler[0]?.replace(/"/g,'').trim();
-                    let foto = hucreler[1]?.replace(/"/g,'').trim();
-                    let tarih = hucreler[2]?.replace(/"/g,'').trim() || "";
-                    if(foto && foto.includes('http')) { 
-                        albumDiv.insertAdjacentHTML('afterbegin', `<div class="polaroid"><img src="${foto}"></div>`);
-                    } 
-                    if(ani && !ani.includes('http')) {
-                        listeDiv.insertAdjacentHTML('afterbegin', `<div class="ani-kutusu"><div><small>✨ ${tarih}</small></div><div>${ani}</div></div>`);
-                    }
+                const r = await fetch(`https://docs.google.com/spreadsheets/d/${S}/gviz/tq?tqx=out:csv&cb=${Math.random()}`);
+                const csv = await r.text();
+                const lines = csv.split('\n').slice(1);
+                const g = document.getElementById('gs'), a = document.getElementById('as');
+                g.innerHTML = ""; a.innerHTML = "";
+                lines.forEach(l => {
+                    const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,''), d = c[2]?.replace(/"/g,'') || "";
+                    if(img?.includes('http')) g.insertAdjacentHTML('afterbegin', `<div class="pol"><img src="${img}"></div>`);
+                    if(txt && !txt.includes('http')) a.insertAdjacentHTML('afterbegin', `<div style="background:var(--card); margin:10px; padding:15px; border-radius:20px; width:85%; border-left:5px solid var(--neon); box-shadow: 0 4px 10px rgba(0,0,0,0.05);">${txt}</div>`);
                 });
-            } catch(e) { }
+            } catch(e) {}
         }
 
-        function sayac() {
-            const fark = new Date() - baslangic;
-            const d = Math.floor(fark / 86400000);
-            const h = Math.floor((fark % 86400000) / 3600000);
-            const m = Math.floor((fark % 3600000) / 60000);
-            const s = Math.floor((fark % 60000) / 1000);
-            document.getElementById('gun-sayi').innerText = d + " GÜN";
-            document.getElementById('saat-alani').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
+        function count() {
+            const f = new Date() - start;
+            const d = Math.floor(f/86400000), h = Math.floor((f%86400000)/3600000), m = Math.floor((f%3600000)/60000), s = Math.floor((f%60000)/1000);
+            document.getElementById('gun').innerText = d + " GÜN";
+            document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
         }
 
-        function kalpAt(kim) {
-            let hedefID = (kim === 'Muly') ? MY_ID : ONUN_ID;
-            let mesaj = (kim === 'Muly') ? "Muly seni çok özledi! ❤️" : "Olcay seni düşünüyor 💝";
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${hedefID}&text=${encodeURIComponent(mesaj)}`);
-            document.getElementById('bilgi').innerText = "Sevgi gönderildi! ❤️";
-            setTimeout(() => document.getElementById('bilgi').innerText = "", 2000);
+        function at(k) {
+            let id = (k === 'M') ? M : O;
+            let msg = (k === 'M') ? "Muly seni özledi! ❤️" : "Olcay seni düşünüyor, Pardon ne zaman aklından çıktınki? 💝";
+            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${id}&text=${encodeURIComponent(msg)}`);
+            document.getElementById('not').innerText = "Sevgi gönderildi! ❤️";
+            setTimeout(()=>document.getElementById('not').innerText="", 2000);
         }
 
-        function tabDegistir(tab) {
-            document.getElementById('galeri-section').style.display = (tab === 'galeri') ? 'flex' : 'none';
-            document.getElementById('anilar-section').style.display = (tab === 'anilar') ? 'flex' : 'none';
-            document.getElementById('btn-galeri').classList.toggle('active', tab === 'galeri');
-            document.getElementById('btn-anilar').classList.toggle('active', tab === 'anilar');
+        function tab(x) {
+            document.getElementById('gs').style.display = x==='g'?'flex':'none';
+            document.getElementById('as').style.display = x==='a'?'flex':'none';
+            document.getElementById('t1').classList.toggle('active', x==='g');
+            document.getElementById('t2').classList.toggle('active', x==='a');
         }
 
-        setInterval(sayac, 1000);
-        setInterval(modKontrol, 60000);
-        window.onload = () => { verileriGetir(); modKontrol(); sayac(); };
+        setInterval(count, 1000);
+        setInterval(mode, 60000);
+        window.onload = () => { mode(); load(); count(); };
     </script>
 </body>
 </html>
