@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Muly ❤️ Olcay</title>
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Muly & Olcay">
+    <meta name="theme-color" content="#ff4d6d">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/833/833472.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --ana-renk: #002d72; --vurgu: #fec10d; --kalp: #ff4d6d; --bg: #fff0f3; --romantik: #7209b7; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
         
-        /* Sayaç Kartı */
         .card { background: white; padding: 30px 20px; border-radius: 30px; text-align: center; border: 2px solid rgba(255, 77, 109, 0.2); width: 90%; max-width: 380px; margin-top: 10px; box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15); position: relative; }
         .card::before { content: '♾️'; position: absolute; top: -15px; background: var(--bg); padding: 0 10px; color: var(--kalp); font-size: 1.5rem; left: 50%; transform: translateX(-50%); }
 
@@ -20,12 +27,10 @@
 
         @keyframes nefes { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.08); opacity: 1; } }
 
-        /* Sekmeler */
         .tab-container { display: flex; gap: 10px; margin: 25px 0; width: 100%; max-width: 350px; }
         .tab-btn { flex: 1; padding: 12px; border: none; border-radius: 20px; background: white; color: var(--ana-renk); font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 0.85rem; }
         .tab-btn.active { background: var(--kalp); color: white; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3); }
 
-        /* İçerik */
         .content-section { display: none; width: 100%; animation: fadeIn 0.5s ease; }
         .content-section.active { display: flex; flex-direction: column; align-items: center; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -36,28 +41,24 @@
         
         .ani-kutusu { background: white; margin: 12px 0; padding: 18px; border-radius: 20px; border-right: 4px solid var(--vurgu); border-left: 4px solid var(--kalp); width: 90%; max-width: 360px; text-align: left; }
 
-        /* SÜSLÜ KALP BÖLÜMÜ */
         .kalp-bolumu { display: flex; gap: 40px; align-items: center; justify-content: center; margin: 25px 0; }
         .kalp-konteynir { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .kalp-etiket { font-family: 'Pacifico', cursive; font-size: 0.9rem; color: var(--romantik); text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
+        .kalp-etiket { font-family: 'Pacifico', cursive; font-size: 0.9rem; color: var(--romantik); }
         
         .btn-kalp-suslu { 
             font-size: 3.8rem; background: none; border: none; cursor: pointer; 
             transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             filter: drop-shadow(0 8px 15px rgba(255, 77, 109, 0.3));
-            position: relative;
         }
         .btn-kalp-suslu:hover { transform: scale(1.3) rotate(8deg); }
-        .btn-kalp-suslu:active { transform: scale(0.9); }
 
         .btn-ekle { position: fixed; bottom: 25px; right: 25px; background: var(--kalp); color: white; width: 65px; height: 65px; border-radius: 50%; border: 4px solid white; font-size: 35px; cursor: pointer; z-index: 100; box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4); }
-        #bilgi { color: var(--kalp); font-weight: 600; margin-top: 10px; height: 25px; font-style: italic; text-align: center; font-size: 0.9rem; }
+        #bilgi { color: var(--kalp); font-weight: 600; margin-top: 10px; height: 25px; font-style: italic; text-align: center; }
 
         @media (max-width: 400px) {
             #gun-sayi { font-size: 2.8rem; }
             #saat-alani { font-size: 1.1rem; }
             .polaroid { width: 130px; }
-            .kalp-bolumu { gap: 25px; }
         }
     </style>
 </head>
@@ -103,8 +104,8 @@
 
     <script>
         const BOT_TOKEN = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
-        const MY_ID = '6555602691'; // Olcay'ın ID'si
-        const ONUN_ID = '8697863466'; // Muly'nin ID'si (GÜNCELLENDİ)
+        const MY_ID = '6555602691'; 
+        const ONUN_ID = '8697863466'; 
         const API_KEY = '5767fb3279ed0b1f20bf5beab37300d4';
         const SHEET_ID = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
         const baslangic = new Date(2026, 2, 14, 0, 8, 0);
@@ -157,13 +158,13 @@
             if (cevap?.toLowerCase().trim() !== "olcay") return;
             const file = e.target.files[0];
             if(!file) return;
-            document.getElementById('bilgi').innerText = "Anımız yükleniyor... ❤️";
+            document.getElementById('bilgi').innerText = "Yükleniyor... ❤️";
             const fd = new FormData(); fd.append('image', file);
             const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {method:'POST', body:fd});
             const data = await res.json();
             if(data.success) {
-                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${MY_ID}&text=${encodeURIComponent('📸 Olcay, yeni bir fotoğraf geldi: ' + data.data.url)}`);
-                document.getElementById('bilgi').innerText = "Anı başarıyla gönderildi! ❤️";
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${MY_ID}&text=${encodeURIComponent('📸 Yeni Foto: ' + data.data.url)}`);
+                document.getElementById('bilgi').innerText = "Anı gönderildi! ❤️";
             }
         }
 
