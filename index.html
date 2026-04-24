@@ -18,6 +18,12 @@
         #gun { font-size: 3rem; font-weight: 800; color: #b02a3a; line-height: 1; }
         #saat { font-size: 1.8rem; font-weight: 600; color: var(--ana); letter-spacing: 1px; }
 
+        /* İlerleme Çubuğu Stilleri */
+        .progress-container { width: 85%; margin: 15px auto 0; text-align: left; }
+        .progress-bar-bg { background: #eee; height: 12px; border-radius: 10px; overflow: hidden; position: relative; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
+        .progress-fill { background: linear-gradient(90deg, var(--ana), #b02a3a); height: 100%; transition: width 1s ease-in-out; border-radius: 10px; width: 0%; }
+        .progress-text { font-size: 0.75rem; font-weight: 600; color: #666; margin-top: 5px; display: flex; justify-content: space-between; }
+
         .game-box { background: var(--card); width: 92%; max-width: 380px; border-radius: 25px; padding: 20px; text-align: center; margin-top: 20px; border: 2px dashed var(--ana); }
         .game-btn { background: var(--ana); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.3s; }
         .game-btn:disabled { background: #ccc; cursor: not-allowed; }
@@ -26,7 +32,6 @@
         .tab { flex: 1; padding: 15px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; }
         .tab.active { background: var(--ana); color: white; }
         
-        /* Silme butonu stilleri */
         .pol, .ani-card { position: relative; }
         .del-btn { position: absolute; top: -8px; right: -8px; background: #ff4757; color: white; border-radius: 50%; width: 24px; height: 24px; border: 2px solid white; cursor: pointer; z-index: 10; font-weight: bold; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
@@ -60,6 +65,16 @@
         <span class="neon-inf">♾️</span>
         <div id="gun">...</div>
         <div id="saat">00 : 00 : 00</div>
+        
+        <div class="progress-container">
+            <div class="progress-bar-bg">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <div class="progress-text">
+                <span id="targetLabel">Hedefe Yolculuk</span>
+                <span id="percentLabel">%0</span>
+            </div>
+        </div>
     </div>
 
     <div class="game-box">
@@ -196,10 +211,26 @@
         }
 
         function count() {
-            const f = new Date() - start;
-            const d = Math.floor(f/86400000), h = Math.floor((f%86400000)/3600000), m = Math.floor((f%3600000)/60000), s = Math.floor((f%60000)/1000);
+            const now = new Date();
+            const f = now - start;
+            const d = Math.floor(f/86400000);
+            const h = Math.floor((f%86400000)/3600000);
+            const m = Math.floor((f%3600000)/60000);
+            const s = Math.floor((f%60000)/1000);
+            
             document.getElementById('gun').innerText = d + " GÜN";
             document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
+
+            // İlerleme Çubuğu Hesaplama
+            let target = 365; // İlk hedef 1 yıl
+            if (d >= 365) target = 500;
+            if (d >= 500) target = 730; // 2 yıl
+            if (d >= 730) target = 1000;
+
+            const percent = Math.min((d / target) * 100, 100).toFixed(1);
+            document.getElementById('progressFill').style.width = percent + "%";
+            document.getElementById('percentLabel').innerText = "%" + percent;
+            document.getElementById('targetLabel').innerText = target + ". Gün Hedefi";
         }
 
         function getTask() {
