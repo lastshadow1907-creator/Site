@@ -7,7 +7,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --ana-renk: #002d72; --vurgu: #fec10d; --kalp: #ff4d6d; --bg: #fff0f3; --romantik: #7209b7; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: var(--bg); 
+            margin: 0; 
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+            overflow-x: hidden;
+            background-image: radial-gradient(rgba(255, 77, 109, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
         
         /* Romantik Sayaç Kartı */
         .card { 
@@ -21,49 +34,75 @@
             margin-top: 10px; 
             box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15);
             position: relative;
-            background-image: radial-gradient(#fff0f3 0.5px, transparent 0.5px);
-            background-size: 15px 15px;
         }
         
         .card::before { content: '♾️'; position: absolute; top: -15px; background: var(--bg); padding: 0 10px; color: var(--kalp); font-size: 1.5rem; left: 50%; transform: translateX(-50%); }
 
-        .sayac-baslik { font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--romantik); margin-bottom: 15px; }
+        .sayac-baslik { font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--romantik); margin-bottom: 10px; }
         
         #gun-sayi { font-size: 3.5rem; font-weight: 800; color: var(--kalp); display: block; line-height: 1; text-shadow: 2px 2px 0px rgba(255, 193, 13, 0.2); }
         #saat-alani { font-size: 1.4rem; font-weight: 600; color: var(--ana-renk); display: block; margin-top: 12px; letter-spacing: 2px; }
         
         .sonsuzluk-metni { font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: var(--kalp); margin-top: 15px; opacity: 0.9; animation: nefes 3s infinite ease-in-out; }
 
-        @keyframes nefes { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.05); opacity: 1; } }
+        @keyframes nefes { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.08); opacity: 1; } }
 
         /* Sekme Sistemi */
         .tab-container { display: flex; gap: 10px; margin: 25px 0; width: 100%; max-width: 350px; }
-        .tab-btn { flex: 1; padding: 12px; border: none; border-radius: 20px; background: white; color: var(--ana-renk); font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-size: 0.9rem; }
+        .tab-btn { 
+            flex: 1; padding: 12px; border: none; border-radius: 20px; background: white; 
+            color: var(--ana-renk); font-weight: 700; cursor: pointer; transition: 0.3s; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-size: 0.85rem; 
+        }
         .tab-btn.active { background: var(--kalp); color: white; transform: translateY(-3px); box-shadow: 0 8px 15px rgba(255, 77, 109, 0.3); }
 
         /* İçerik Alanları */
-        .content-section { display: none; width: 100%; animation: fadeIn 0.4s; }
+        .content-section { display: none; width: 100%; animation: fadeIn 0.5s ease; }
         .content-section.active { display: flex; flex-direction: column; align-items: center; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Galeri & Anılar */
+        /* Galeri Grid */
         .album { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; width: 100%; }
-        .polaroid { background: white; padding: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); width: 145px; border-radius: 5px; transform: rotate(-1.5deg); text-align: center; transition: 0.3s; }
-        .polaroid:hover { transform: rotate(0deg) scale(1.05); }
-        .polaroid img { width: 100%; height: 135px; object-fit: cover; border-radius: 3px; }
+        .polaroid { 
+            background: white; padding: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+            width: 145px; border-radius: 5px; transform: rotate(-1.5deg); 
+            text-align: center; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            border: 1px solid #ffe5ec;
+        }
+        .polaroid:hover { transform: rotate(0deg) scale(1.08); z-index: 10; }
+        .polaroid img { width: 100%; height: 135px; object-fit: cover; border-radius: 3px; cursor: pointer; }
         
-        .ani-kutusu { background: white; margin: 12px 0; padding: 18px; border-radius: 20px; border-right: 4px solid var(--vurgu); border-left: 4px solid var(--kalp); width: 90%; max-width: 360px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); text-align: left; }
+        /* Anı Kutuları */
+        .ani-kutusu { 
+            background: white; margin: 12px 0; padding: 18px; border-radius: 20px; 
+            border-right: 4px solid var(--vurgu); border-left: 4px solid var(--kalp); 
+            width: 90%; max-width: 360px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); 
+            text-align: left; position: relative;
+        }
         
-        .btn-indir { border: none; background: #f8f9fa; cursor: pointer; font-size: 0.7rem; padding: 8px; border-radius: 12px; margin-top: 10px; color: var(--ana-renk); font-weight: 700; width: 100%; border: 1px solid #eee; }
-        .btn-kalp { font-size: 4rem; background: none; border: none; cursor: pointer; transition: 0.4s; margin: 15px 0; filter: drop-shadow(0 5px 10px rgba(255, 77, 109, 0.2)); }
-        .btn-kalp:hover { transform: scale(1.2); }
-        .btn-ekle { position: fixed; bottom: 25px; right: 25px; background: var(--kalp); color: white; width: 65px; height: 65px; border-radius: 50%; border: 4px solid white; font-size: 35px; cursor: pointer; z-index: 100; box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4); }
-        #bilgi { color: var(--kalp); font-weight: 600; margin-top: 5px; height: 25px; font-style: italic; }
+        /* Butonlar ve Alt Kısım */
+        .btn-indir { border: none; background: #f8f9fa; cursor: pointer; font-size: 0.7rem; padding: 8px; border-radius: 12px; margin-top: 10px; color: var(--ana-renk); font-weight: 700; width: 100%; border: 1px solid #eee; transition: 0.2s; }
+        .btn-indir:hover { background: var(--vurgu); color: black; }
+        
+        .btn-kalp { font-size: 4.5rem; background: none; border: none; cursor: pointer; transition: 0.4s; margin: 15px 0; filter: drop-shadow(0 5px 15px rgba(255, 77, 109, 0.3)); }
+        .btn-kalp:hover { transform: scale(1.2) rotate(10deg); }
+        
+        .btn-ekle { position: fixed; bottom: 25px; right: 25px; background: var(--kalp); color: white; width: 65px; height: 65px; border-radius: 50%; border: 4px solid white; font-size: 35px; cursor: pointer; z-index: 100; box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4); transition: 0.3s; }
+        .btn-ekle:active { transform: scale(0.9); }
+        
+        #bilgi { color: var(--kalp); font-weight: 600; margin-top: 5px; height: 25px; font-style: italic; text-align: center; }
+
+        /* Mobil Ayarı */
+        @media (max-width: 400px) {
+            #gun-sayi { font-size: 2.8rem; }
+            #saat-alani { font-size: 1.1rem; }
+            .polaroid { width: 135px; }
+        }
     </style>
 </head>
 <body>
 
-    <h1 style="font-family: 'Pacifico'; color: var(--kalp); margin-top: 10px; font-weight: normal;">İyi ki Varsın...</h1>
+    <h1 style="font-family: 'Pacifico'; color: var(--kalp); margin-top: 10px; font-weight: normal; text-shadow: 2px 2px 5px rgba(0,0,0,0.05);">İyi ki Varsın...</h1>
 
     <div class="card">
         <div class="sayac-baslik">Aşkımız Başlayalı;</div>
@@ -158,7 +197,7 @@
                         listeDiv.prepend(anı);
                     }
                 });
-            } catch(e) {}
+            } catch(e) { console.error("Hata!"); }
         }
         window.onload = verileriGetir;
 
@@ -179,7 +218,7 @@
                     document.getElementById('bilgi').innerText = "Anı başarıyla gönderildi! ❤️";
                     alert("Olcay'a haber verdim, yakında galeride yerini alacak! ❤️");
                 }
-            } catch(e) { alert("Bir hata oldu!"); }
+            } catch(e) { alert("Yükleme hatası!"); }
         }
 
         function kalpAt() {
