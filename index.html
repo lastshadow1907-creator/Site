@@ -9,7 +9,6 @@
     <style>
         :root { --ana: #5d7fb9; --bg: #e9f1fa; --neon: #ff0000; --card: #ffffff; --text: #333; }
         
-        /* Değişen Arka Plan İçin Animasyon Tanımı */
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -18,11 +17,9 @@
 
         body { 
             font-family: 'Poppins', sans-serif; 
-            /* Değişen Arka Plan İçin Stil Ayarları */
             background: linear-gradient(-45deg, #e9f1fa, #ffebee, #e8f5e9, #fff3e0);
             background-size: 400% 400%;
-            animation: gradientBG 30s ease infinite; /* 30 saniyede bir döngüyü tamamlar */
-            
+            animation: gradientBG 30s ease infinite;
             margin: 0; 
             padding: 15px; 
             display: flex; 
@@ -33,39 +30,56 @@
             transition: 0.8s; 
             overflow-x: hidden; 
             padding-bottom: 120px; 
+            position: relative;
+        }
+
+        /* Yüzen Kalpler Stili */
+        .heart-float {
+            position: fixed;
+            bottom: -50px;
+            color: rgba(176, 42, 58, 0.2);
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            z-index: -1;
+            animation: floatUp linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
         }
         
-        .sayaç-ust-yazi { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #b02a3a; margin-bottom: 5px; }
+        .sayaç-ust-yazi { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #b02a3a; margin-bottom: 5px; z-index: 1; }
         .neon-inf { font-size: 3.5rem; color: var(--neon); text-shadow: 0 0 15px rgba(255,0,0,0.6); animation: pulse 2s infinite; display: block; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
         
-        .card { background: var(--card); width: 92%; max-width: 380px; border-radius: 35px; padding: 25px 15px; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); margin-top: 5px; }
+        .card { background: var(--card); width: 92%; max-width: 380px; border-radius: 35px; padding: 25px 15px; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); margin-top: 5px; z-index: 1; }
         #gun { font-size: 3rem; font-weight: 800; color: #b02a3a; line-height: 1; }
         #saat { font-size: 1.8rem; font-weight: 600; color: var(--ana); letter-spacing: 1px; }
 
-        /* İlerleme Çubuğu Stilleri */
         .progress-container { width: 85%; margin: 15px auto 0; text-align: left; }
         .progress-bar-bg { background: #eee; height: 12px; border-radius: 10px; overflow: hidden; position: relative; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
         .progress-fill { background: linear-gradient(90deg, var(--ana), #b02a3a); height: 100%; transition: width 1s ease-in-out; border-radius: 10px; width: 0%; }
         .progress-text { font-size: 0.75rem; font-weight: 600; color: #666; margin-top: 5px; display: flex; justify-content: space-between; }
 
-        .game-box { background: var(--card); width: 92%; max-width: 380px; border-radius: 25px; padding: 20px; text-align: center; margin-top: 20px; border: 2px dashed var(--ana); }
+        .game-box { background: var(--card); width: 92%; max-width: 380px; border-radius: 25px; padding: 20px; text-align: center; margin-top: 20px; border: 2px dashed var(--ana); z-index: 1; }
         .game-btn { background: var(--ana); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.3s; }
         .game-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-        .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 20px 0; width: 92%; max-width: 380px; overflow: hidden; }
+        .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 20px 0; width: 92%; max-width: 380px; overflow: hidden; z-index: 1; }
         .tab { flex: 1; padding: 15px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; }
         .tab.active { background: var(--ana); color: white; }
         
         .pol, .ani-card { position: relative; }
         .del-btn { position: absolute; top: -8px; right: -8px; background: #ff4757; color: white; border-radius: 50%; width: 24px; height: 24px; border: 2px solid white; cursor: pointer; z-index: 10; font-weight: bold; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
-        .album { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; width: 100%; }
+        .album { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; width: 100%; z-index: 1; }
         .pol { background: white; padding: 6px; border-radius: 4px; width: 105px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transform: rotate(-1.5deg); margin-bottom: 15px; }
         .pol img { width: 100%; height: 100px; object-fit: cover; }
         .ani-card { background: var(--card); margin: 10px; padding: 15px; border-radius: 20px; width: 85%; border-left: 5px solid #b02a3a; text-align: left; }
 
-        .kalpler { display: flex; gap: 40px; margin: 25px 0; }
+        .kalpler { display: flex; gap: 40px; margin: 25px 0; z-index: 1; }
         .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; padding: 0; }
 
         .ani-panel { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
@@ -90,7 +104,6 @@
         <span class="neon-inf">♾️</span>
         <div id="gun">...</div>
         <div id="saat">00 : 00 : 00</div>
-        
         <div class="progress-container">
             <div class="progress-bar-bg">
                 <div id="progressFill" class="progress-fill"></div>
@@ -143,6 +156,19 @@
     </div>
 
     <script>
+        // Yüzen Kalpler Fonksiyonu
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-float');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's'; // 4-7 saniye arası
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px'; // 10-30px arası
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 7000);
+        }
+        setInterval(createHeart, 800); // 800ms'de bir kalp oluştur
+
         const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
         const M = '8697863466'; 
         const O = '6555602691'; 
@@ -244,63 +270,4 @@
             const s = Math.floor((f%60000)/1000);
             
             document.getElementById('gun').innerText = d + " GÜN";
-            document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
-
-            // İlerleme Çubuğu Hesaplama
-            let target = 365; // İlk hedef 1 yıl
-            if (d >= 365) target = 500;
-            if (d >= 500) target = 730; // 2 yıl
-            if (d >= 730) target = 1000;
-
-            const percent = Math.min((d / target) * 100, 100).toFixed(1);
-            document.getElementById('progressFill').style.width = percent + "%";
-            document.getElementById('percentLabel').innerText = "%" + percent;
-            document.getElementById('targetLabel').innerText = target + ". Gün Hedefi";
-        }
-
-        function getTask() {
-            const now = Date.now();
-            if (now - (localStorage.getItem('last_task') || 0) < 10800000) return;
-            const ts = [
-                "Ses at ve seste seni seviyorum de 🎙️",
-                "Anlık foto at 📸",
-                "Ses at ve en çok beni seviyorsun de 💝",
-                "Ses at ve seni çook seviyorum de ❤️",
-                "Ses at ve bir olay anlat 🗣️",
-                "Günün nasıl geçti sesli anlat 🎙️",
-                "En sevdiğin huyumu söyleyen ses at 🥰"
-            ];
-            const task = ts[Math.floor(Math.random() * ts.length)];
-            document.getElementById('task-display').innerText = task;
-            localStorage.setItem('last_task', now);
-            updateCooldown();
-            sendTele("🔔 Muly görev çekti: " + task, O);
-        }
-
-        function updateCooldown() {
-            const last = localStorage.getItem('last_task') || 0;
-            const remain = 10800000 - (Date.now() - last);
-            const btn = document.getElementById('draw-btn');
-            if (remain > 0) {
-                btn.disabled = true;
-                const h = Math.floor(remain/3600000), m = Math.floor((remain%3600000)/60000), s = Math.floor((remain%60000)/1000);
-                document.getElementById('timer-display').innerText = `Doluyor: ${h}s ${m}d ${s}sn`;
-                setTimeout(updateCooldown, 1000);
-            } else { btn.disabled = false; document.getElementById('timer-display').innerText = "Hazır!"; }
-        }
-
-        function toggleAniMenu() { const m = document.getElementById('aniMenu'); m.style.display = (m.style.display === 'flex' ? 'none' : 'flex'); }
-        function openText() { document.getElementById('popupOverlay').style.display = 'flex'; toggleAniMenu(); }
-        function closePopup() { document.getElementById('popupOverlay').style.display = 'none'; }
-        function tab(x) {
-            document.getElementById('gs').style.display = x==='g'?'flex':'none';
-            document.getElementById('as').style.display = x==='a'?'flex':'none';
-            document.getElementById('t1').classList.toggle('active', x==='g');
-            document.getElementById('t2').classList.toggle('active', x==='a');
-        }
-
-        setInterval(count, 1000);
-        window.onload = () => { load(); count(); updateCooldown(); };
-    </script>
-</body>
-</html>
+            document.getElementById('saat').innerText = `${String(h).padStart(2,'0')}
