@@ -7,7 +7,6 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* Dinamik Renk Değişkenleri */
         :root { 
             --ana: #5d7fb9; 
             --bg: #e9f1fa; 
@@ -17,7 +16,6 @@
             --shadow: rgba(0,0,0,0.1);
         }
 
-        /* Gece Modu Değişkenleri (20:00 - 08:00) */
         body.night {
             --bg: #1a1a2e;
             --card: rgba(26, 26, 46, 0.85);
@@ -38,17 +36,15 @@
             color: var(--text); 
             transition: background 1.5s ease, color 1.5s ease; 
             overflow-x: hidden; 
-            padding-bottom: 180px; /* Bağlantı alanı için artırıldı */
+            padding-bottom: 180px;
             position: relative;
         }
 
-        /* Romantik Arka Plan Efekti */
         .stars-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: -1;
-            overflow: hidden;
         }
 
         .star {
@@ -99,8 +95,21 @@
         .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; border-radius: 15px; transition: 0.3s; }
         .tab.active { background: var(--ana); color: white; }
         
-        .pol { background: white; padding: 6px; border-radius: 4px; width: 105px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transform: rotate(-1.5deg); margin-bottom: 15px; position: relative; }
-        .pol img { width: 100%; height: 100px; object-fit: cover; }
+        .pol { 
+            background: white; 
+            padding: 8px 8px 25px 8px; 
+            border-radius: 2px; 
+            width: 105px; 
+            box-shadow: 3px 5px 15px rgba(0,0,0,0.15); 
+            transition: transform 0.3s ease; 
+            position: relative; 
+            margin-bottom: 15px; 
+        }
+        .pol:nth-child(odd) { transform: rotate(-2deg); }
+        .pol:nth-child(even) { transform: rotate(2deg); }
+        .pol:hover { transform: scale(1.1) rotate(0deg); z-index: 10; }
+        .pol img { width: 100%; height: 100px; object-fit: cover; border-radius: 2px; }
+
         .ani-card { background: var(--card); margin: 10px; padding: 15px; border-radius: 20px; width: 85%; border-left: 5px solid #b02a3a; text-align: left; position: relative; }
         .del-btn { position: absolute; top: -8px; right: -8px; background: #ff4757; color: white; border-radius: 50%; width: 24px; height: 24px; border: 2px solid white; cursor: pointer; z-index: 10; font-weight: bold; }
 
@@ -108,40 +117,10 @@
         .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; padding: 0; filter: drop-shadow(0 0 5px rgba(0,0,0,0.2)); }
         .k-btn:active { transform: scale(1.2); }
 
-        /* --- SANAL EL TUTUŞMA ALANI --- */
-        .hand-hold-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(transparent, var(--card));
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            backdrop-filter: blur(5px);
-        }
-        .touch-heart {
-            font-size: 3rem;
-            cursor: pointer;
-            transition: 0.5s;
-            filter: grayscale(1);
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .touch-heart.active {
-            filter: grayscale(0) drop-shadow(0 0 20px #ff4757);
-            transform: scale(1.3);
-        }
-        .touch-text {
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: var(--ana);
-            margin-top: 5px;
-            opacity: 0.8;
-        }
+        .hand-hold-container { position: fixed; bottom: 0; left: 0; width: 100%; height: 100px; background: linear-gradient(transparent, var(--card)); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 999; backdrop-filter: blur(5px); }
+        .touch-heart { font-size: 3rem; cursor: pointer; transition: 0.5s; filter: grayscale(1); user-select: none; -webkit-tap-highlight-color: transparent; }
+        .touch-heart.active { filter: grayscale(0) drop-shadow(0 0 20px #ff4757); transform: scale(1.3); }
+        .touch-text { font-size: 0.75rem; font-weight: bold; color: var(--ana); margin-top: 5px; opacity: 0.8; }
 
         .ani-panel { position: fixed; bottom: 110px; right: 20px; z-index: 1000; }
         .ani-btn { background: #b02a3a; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 2px solid white; cursor: pointer; }
@@ -223,6 +202,15 @@
         </div>
     </div>
 
+    <div id="previewOverlay" class="popup-overlay">
+        <div class="popup-box">
+            <h3 style="margin:0; color:var(--ana)">Harika Görünüyor! 😍</h3>
+            <img id="imgPreview" style="width:100%; border-radius:15px; margin:15px 0; max-height:250px; object-fit:cover;">
+            <button class="game-btn" style="background:#b02a3a" onclick="uploadConfirmedFile()">Anılara Ekle ✨</button>
+            <button class="game-btn" style="background:#ccc; color:#333; margin-top:5px;" onclick="closePreview()">Vazgeç</button>
+        </div>
+    </div>
+
     <script>
         const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
         const M = '8697863466'; 
@@ -231,6 +219,52 @@
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbx8rPIYa0_45eRuMm2f63Rc_ygES5tQidQIi5gTTN9BgA-CiRUw4pcHpD6cfOEzZ-ZT/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
 
+        let selectedFile = null;
+
+        // --- FOTOĞRAF SİSTEMİ ---
+        function openFoto() { document.getElementById('fotoInput').click(); toggleAniMenu(); }
+
+        function handleFile(input) {
+            const file = input.files[0];
+            if (!file) return;
+            selectedFile = file;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('imgPreview').src = e.target.result;
+                document.getElementById('previewOverlay').style.display = 'flex';
+            }
+            reader.readAsDataURL(file);
+            input.value = ""; 
+        }
+
+        function closePreview() {
+            document.getElementById('previewOverlay').style.display = 'none';
+            selectedFile = null;
+        }
+
+        async function uploadConfirmedFile() {
+            if (!selectedFile) return;
+            closePreview();
+            const loader = document.getElementById('loading-overlay');
+            loader.style.display = 'flex';
+            loader.innerText = "🚀 Fotoğrafın Olcay'a uçuyor...";
+
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+            
+            try {
+                const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (data.success) {
+                    await fetch(`${scriptUrl}?ani=&foto=${encodeURIComponent(data.data.url)}`, { mode: 'no-cors' });
+                    sendTele(`📸 Olcay! Muly yeni bir fotoğraf yükledi:\n${data.data.url}`, O);
+                    load();
+                }
+            } catch (e) { alert("Yükleme hatası."); }
+            loader.style.display = 'none';
+            loader.innerText = "🚀 Büyü Hazırlanıyor...";
+        }
+
         // --- EL TUTUŞMA SİSTEMİ ---
         let touchTimeout;
         function startTouch() {
@@ -238,13 +272,8 @@
             const status = document.getElementById('touchStatus');
             heart.classList.add('active');
             status.innerText = "Şu an ellerimiz birleşti...";
-            if (navigator.vibrate) navigator.vibrate(50); // Hafif titreşim
-
-            // 2 saniye basılı tutarsa Telegram'a "Seni düşünüyorum" bildirimi atar
+            if (navigator.vibrate) navigator.vibrate(50);
             touchTimeout = setTimeout(() => {
-                // Eğer sayfada Muly ise Olcay'a, Olcay ise Muly'ye bildirim gider
-                // Bu basitleştirilmiş bir mantıktır; kimin girdiğini anlamak için URL parametresi kullanılabilir.
-                // Şimdilik sadece Muly'nin tarafından Olcay'a atacak şekilde kuruyorum:
                 sendTele("🤝 Muly şu an ekrandaki kalbe dokunuyor ve seni düşünüyor...", O);
                 status.innerText = "Hislerin Olcay'a iletildi! ✨";
             }, 2000);
@@ -258,27 +287,22 @@
             status.innerText = "Dokun ve hisset...";
         }
 
-        // --- TEMA VE ARKA PLAN SİSTEMİ ---
+        // --- DİĞER FONKSİYONLAR ---
         function checkTheme() {
             const hour = new Date().getHours();
             const body = document.getElementById('mainBody');
-            if (hour >= 20 || hour < 8) {
-                body.classList.add('night');
-            } else {
-                body.classList.remove('night');
-            }
+            if (hour >= 20 || hour < 8) body.classList.add('night');
+            else body.classList.remove('night');
         }
 
         function createStars() {
             const container = document.getElementById('stars');
             container.innerHTML = '';
-            const starCount = 50;
-            for (let i = 0; i < starCount; i++) {
+            for (let i = 0; i < 50; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 const size = Math.random() * 3 + 1 + 'px';
-                star.style.width = size;
-                star.style.height = size;
+                star.style.width = size; star.style.height = size;
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
                 star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
@@ -287,59 +311,13 @@
             }
         }
 
-        let clicks = 0;
-        function adminReset() {
-            clicks++;
-            if(clicks >= 5) {
-                if(confirm("Görev süresini sıfırlamak istiyor musun?")) {
-                    localStorage.removeItem('last_task');
-                    updateCooldown();
-                }
-                clicks = 0;
-            }
-            setTimeout(() => { clicks = 0; }, 2000);
-        }
-
-        async function delAni(id) {
-            if(!confirm("Bu anıyı silmek istediğine emin misin?")) return;
-            document.getElementById('loading-overlay').style.display = 'flex';
-            await fetch(`${scriptUrl}?del=${id}`, { mode: 'no-cors' });
-            setTimeout(() => { load(); document.getElementById('loading-overlay').style.display = 'none'; }, 1500);
-        }
-
-        function sendTele(msg, target) {
-            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
-        }
-
-        function openFoto() { document.getElementById('fotoInput').click(); toggleAniMenu(); }
-
-        async function handleFile(input) {
-            const file = input.files[0];
-            if (!file) return;
-            document.getElementById('loading-overlay').style.display = 'flex';
-            const formData = new FormData();
-            formData.append('image', file);
-            try {
-                const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', { method: 'POST', body: formData });
-                const data = await res.json();
-                if (data.success) {
-                    await fetch(`${scriptUrl}?ani=&foto=${encodeURIComponent(data.data.url)}`, { mode: 'no-cors' });
-                    sendTele(`📸 Olcay! Muly yeni bir fotoğraf yükledi:\n${data.data.url}`, O);
-                    load();
-                }
-            } catch (e) { alert("Yükleme hatası."); }
-            document.getElementById('loading-overlay').style.display = 'none';
-            input.value = "";
-        }
-
         async function saveTextAni() {
             const txt = document.getElementById('ani-input').value.trim();
             if(!txt) return;
             document.getElementById('loading-overlay').style.display = 'flex';
             await fetch(`${scriptUrl}?ani=${encodeURIComponent(txt)}&foto=`, { mode: 'no-cors' });
             document.getElementById('ani-input').value = "";
-            closePopup();
-            load();
+            closePopup(); load();
             sendTele("✍️ Muly anı defterimize yeni bir not bıraktı!", O);
             document.getElementById('loading-overlay').style.display = 'none';
         }
@@ -365,9 +343,16 @@
             } catch (e) {}
         }
 
+        async function delAni(id) {
+            if(!confirm("Bu anıyı silmek istediğine emin misin?")) return;
+            document.getElementById('loading-overlay').style.display = 'flex';
+            await fetch(`${scriptUrl}?del=${id}`, { mode: 'no-cors' });
+            setTimeout(() => { load(); document.getElementById('loading-overlay').style.display = 'none'; }, 1500);
+        }
+
         function at(k) {
-            if (k === 'M') { sendTele("Muly seni çok özledi ve kalp gönderdi ❤️", O); } 
-            else { sendTele("Olcay seni düşünüyor ve kalp gönderdi 💝", M); }
+            if (k === 'M') sendTele("Muly seni çok özledi ve kalp gönderdi ❤️", O);
+            else sendTele("Olcay seni düşünüyor ve kalp gönderdi 💝", M);
             document.getElementById('not').innerText = "Sevgi iletildi! ✨";
             setTimeout(()=>document.getElementById('not').innerText="", 2000);
         }
@@ -376,18 +361,11 @@
             const now = new Date();
             const f = now - start;
             const d = Math.floor(f/86400000);
-            const h = Math.floor((f%86400000)/3600000);
-            const m = Math.floor((f%3600000)/60000);
-            const s = Math.floor((f%60000)/1000);
-            
+            const h = Math.floor((f%86400000)/3600000), m = Math.floor((f%3600000)/60000), s = Math.floor((f%60000)/1000);
             document.getElementById('gun').innerText = d + " GÜN";
             document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
-
             let target = 365;
             if (d >= 365) target = 500;
-            if (d >= 500) target = 730;
-            if (d >= 730) target = 1000;
-
             const percent = Math.min((d / target) * 100, 100).toFixed(1);
             document.getElementById('progressFill').style.width = percent + "%";
             document.getElementById('percentLabel').innerText = "%" + percent;
@@ -397,15 +375,7 @@
         function getTask() {
             const now = Date.now();
             if (now - (localStorage.getItem('last_task') || 0) < 10800000) return;
-            const ts = [
-                "Ses at ve seste seni seviyorum de 🎙️",
-                "Anlık bir selfie gönder 📸",
-                "En çok beni sevdiğini söyleyen ses at 💝",
-                "Seni ne kadar sevdiğimi bir seste anlat 🎙️",
-                "Ses at ve bugün olan komik bir şeyi anlat 🗣️",
-                "Ses at ve bir şarkı mırıldan 🎵",
-                "Bana özel bir emoji buketi yap 💐"
-            ];
+            const ts = ["Ses at ve seste seni seviyorum de 🎙️", "Anlık bir selfie gönder 📸", "En çok beni sevdiğini söyleyen ses at 💝", "Bana özel bir emoji buketi yap 💐"];
             const task = ts[Math.floor(Math.random() * ts.length)];
             document.getElementById('task-display').innerText = task;
             localStorage.setItem('last_task', now);
@@ -422,10 +392,7 @@
                 const h = Math.floor(remain/3600000), m = Math.floor((remain%3600000)/60000), s = Math.floor((remain%60000)/1000);
                 document.getElementById('timer-display').innerText = `Yeni Hediye: ${h}s ${m}d ${s}sn`;
                 setTimeout(updateCooldown, 1000);
-            } else { 
-                btn.disabled = false; 
-                document.getElementById('timer-display').innerText = "Hediye Hazır! ✨"; 
-            }
+            } else { btn.disabled = false; document.getElementById('timer-display').innerText = "Hediye Hazır! ✨"; }
         }
 
         function toggleAniMenu() { const m = document.getElementById('aniMenu'); m.style.display = (m.style.display === 'flex' ? 'none' : 'flex'); }
@@ -437,17 +404,11 @@
             document.getElementById('t1').classList.toggle('active', x==='g');
             document.getElementById('t2').classList.toggle('active', x==='a');
         }
+        function sendTele(msg, target) { fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`); }
 
+        window.onload = () => { load(); count(); updateCooldown(); checkTheme(); createStars(); };
         setInterval(count, 1000);
         setInterval(checkTheme, 60000);
-
-        window.onload = () => { 
-            load(); 
-            count(); 
-            updateCooldown(); 
-            checkTheme(); 
-            createStars();
-        };
     </script>
 </body>
 </html>
