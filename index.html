@@ -52,7 +52,7 @@
 </head>
 <body>
 
-    <div id="loading-overlay">🚀 Bağlantı Oluşturuluyor...</div>
+    <div id="loading-overlay">🚀 İşlem Yapılıyor...</div>
     <div id="yildizlar"></div>
 
     <h1 id="baslik" style="font-family:'Pacifico'; color:#b02a3a; margin:10px 0; text-align: center;">İyi ki Varsın...</h1>
@@ -121,7 +121,6 @@
             toggleAniMenu();
         }
 
-        // FOTOĞRAFI YÜKLEYİP OLCAY'A LİNK OLARAK ATAN GÜNCEL FONKSİYON
         async function handleFile(input) {
             const file = input.files[0];
             if (!file) return;
@@ -132,28 +131,29 @@
             formData.append('image', file);
 
             try {
-                // Alternatif API: ImgBB (Yeni bir Key ekledim veya geçici bir hata varsa yakalar)
+                // ImgBB API
                 const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', {
                     method: 'POST',
                     body: formData
                 });
                 
-                if (!res.ok) throw new Error('API hatası');
-
                 const data = await res.json();
-                const link = data.data.url;
 
-                // Telegram üzerinden Olcay'a bağlantıyı gönder
-                const mesaj = `📸 Olcay, yeni bir anı fotoğrafı geldi! B sütununa ekle:\n${link}`;
-                sendTele(mesaj, O);
-                
-                alert("Fotoğraf bağlantısı Olcay'a iletildi! ❤️");
+                if (data.success) {
+                    const link = data.data.url;
+                    const mesaj = `📸 Olcay, yeni bir anı fotoğrafı geldi! B sütununa ekle:\n${link}`;
+                    sendTele(mesaj, O);
+                    alert("Fotoğraf bağlantısı Olcay'a iletildi! ❤️");
+                } else {
+                    throw new Error(data.error.message);
+                }
+
             } catch (err) {
-                console.error(err);
-                alert("Hata: Bağlantı oluşturulamadı. Lütfen internetini kontrol edip tekrar dene veya Olcay'a fotoğrafı direkt Telegram'dan at. ❤️");
+                console.error("Yükleme Hatası:", err);
+                alert("Bağlantı oluşturulamadı. Sebebi şunlar olabilir:\n1. Fotoğraf boyutu çok büyük.\n2. İnternet bağlantısı zayıf.\n3. Günlük yükleme limiti dolmuş olabilir.");
             } finally {
                 document.getElementById('loading-overlay').style.display = 'none';
-                input.value = ""; // Inputu temizle ki aynı dosya tekrar seçilebilsin
+                input.value = ""; 
             }
         }
 
@@ -194,7 +194,7 @@
                         a.insertAdjacentHTML('afterbegin', `<div class="ani-card"><button class="del-btn" onclick="sil('${txt}')">×</button>${txt}</div>`);
                     }
                 });
-            } catch (e) { console.log("Tablo yükleme hatası"); }
+            } catch (e) { }
         }
 
         function at(k) {
