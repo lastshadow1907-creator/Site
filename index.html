@@ -6,6 +6,9 @@
     <title>Muly ❤️ Olcay</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <script async src="https://imgbb.com/upload.js"></script>
+
     <style>
         :root { 
             --ana: #5d7fb9; 
@@ -89,7 +92,6 @@
 
         .game-box { background: var(--card); width: 92%; max-width: 380px; border-radius: 25px; padding: 20px; text-align: center; margin-top: 20px; border: 2px dashed var(--ana); box-sizing: border-box; }
         .game-btn { background: var(--ana); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.3s; }
-        .game-btn:disabled { background: #ccc; cursor: not-allowed; }
 
         .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 20px 0; width: 92%; max-width: 380px; overflow: hidden; padding: 5px; box-sizing: border-box; }
         .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; border-radius: 15px; transition: 0.3s; }
@@ -105,9 +107,6 @@
             position: relative; 
             margin-bottom: 15px; 
         }
-        .pol:nth-child(odd) { transform: rotate(-2deg); }
-        .pol:nth-child(even) { transform: rotate(2deg); }
-        .pol:hover { transform: scale(1.1) rotate(0deg); z-index: 10; }
         .pol img { width: 100%; height: 100px; object-fit: cover; border-radius: 2px; }
 
         .ani-card { background: var(--card); margin: 10px; padding: 15px; border-radius: 20px; width: 85%; border-left: 5px solid #b02a3a; text-align: left; position: relative; }
@@ -115,12 +114,10 @@
 
         .kalpler { display: flex; gap: 40px; margin: 25px 0; }
         .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; padding: 0; filter: drop-shadow(0 0 5px rgba(0,0,0,0.2)); }
-        .k-btn:active { transform: scale(1.2); }
 
         .hand-hold-container { position: fixed; bottom: 0; left: 0; width: 100%; height: 100px; background: linear-gradient(transparent, var(--card)); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 999; backdrop-filter: blur(5px); }
-        .touch-heart { font-size: 3rem; cursor: pointer; transition: 0.5s; filter: grayscale(1); user-select: none; -webkit-tap-highlight-color: transparent; }
+        .touch-heart { font-size: 3rem; cursor: pointer; transition: 0.5s; filter: grayscale(1); user-select: none; }
         .touch-heart.active { filter: grayscale(0) drop-shadow(0 0 20px #ff4757); transform: scale(1.3); }
-        .touch-text { font-size: 0.75rem; font-weight: bold; color: var(--ana); margin-top: 5px; opacity: 0.8; }
 
         .ani-panel { position: fixed; bottom: 110px; right: 20px; z-index: 1000; }
         .ani-btn { background: #b02a3a; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 2px solid white; cursor: pointer; }
@@ -129,8 +126,8 @@
 
         .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .popup-box { background: var(--card); width: 85%; max-width: 320px; border-radius: 25px; padding: 25px; text-align: center; }
-        #loading-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); color:white; z-index:3000; align-items:center; justify-content:center; flex-direction:column; font-weight: bold; }
-        #ani-input { width: 100%; height: 100px; border-radius: 10px; padding: 10px; margin: 10px 0; border: 1.5px solid var(--ana); box-sizing: border-box; font-family: inherit; background: rgba(255,255,255,0.1); color: var(--text); }
+        #ani-input { width: 100%; height: 100px; border-radius: 10px; padding: 10px; margin: 10px 0; border: 1.5px solid var(--ana); box-sizing: border-box; background: rgba(255,255,255,0.1); color: var(--text); }
+        #loading-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); color:white; z-index:3000; align-items:center; justify-content:center; }
     </style>
 </head>
 <body id="mainBody">
@@ -158,7 +155,7 @@
     </div>
 
     <div class="game-box">
-        <div onclick="adminReset()" style="font-size: 0.8rem; color: var(--ana); cursor: pointer; font-weight: 600;">✨ Muly'ye Özel Görev Kutusu ✨</div>
+        <div style="font-size: 0.8rem; color: var(--ana); font-weight: 600;">✨ Muly'ye Özel Görev Kutusu ✨</div>
         <div id="task-display" style="font-family: 'Dancing Script'; font-size: 1.5rem; color: #b02a3a; margin-top: 10px;">Hediyeni Çek 🎁</div>
         <div id="timer-display" style="font-size: 0.85rem; color: #b02a3a; margin-top: 5px; font-weight: bold;"></div>
         <button id="draw-btn" class="game-btn" onclick="getTask()">Görevi Çek</button>
@@ -172,22 +169,20 @@
     <div id="gs" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%;"></div>
     <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
 
-    <input type="file" id="fotoInput" style="display:none;" accept="image/*" onchange="handleFile(this)">
-
     <div class="kalpler">
-        <div style="text-align: center;"><div style="font-family: 'Pacifico'; font-size: 0.95rem; color: var(--ana);">Muly</div><button onclick="at('M')" class="k-btn">💖</button></div>
-        <div style="text-align: center;"><div style="font-family: 'Pacifico'; font-size: 0.95rem; color: var(--ana);">Olcay</div><button onclick="at('O')" class="k-btn">💝</button></div>
+        <div style="text-align: center;"><button onclick="at('M')" class="k-btn">💖</button></div>
+        <div style="text-align: center;"><button onclick="at('O')" class="k-btn">💝</button></div>
     </div>
     <div id="not" style="font-size:1rem; font-weight:bold; color:#ff4757; height:25px; text-align: center;"></div>
 
     <div class="hand-hold-container">
         <div id="touchHeart" class="touch-heart" onmousedown="startTouch()" onmouseup="endTouch()" ontouchstart="startTouch()" ontouchend="endTouch()">❤️</div>
-        <div class="touch-text" id="touchStatus">Dokun ve hisset...</div>
+        <div style="font-size: 0.75rem; font-weight: bold; color: var(--ana); margin-top: 5px;">Dokun ve hisset...</div>
     </div>
 
     <div class="ani-panel">
         <div id="aniMenu" class="ani-menu">
-            <button class="ani-menu-item" onclick="openFoto()">📸 Fotoğraf Gönder</button>
+            <button class="ani-menu-item" data-imgbb-active="true" onclick="toggleAniMenu()">📸 Fotoğraf Gönder</button>
             <button class="ani-menu-item" onclick="openText()">✍️ Anı Yaz</button>
         </div>
         <div class="ani-btn" onclick="toggleAniMenu()">➕</div>
@@ -198,16 +193,7 @@
             <h3 style="margin:0; color:var(--ana)">Anı Defterimiz ✨</h3>
             <textarea id="ani-input" placeholder="Kalbimizden geçenleri yazalım..."></textarea>
             <button class="game-btn" style="background:#b02a3a" onclick="saveTextAni()">Sonsuza Kaydet ✅</button>
-            <button class="game-btn" style="background:#ccc; color:#333; margin-top:5px; box-shadow: none;" onclick="closePopup()">Kapat</button>
-        </div>
-    </div>
-
-    <div id="previewOverlay" class="popup-overlay">
-        <div class="popup-box">
-            <h3 style="margin:0; color:var(--ana)">Harika Görünüyor! 😍</h3>
-            <img id="imgPreview" style="width:100%; border-radius:15px; margin:15px 0; max-height:250px; object-fit:cover;">
-            <button class="game-btn" style="background:#b02a3a" onclick="uploadConfirmedFile()">Anılara Ekle ✨</button>
-            <button class="game-btn" style="background:#ccc; color:#333; margin-top:5px;" onclick="closePreview()">Vazgeç</button>
+            <button class="game-btn" style="background:#ccc; color:#333; margin-top:5px;" onclick="closePopup()">Kapat</button>
         </div>
     </div>
 
@@ -216,92 +202,9 @@
         const M = '8697863466'; 
         const O = '6555602691'; 
         const S = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
-        // YENİ GÜNCELLEDİĞİN SCRIPT URL
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbwi-0o6xAFHr8DlkR6BWPYiA9bDK2ecghWt_uUdvBsazcdVzU9BoNtLafblCXK27ZjTKA/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
 
-        let selectedFile = null;
-
-        // --- FOTOĞRAF SİSTEMİ ---
-        function openFoto() { document.getElementById('fotoInput').click(); toggleAniMenu(); }
-
-        function handleFile(input) {
-            const file = input.files[0];
-            if (!file) return;
-            selectedFile = file;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('imgPreview').src = e.target.result;
-                document.getElementById('previewOverlay').style.display = 'flex';
-            }
-            reader.readAsDataURL(file);
-            input.value = ""; 
-        }
-
-        function closePreview() {
-            document.getElementById('previewOverlay').style.display = 'none';
-            selectedFile = null;
-        }
-
-        async function uploadConfirmedFile() {
-            if (!selectedFile) return;
-            closePreview();
-            const loader = document.getElementById('loading-overlay');
-            loader.style.display = 'flex';
-            loader.innerText = "🚀 Fotoğrafın Olcay'a uçuyor...";
-
-            const formData = new FormData();
-            formData.append('image', selectedFile);
-            
-            try {
-                // Fotoğrafı ImgBB'ye yükle
-                const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', { method: 'POST', body: formData });
-                const data = await res.json();
-                
-                if (data.success) {
-                    const imgUrl = data.data.url;
-                    // Google Script'e gönder (YENİ URL KULLANILIYOR)
-                    await fetch(`${scriptUrl}?ani=&foto=${encodeURIComponent(imgUrl)}`, { mode: 'no-cors' });
-                    
-                    // Telegram Bildirimi
-                    sendTele(`📸 Olcay! Muly yeni bir fotoğraf yükledi:\n${imgUrl}`, O);
-                    
-                    // Galeriyi yenilemek için biraz bekle ve yükle
-                    setTimeout(() => { load(); loader.style.display = 'none'; }, 2000);
-                } else {
-                    alert("Fotoğraf sunucuya yüklenemedi.");
-                    loader.style.display = 'none';
-                }
-            } catch (e) { 
-                alert("Bağlantı hatası oluştu."); 
-                loader.style.display = 'none';
-            }
-            loader.innerText = "🚀 Büyü Hazırlanıyor... Ready!";
-        }
-
-        // --- EL TUTUŞMA SİSTEMİ ---
-        let touchTimeout;
-        function startTouch() {
-            const heart = document.getElementById('touchHeart');
-            const status = document.getElementById('touchStatus');
-            heart.classList.add('active');
-            status.innerText = "Şu an ellerimiz birleşti...";
-            if (navigator.vibrate) navigator.vibrate(50);
-            touchTimeout = setTimeout(() => {
-                sendTele("🤝 Muly şu an ekrandaki kalbe dokunuyor ve seni düşünüyor...", O);
-                status.innerText = "Hislerin Olcay'a iletildi! ✨";
-            }, 2000);
-        }
-
-        function endTouch() {
-            clearTimeout(touchTimeout);
-            const heart = document.getElementById('touchHeart');
-            const status = document.getElementById('touchStatus');
-            heart.classList.remove('active');
-            status.innerText = "Dokun ve hisset...";
-        }
-
-        // --- TEMEL FONKSİYONLAR ---
         function checkTheme() {
             const hour = new Date().getHours();
             const body = document.getElementById('mainBody');
@@ -331,9 +234,9 @@
             document.getElementById('loading-overlay').style.display = 'flex';
             await fetch(`${scriptUrl}?ani=${encodeURIComponent(txt)}&foto=`, { mode: 'no-cors' });
             document.getElementById('ani-input').value = "";
-            closePopup(); 
-            setTimeout(() => { load(); document.getElementById('loading-overlay').style.display = 'none'; }, 1000);
+            closePopup(); load();
             sendTele("✍️ Muly anı defterimize yeni bir not bıraktı!", O);
+            document.getElementById('loading-overlay').style.display = 'none';
         }
 
         async function load() {
@@ -358,7 +261,7 @@
         }
 
         async function delAni(id) {
-            if(!confirm("Bu anıyı silmek istediğine emin misin?")) return;
+            if(!confirm("Silmek istediğine emin misin?")) return;
             document.getElementById('loading-overlay').style.display = 'flex';
             await fetch(`${scriptUrl}?del=${id}`, { mode: 'no-cors' });
             setTimeout(() => { load(); document.getElementById('loading-overlay').style.display = 'none'; }, 1500);
@@ -379,22 +282,20 @@
             document.getElementById('gun').innerText = d + " GÜN";
             document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
             let target = 365;
-            if (d >= 365) target = 500;
             const percent = Math.min((d / target) * 100, 100).toFixed(1);
             document.getElementById('progressFill').style.width = percent + "%";
             document.getElementById('percentLabel').innerText = "%" + percent;
-            document.getElementById('targetLabel').innerText = target + ". Gün Hedefi";
         }
 
         function getTask() {
             const now = Date.now();
             if (now - (localStorage.getItem('last_task') || 0) < 10800000) return;
-            const ts = ["Ses at ve seste seni seviyorum de 🎙️", "Anlık bir selfie gönder 📸", "En çok beni sevdiğini söyleyen ses at 💝", "Bana özel bir emoji buketi yap 💐"];
+            const ts = ["Ses at ve seni seviyorum de 🎙️", "Bir selfie gönder 📸", "En çok beni sevdiğini söyleyen ses at 💝"];
             const task = ts[Math.floor(Math.random() * ts.length)];
             document.getElementById('task-display').innerText = task;
             localStorage.setItem('last_task', now);
             updateCooldown();
-            sendTele("🔔 Muly senin için bir görev seçti: " + task, O);
+            sendTele("🔔 Görev seçildi: " + task, O);
         }
 
         function updateCooldown() {
@@ -403,10 +304,20 @@
             const btn = document.getElementById('draw-btn');
             if (remain > 0) {
                 btn.disabled = true;
-                const h = Math.floor(remain/3600000), m = Math.floor((remain%3600000)/60000), s = Math.floor((remain%60000)/1000);
-                document.getElementById('timer-display').innerText = `Yeni Hediye: ${h}s ${m}d ${s}sn`;
-                setTimeout(updateCooldown, 1000);
-            } else { btn.disabled = false; document.getElementById('timer-display').innerText = "Hediye Hazır! ✨"; }
+                const h = Math.floor(remain/3600000), m = Math.floor((remain%3600000)/60000);
+                document.getElementById('timer-display').innerText = `Bekleme: ${h}s ${m}d`;
+                setTimeout(updateCooldown, 10000);
+            } else { btn.disabled = false; document.getElementById('timer-display').innerText = "Hediye Hazır!"; }
+        }
+
+        let touchTimeout;
+        function startTouch() {
+            document.getElementById('touchHeart').classList.add('active');
+            touchTimeout = setTimeout(() => sendTele("🤝 Muly senin için kalbe dokunuyor...", O), 2000);
+        }
+        function endTouch() {
+            clearTimeout(touchTimeout);
+            document.getElementById('touchHeart').classList.remove('active');
         }
 
         function toggleAniMenu() { const m = document.getElementById('aniMenu'); m.style.display = (m.style.display === 'flex' ? 'none' : 'flex'); }
@@ -422,7 +333,6 @@
 
         window.onload = () => { load(); count(); updateCooldown(); checkTheme(); createStars(); };
         setInterval(count, 1000);
-        setInterval(checkTheme, 60000);
     </script>
 </body>
 </html>
