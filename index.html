@@ -37,7 +37,6 @@
 
         .kalpler { display: flex; gap: 40px; margin: 25px 0; }
         .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; padding: 0; }
-        .k-btn:active { transform: scale(0.8); }
 
         .ani-panel { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
         .ani-btn { background: #b02a3a; color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 3px solid white; cursor: pointer; }
@@ -47,7 +46,6 @@
         #yildizlar { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
         .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .popup-box { background: var(--card); width: 85%; max-width: 320px; border-radius: 25px; padding: 20px; text-align: center; }
-        #ani-input { width: 100%; height: 100px; border-radius: 15px; border: 1px solid #ddd; padding: 10px; margin: 15px 0; font-family: inherit; resize: none; }
         #loading-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); color:white; z-index:3000; align-items:center; justify-content:center; flex-direction:column; }
     </style>
 </head>
@@ -106,6 +104,7 @@
     </div>
 
     <script>
+        // TELEGRAM ID DÜZELTME: Muly: 6555602691 | Olcay: 8697863466
         const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w', M='6555602691', O='8697863466', S='1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbx8rPIYa0_45eRuMm2f63Rc_ygES5tQidQIi5gTTN9BgA-CiRUw4pcHpD6cfOEzZ-ZT/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
@@ -114,13 +113,16 @@
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
         }
 
+        // Onay ve Soru Sistemi
         function checkQuestion() {
             const answer = prompt("Dünyada Muly'yi en çok kim seviyor? ❤️");
             if(answer && answer.trim().toLowerCase() === 'olcay') {
-                sendTele("📷 Muly soruyu bildi ve fotoğraf seçiyor! ❤️", O);
+                // Olcay'a (O) bildirim gönderir
+                sendTele("📷 Muly soruyu bildi ve fotoğraf yüklemek için senden onay bekliyor Olcay! ❤️", O);
+                alert("Doğru cevap prenses! ✨ Olcay'a bildirim gitti, şimdi fotoğrafını seçebilirsin.");
                 document.getElementById('fotoInput').click();
             } else if(answer !== null) {
-                alert("Yanlış cevap! Bir daha dene prenses. 😋");
+                alert("Yanlış cevap! Bir daha dene bakalım. 😋");
             }
             toggleAniMenu();
         }
@@ -133,16 +135,19 @@
             reader.onload = async function(e) {
                 const base64 = e.target.result.split(',')[1];
                 await fetch(scriptUrl, { method: "POST", mode: "no-cors", body: JSON.stringify({ foto: base64, ani: "" }) });
-                sendTele("✅ Muly fotoğrafı başarıyla yükledi Olcay! ❤️", O);
+                sendTele("✅ Muly fotoğrafı yükledi! Galeriye bakabilirsin Olcay. ❤️", O);
                 location.reload();
             };
             reader.readAsDataURL(file);
         }
 
+        // Kalp Mesajları Düzeltildi
         function at(k) {
-            const targetId = (k === 'M') ? O : M;
-            const msg = (k === 'M') ? "Muly seni çok özledi ❤️" : "Olcayın aklındasın, ne zaman çıktınki 💝";
-            sendTele(msg, targetId);
+            if (k === 'M') { // Muly basarsa Olcay'a gider
+                sendTele("Muly seni çok özledi ❤️", O);
+            } else { // Olcay basarsa Muly'ye gider
+                sendTele("Olcay aklındasın 💝", M);
+            }
             document.getElementById('not').innerText = "Sevgi gönderildi! ❤️";
             setTimeout(()=>document.getElementById('not').innerText="", 2000);
         }
@@ -153,7 +158,7 @@
             await fetch(`${scriptUrl}?ani=${encodeURIComponent(txt)}&foto=`, { mode: 'no-cors' });
             closePopup();
             load();
-            sendTele("✍️ Muly yeni bir anı ekledi!", O);
+            sendTele("✍️ Muly yeni bir anı ekledi Olcay!", O);
         }
 
         async function sil(item) {
@@ -210,7 +215,7 @@
             document.getElementById('task-display').innerText = task;
             localStorage.setItem('last_task', now);
             updateCooldown();
-            sendTele("🔔 Muly görevini çekti: " + task, O);
+            sendTele("🔔 Muly görevini çekti Olcay: " + task, O);
         }
 
         function updateCooldown() {
@@ -228,7 +233,7 @@
         let clickCount = 0;
         function adminClick() {
             clickCount++;
-            if(clickCount >= 5) { localStorage.removeItem('last_task'); alert("Görevler açıldı! ✅"); updateCooldown(); clickCount = 0; }
+            if(clickCount >= 5) { localStorage.removeItem('last_task'); alert("Sıfırlandı! ✅"); updateCooldown(); clickCount = 0; }
         }
 
         function toggleAniMenu() { const m = document.getElementById('aniMenu'); m.style.display = (m.style.display === 'flex' ? 'none' : 'flex'); }
