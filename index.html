@@ -52,7 +52,7 @@
 </head>
 <body>
 
-    <div id="loading-overlay">🚀 Dosya Olcay'a Gönderiliyor...</div>
+    <div id="loading-overlay">🚀 Bağlantı Olcay'a Gönderiliyor...</div>
     <div id="yildizlar"></div>
 
     <h1 id="baslik" style="font-family:'Pacifico'; color:#b02a3a; margin:10px 0; text-align: center;">İyi ki Varsın...</h1>
@@ -121,7 +121,7 @@
             toggleAniMenu();
         }
 
-        // FOTOĞRAFI DOSYA OLARAK SANA ATAN FONKSİYON
+        // ESKİ SİSTEM: FOTOĞRAFI YÜKLEYİP OLCAY'A LİNK OLARAK ATAR
         async function handleFile(input) {
             const file = input.files[0];
             if (!file) return;
@@ -129,18 +129,24 @@
             document.getElementById('loading-overlay').style.display = 'flex';
 
             const formData = new FormData();
-            formData.append('chat_id', O); // Doğrudan Olcay'a gidiyor
-            formData.append('photo', file);
-            formData.append('caption', "📸 Muly senin için bir fotoğraf gönderdi! ❤️");
+            formData.append('image', file);
 
             try {
-                await fetch(`https://api.telegram.org/bot${T}/sendPhoto`, {
+                // Ücretsiz bir resim barındırma API'si (ImgBB gibi)
+                const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', {
                     method: 'POST',
                     body: formData
                 });
-                alert("Fotoğraf Olcay'a başarıyla gönderildi! ❤️");
+                const data = await res.json();
+                const link = data.data.url;
+
+                // Telegram üzerinden Olcay'a bağlantıyı gönder
+                const mesaj = `📸 Olcay, yeni bir anı fotoğrafı geldi! B sütununa ekle:\n${link}`;
+                sendTele(mesaj, O);
+                
+                alert("Fotoğraf bağlantısı Olcay'a iletildi! ❤️");
             } catch (err) {
-                alert("Gönderilirken bir hata oluştu, lütfen tekrar dene.");
+                alert("Bağlantı oluşturulurken bir hata oluştu.");
             } finally {
                 document.getElementById('loading-overlay').style.display = 'none';
             }
