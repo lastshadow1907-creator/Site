@@ -9,7 +9,6 @@
     <style>
         :root { --ana: #5d7fb9; --bg: #e9f1fa; --neon: #ff0000; --card: #ffffff; --text: #333; }
         
-        /* OTOMATİK GECE MODU (20:00 - 06:00) */
         body.gece { --bg: #0b0d17; --ana: #a29bfe; --card: rgba(255,255,255,0.1); --text: #fff; background: linear-gradient(135deg, #0b0d17 0%, #1c1e33 100%); }
 
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; color: var(--text); transition: 0.8s; overflow-x: hidden; }
@@ -31,10 +30,11 @@
         .pol { background: white; padding: 8px; border-radius: 5px; width: 110px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transform: rotate(-1.5deg); }
         .pol img { width: 100%; height: 100px; object-fit: cover; border-radius: 2px; }
         
-        .kalpler { display: flex; gap: 40px; margin: 30px 0; }
-        .k-btn { background: none; border: none; cursor: pointer; text-align: center; transition: 0.3s; }
-        .k-btn:hover { transform: scale(1.1); }
-        .k-btn img { width: 75px; height: 75px; border-radius: 50%; border: 2px solid var(--ana); object-fit: cover; }
+        /* Kalp Butonları Tasarımı */
+        .kalpler { display: flex; gap: 40px; margin: 30px 0; align-items: center; justify-content: center; }
+        .k-btn { background: none; border: none; cursor: pointer; font-size: 3.8rem; transition: 0.4s; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
+        .k-btn:hover { transform: scale(1.2) rotate(5deg); }
+        .k-etiket { font-family: 'Pacifico', cursive; font-size: 0.8rem; color: var(--ana); margin-top: 5px; }
         
         #yildizlar { position: fixed; inset: 0; pointer-events: none; z-index: -1; display: none; }
         body.gece #yildizlar { display: block; }
@@ -65,17 +65,17 @@
     <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
 
     <div class="kalpler">
-        <button onclick="at('M')" class="k-btn">
-            <img src="https://img.freepik.com/premium-vector/gold-heart-with-diamonds-white-background-vector-illustration_562306-193.jpg">
-            <div style="font-size:0.8rem; font-weight:bold; color:var(--ana); margin-top:5px;">Muly'nin Kalbi</div>
-        </button>
-        <button onclick="at('O')" class="k-btn">
-            <img src="https://img.freepik.com/premium-vector/silver-heart-with-diamonds-white-background-vector-illustration_562306-192.jpg">
-            <div style="font-size:0.8rem; font-weight:bold; color:var(--ana); margin-top:5px;">Olcay'ın Kalbi</div>
-        </button>
+        <div style="text-align: center;">
+            <div class="k-etiket">Muly'nin Kalbi</div>
+            <button onclick="at('M')" class="k-btn">💖</button>
+        </div>
+        <div style="text-align: center;">
+            <div class="k-etiket">Olcay'ın Kalbi</div>
+            <button onclick="at('O')" class="k-btn">💝</button>
+        </div>
     </div>
 
-    <div id="not" style="font-size:1rem; font-weight:bold; color:var(--ana); height:25px; text-align: center;"></div>
+    <div id="not" style="font-size:1rem; font-weight:bold; color:var(--ana); height:25px; text-align: center; margin-bottom: 80px;"></div>
 
     <button class="add-btn" onclick="document.getElementById('f').click()">+</button>
     <input type="file" id="f" style="display:none" accept="image/*" onchange="up(event)">
@@ -114,7 +114,7 @@
                 g.innerHTML = ""; a.innerHTML = "";
                 lines.forEach(l => {
                     const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,''), d = c[2]?.replace(/"/g,'') || "";
+                    let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
                     if(img?.includes('http')) g.insertAdjacentHTML('afterbegin', `<div class="pol"><img src="${img}"></div>`);
                     if(txt && !txt.includes('http')) a.insertAdjacentHTML('afterbegin', `<div style="background:var(--card); margin:10px; padding:15px; border-radius:20px; width:85%; border-left:5px solid var(--neon); box-shadow: 0 4px 10px rgba(0,0,0,0.05);">${txt}</div>`);
                 });
@@ -130,10 +130,11 @@
 
         function at(k) {
             let id = (k === 'M') ? M : O;
-            let msg = (k === 'M') ? "Muly seni özledi! ❤️" : "Olcay seni düşünüyor, Pardon ne zaman aklından çıktınki? 💝";
+            // İSTEDİĞİN ÖZEL MESAJLAR BURADA
+            let msg = (k === 'M') ? "Olcay, Muly seni çok özledi! ❤️" : "Muly, Olcay'ın yine aklındasın 💝 Pardon, ne zaman çıktın ki?";
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${id}&text=${encodeURIComponent(msg)}`);
             document.getElementById('not').innerText = "Sevgi gönderildi! ❤️";
-            setTimeout(()=>document.getElementById('not').innerText="", 2000);
+            setTimeout(()=>document.getElementById('not').innerText="", 2500);
         }
 
         function tab(x) {
