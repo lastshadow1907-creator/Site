@@ -88,7 +88,7 @@
 
     <div class="ani-panel">
         <div id="aniMenu" class="ani-menu">
-            <button class="ani-menu-item" onclick="checkQuestion()">📸 Fotoğraf Yükle</button>
+            <button class="ani-menu-item" onclick="checkQuestion()">📸 Fotoğraf Yükle (Soru)</button>
             <button class="ani-menu-item" onclick="openText()">✍️ Anı Yaz</button>
         </div>
         <div class="ani-btn" onclick="toggleAniMenu()">➕</div>
@@ -104,10 +104,10 @@
     </div>
 
     <script>
-        // GÜNCEL ID'LER
+        // ID'ler: Muly=8... | Olcay=6...
         const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
-        const M = '8697863466'; // Muly (8 ile başlayan)
-        const O = '6555602691'; // Olcay (Sen - 6 ile başlayan)
+        const M = '8697863466'; 
+        const O = '6555602691'; 
         const S = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbx8rPIYa0_45eRuMm2f63Rc_ygES5tQidQIi5gTTN9BgA-CiRUw4pcHpD6cfOEzZ-ZT/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
@@ -116,11 +116,13 @@
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
         }
 
+        // Soru Sistemi (Onaysız Direkt Foto Seçme)
         function checkQuestion() {
             const answer = prompt("Dünyada Muly'yi en çok kim seviyor? ❤️");
             if(answer && answer.trim().toLowerCase() === 'olcay') {
-                sendTele("📷 Muly soruyu bildi ve fotoğraf yüklemek için senden onay bekliyor Olcay! ❤️", O);
-                alert("Doğru cevap prenses! ✨ Olcay'a bildirim gitti, fotoğrafını seçebilirsin.");
+                // Sana hemen bilgi gider
+                sendTele("📷 Muly soruyu bildi ve fotoğraf seçiyor... ❤️", O);
+                // Direkt dosya seçiciyi açar
                 document.getElementById('fotoInput').click();
             } else if(answer !== null) {
                 alert("Yanlış cevap! Bir daha dene bakalım. 😋");
@@ -136,18 +138,15 @@
             reader.onload = async function(e) {
                 const base64 = e.target.result.split(',')[1];
                 await fetch(scriptUrl, { method: "POST", mode: "no-cors", body: JSON.stringify({ foto: base64, ani: "" }) });
-                sendTele("✅ Muly fotoğrafı yükledi! Galeriye bakabilirsin Olcay. ❤️", O);
+                sendTele("✅ Muly fotoğrafı başarıyla yükledi! Bakmaya gidebilirsin. ❤️", O);
                 location.reload();
             };
             reader.readAsDataURL(file);
         }
 
         function at(k) {
-            if (k === 'M') { // Muly basarsa Olcay'a (Sana) gider
-                sendTele("Muly seni çok özledi ❤️", O);
-            } else { // Olcay basarsa Muly'ye gider
-                sendTele("Olcay aklındasın 💝", M);
-            }
+            if (k === 'M') { sendTele("Muly seni çok özledi ❤️", O); } 
+            else { sendTele("Olcay aklındasın 💝", M); }
             document.getElementById('not').innerText = "Sevgi gönderildi! ❤️";
             setTimeout(()=>document.getElementById('not').innerText="", 2000);
         }
@@ -158,11 +157,11 @@
             await fetch(`${scriptUrl}?ani=${encodeURIComponent(txt)}&foto=`, { mode: 'no-cors' });
             closePopup();
             load();
-            sendTele("✍️ Muly yeni bir anı ekledi Olcay!", O);
+            sendTele("✍️ Muly yeni bir anı ekledi! ❤️", O);
         }
 
         async function sil(item) {
-            if(!confirm("Emin misin?")) return;
+            if(!confirm("Bu anıyı/fotoğrafı silmek istediğine emin misin?")) return;
             await fetch(`${scriptUrl}?action=delete&text=${encodeURIComponent(item)}`, { mode: 'no-cors' });
             load();
         }
@@ -215,7 +214,7 @@
             document.getElementById('task-display').innerText = task;
             localStorage.setItem('last_task', now);
             updateCooldown();
-            sendTele("🔔 Muly görevini çekti Olcay: " + task, O);
+            sendTele("🔔 Muly görevini çekti: " + task, O);
         }
 
         function updateCooldown() {
