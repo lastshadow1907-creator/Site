@@ -38,7 +38,7 @@
             color: var(--text); 
             transition: background 1.5s ease, color 1.5s ease; 
             overflow-x: hidden; 
-            padding-bottom: 120px; 
+            padding-bottom: 180px; /* Bağlantı alanı için artırıldı */
             position: relative;
         }
 
@@ -86,7 +86,6 @@
         #gun { font-size: 3.2rem; font-weight: 800; color: #b02a3a; line-height: 1; }
         #saat { font-size: 1.8rem; font-weight: 600; color: var(--ana); letter-spacing: 1px; }
 
-        /* İlerleme Çubuğu */
         .progress-container { width: 85%; margin: 15px auto 0; text-align: left; }
         .progress-bar-bg { background: rgba(0,0,0,0.1); height: 12px; border-radius: 10px; overflow: hidden; position: relative; }
         .progress-fill { background: linear-gradient(90deg, var(--ana), #b02a3a); height: 100%; transition: width 1s ease-in-out; border-radius: 10px; width: 0%; }
@@ -109,9 +108,44 @@
         .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; padding: 0; filter: drop-shadow(0 0 5px rgba(0,0,0,0.2)); }
         .k-btn:active { transform: scale(1.2); }
 
-        .ani-panel { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
-        .ani-btn { background: #b02a3a; color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 3px solid white; cursor: pointer; }
-        .ani-menu { display: none; background: var(--card); border-radius: 20px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 180px; position: absolute; bottom: 80px; right: 0; flex-direction: column; gap: 8px; backdrop-filter: blur(10px); }
+        /* --- SANAL EL TUTUŞMA ALANI --- */
+        .hand-hold-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(transparent, var(--card));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            backdrop-filter: blur(5px);
+        }
+        .touch-heart {
+            font-size: 3rem;
+            cursor: pointer;
+            transition: 0.5s;
+            filter: grayscale(1);
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .touch-heart.active {
+            filter: grayscale(0) drop-shadow(0 0 20px #ff4757);
+            transform: scale(1.3);
+        }
+        .touch-text {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--ana);
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .ani-panel { position: fixed; bottom: 110px; right: 20px; z-index: 1000; }
+        .ani-btn { background: #b02a3a; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 2px solid white; cursor: pointer; }
+        .ani-menu { display: none; background: var(--card); border-radius: 20px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 180px; position: absolute; bottom: 70px; right: 0; flex-direction: column; gap: 8px; backdrop-filter: blur(10px); }
         .ani-menu-item { background: rgba(93, 127, 185, 0.1); color: var(--ana); border: none; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer; text-align: left; }
 
         .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
@@ -156,7 +190,7 @@
         <button id="t2" class="tab" onclick="tab('a')">✍️ Anılar</button>
     </div>
 
-    <div id="gs" class="album"></div>
+    <div id="gs" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%;"></div>
     <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
 
     <input type="file" id="fotoInput" style="display:none;" accept="image/*" onchange="handleFile(this)">
@@ -166,6 +200,11 @@
         <div style="text-align: center;"><div style="font-family: 'Pacifico'; font-size: 0.95rem; color: var(--ana);">Olcay</div><button onclick="at('O')" class="k-btn">💝</button></div>
     </div>
     <div id="not" style="font-size:1rem; font-weight:bold; color:#ff4757; height:25px; text-align: center;"></div>
+
+    <div class="hand-hold-container">
+        <div id="touchHeart" class="touch-heart" onmousedown="startTouch()" onmouseup="endTouch()" ontouchstart="startTouch()" ontouchend="endTouch()">❤️</div>
+        <div class="touch-text" id="touchStatus">Dokun ve hisset...</div>
+    </div>
 
     <div class="ani-panel">
         <div id="aniMenu" class="ani-menu">
@@ -192,11 +231,37 @@
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbx8rPIYa0_45eRuMm2f63Rc_ygES5tQidQIi5gTTN9BgA-CiRUw4pcHpD6cfOEzZ-ZT/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
 
+        // --- EL TUTUŞMA SİSTEMİ ---
+        let touchTimeout;
+        function startTouch() {
+            const heart = document.getElementById('touchHeart');
+            const status = document.getElementById('touchStatus');
+            heart.classList.add('active');
+            status.innerText = "Şu an ellerimiz birleşti...";
+            if (navigator.vibrate) navigator.vibrate(50); // Hafif titreşim
+
+            // 2 saniye basılı tutarsa Telegram'a "Seni düşünüyorum" bildirimi atar
+            touchTimeout = setTimeout(() => {
+                // Eğer sayfada Muly ise Olcay'a, Olcay ise Muly'ye bildirim gider
+                // Bu basitleştirilmiş bir mantıktır; kimin girdiğini anlamak için URL parametresi kullanılabilir.
+                // Şimdilik sadece Muly'nin tarafından Olcay'a atacak şekilde kuruyorum:
+                sendTele("🤝 Muly şu an ekrandaki kalbe dokunuyor ve seni düşünüyor...", O);
+                status.innerText = "Hislerin Olcay'a iletildi! ✨";
+            }, 2000);
+        }
+
+        function endTouch() {
+            clearTimeout(touchTimeout);
+            const heart = document.getElementById('touchHeart');
+            const status = document.getElementById('touchStatus');
+            heart.classList.remove('active');
+            status.innerText = "Dokun ve hisset...";
+        }
+
         // --- TEMA VE ARKA PLAN SİSTEMİ ---
         function checkTheme() {
             const hour = new Date().getHours();
             const body = document.getElementById('mainBody');
-            // 20:00 - 08:00 arası gece modu
             if (hour >= 20 || hour < 8) {
                 body.classList.add('night');
             } else {
@@ -222,7 +287,6 @@
             }
         }
 
-        // --- DİĞER FONKSİYONLAR ---
         let clicks = 0;
         function adminReset() {
             clicks++;
@@ -375,7 +439,7 @@
         }
 
         setInterval(count, 1000);
-        setInterval(checkTheme, 60000); // Her dakikada bir saati kontrol et
+        setInterval(checkTheme, 60000);
 
         window.onload = () => { 
             load(); 
