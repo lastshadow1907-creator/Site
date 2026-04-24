@@ -104,8 +104,11 @@
     </div>
 
     <script>
-        // TELEGRAM ID DÜZELTME: Muly: 6555602691 | Olcay: 8697863466
-        const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w', M='6555602691', O='8697863466', S='1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
+        // GÜNCEL ID'LER
+        const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
+        const M = '8697863466'; // Muly (8 ile başlayan)
+        const O = '6555602691'; // Olcay (Sen - 6 ile başlayan)
+        const S = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbx8rPIYa0_45eRuMm2f63Rc_ygES5tQidQIi5gTTN9BgA-CiRUw4pcHpD6cfOEzZ-ZT/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
 
@@ -113,13 +116,11 @@
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
         }
 
-        // Onay ve Soru Sistemi
         function checkQuestion() {
             const answer = prompt("Dünyada Muly'yi en çok kim seviyor? ❤️");
             if(answer && answer.trim().toLowerCase() === 'olcay') {
-                // Olcay'a (O) bildirim gönderir
                 sendTele("📷 Muly soruyu bildi ve fotoğraf yüklemek için senden onay bekliyor Olcay! ❤️", O);
-                alert("Doğru cevap prenses! ✨ Olcay'a bildirim gitti, şimdi fotoğrafını seçebilirsin.");
+                alert("Doğru cevap prenses! ✨ Olcay'a bildirim gitti, fotoğrafını seçebilirsin.");
                 document.getElementById('fotoInput').click();
             } else if(answer !== null) {
                 alert("Yanlış cevap! Bir daha dene bakalım. 😋");
@@ -141,9 +142,8 @@
             reader.readAsDataURL(file);
         }
 
-        // Kalp Mesajları Düzeltildi
         function at(k) {
-            if (k === 'M') { // Muly basarsa Olcay'a gider
+            if (k === 'M') { // Muly basarsa Olcay'a (Sana) gider
                 sendTele("Muly seni çok özledi ❤️", O);
             } else { // Olcay basarsa Muly'ye gider
                 sendTele("Olcay aklındasın 💝", M);
