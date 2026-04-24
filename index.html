@@ -7,40 +7,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&display=swap" rel="stylesheet">
     <style>
         :root { --ana-renk: #002d72; --vurgu: #fec10d; --kalp: #ff4d6d; --bg: #fff0f3; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         
-        /* Sayaç Alanı */
         .card { background: white; padding: 25px; border-radius: 25px; text-align: center; border: 4px solid var(--vurgu); width: 90%; max-width: 350px; margin-top: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        #gun-sayi { font-size: 3.2rem; font-weight: 800; color: var(--kalp); display: block; line-height: 1.1; }
-        #saat-alani { font-size: 1.3rem; font-weight: 600; color: var(--ana-renk); display: block; margin-top: 10px; }
+        #gun-sayi { font-size: 3rem; font-weight: 800; color: var(--kalp); display: block; line-height: 1.1; }
+        #saat-alani { font-size: 1.2rem; font-weight: 600; color: var(--ana-renk); display: block; margin-top: 5px; }
 
-        /* Sekme Sistemi (Tabs) */
-        .tab-container { display: flex; gap: 10px; margin: 25px 0; width: 100%; max-width: 350px; }
+        .tab-container { display: flex; gap: 10px; margin: 20px 0; width: 100%; max-width: 350px; }
         .tab-btn { flex: 1; padding: 12px; border: none; border-radius: 15px; background: white; color: var(--ana-renk); font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .tab-btn.active { background: var(--kalp); color: white; }
 
-        /* Bölümler */
-        .content-section { display: none; width: 100%; animation: fadeIn 0.5s; }
+        .content-section { display: none; width: 100%; animation: fadeIn 0.4s; }
         .content-section.active { display: flex; flex-direction: column; align-items: center; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Galeri Grid */
-        .album { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; width: 100%; }
-        .polaroid { background: white; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 140px; border-radius: 5px; transform: rotate(-2deg); text-align: center; }
-        .polaroid img { width: 100%; height: 130px; object-fit: cover; border-radius: 3px; cursor: pointer; }
+        .album { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; width: 100%; }
+        .polaroid { background: white; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 140px; border-radius: 5px; transform: rotate(-1deg); text-align: center; }
+        .polaroid img { width: 100%; height: 130px; object-fit: cover; border-radius: 3px; }
         
-        /* Anı Kutuları */
-        .ani-kutusu { background: white; margin: 10px 0; padding: 15px; border-radius: 15px; border-left: 5px solid var(--kalp); width: 90%; max-width: 350px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: left; }
+        .ani-kutusu { background: white; margin: 10px 0; padding: 15px; border-radius: 15px; border-left: 5px solid var(--kalp); width: 90%; max-width: 350px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: left; word-wrap: break-word; }
         
         .btn-indir { border: none; background: var(--ana-renk); cursor: pointer; font-size: 0.7rem; padding: 6px; border-radius: 10px; margin-top: 8px; color: white; font-weight: 600; width: 100%; }
-        .btn-kalp { font-size: 4rem; background: none; border: none; cursor: pointer; transition: 0.3s; margin: 10px 0; }
+        .btn-kalp { font-size: 3.5rem; background: none; border: none; cursor: pointer; transition: 0.3s; margin: 10px 0; }
         .btn-ekle { position: fixed; bottom: 20px; right: 20px; background: var(--kalp); color: white; width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; font-size: 30px; cursor: pointer; z-index: 100; }
-        #bilgi { color: var(--kalp); font-weight: 600; margin-top: 5px; height: 25px; }
+        #bilgi { color: var(--kalp); font-weight: 600; margin-top: 5px; height: 25px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <h1 style="font-family: 'Pacifico'; color: var(--kalp); margin-bottom: 0;">Bizim Hikayemiz</h1>
+    <h1 style="font-family: 'Pacifico'; color: var(--kalp); margin-top: 0;">Bizim Hikayemiz</h1>
 
     <div class="card">
         <span id="gun-sayi">Yükleniyor...</span>
@@ -48,8 +43,8 @@
     </div>
 
     <div class="tab-container">
-        <button class="tab-btn active" onclick="tabDegistir('galeri')">🖼️ Galeri</button>
-        <button class="tab-btn" onclick="tabDegistir('anilar')">✍️ Anılar</button>
+        <button id="btn-galeri" class="tab-btn active" onclick="tabDegistir('galeri')">🖼️ Galeri</button>
+        <button id="btn-anilar" class="tab-btn" onclick="tabDegistir('anilar')">✍️ Anılar</button>
     </div>
 
     <div id="galeri-section" class="content-section active">
@@ -67,24 +62,22 @@
     <input type="file" id="resimSecici" style="display: none;" accept="image/*" onchange="yukle(event)">
 
     <script>
-        const API_KEY = '5767fb3279ed0b1f20bf5beab37300d4';
         const BOT_TOKEN = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
         const MY_ID = '6555602691';
+        const API_KEY = '5767fb3279ed0b1f20bf5beab37300d4';
         const SHEET_ID = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
-        const baslangic = new Date(2026, 2, 14, 0, 8, 0); 
+        const baslangic = new Date(2026, 2, 14, 0, 8, 0);
 
-        // Sekme Değiştirme Fonksiyonu
-        function tabDegistir(tabIsmi) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
-            document.getElementById(tabIsmi + '-section').classList.add('active');
-            event.currentTarget.classList.add('active');
+        function tabDegistir(tab) {
+            document.getElementById('galeri-section').style.display = (tab === 'galeri') ? 'flex' : 'none';
+            document.getElementById('anilar-section').style.display = (tab === 'anilar') ? 'flex' : 'none';
+            document.getElementById('btn-galeri').classList.toggle('active', tab === 'galeri');
+            document.getElementById('btn-anilar').classList.toggle('active', tab === 'anilar');
         }
 
         function sayac() {
             const fark = new Date() - baslangic;
-            if (fark < 0) { document.getElementById('gun-sayi').innerText = "Geri Sayım"; return; }
+            if (fark < 0) { document.getElementById('gun-sayi').innerText = "Yakında"; return; }
             const d = Math.floor(fark / 86400000);
             const h = Math.floor((fark % 86400000) / 3600000);
             const m = Math.floor((fark % 3600000) / 60000);
@@ -101,17 +94,16 @@
                 const bUrl = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = bUrl; a.download = `ani_${Date.now()}.jpg`;
-                document.body.appendChild(a); a.click();
-                window.URL.revokeObjectURL(bUrl);
+                a.click();
             } catch (e) { window.open(url, '_blank'); }
         }
 
         async function verileriGetir() {
             try {
-                const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&c=` + Math.random();
+                const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&cachebuster=${Math.random()}`;
                 const yanit = await fetch(url);
                 const csv = await yanit.text();
-                const satirlar = csv.split('\n').slice(1).reverse();
+                const satirlar = csv.split('\n').slice(1);
                 
                 const albumDiv = document.getElementById('album-container');
                 const listeDiv = document.getElementById('etablo-anilar');
@@ -121,31 +113,29 @@
                 satirlar.forEach(satir => {
                     const hucreler = satir.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     let icerik = hucreler[0]?.replace(/"/g,'').trim();
-                    let tarih = hucreler[1]?.replace(/"/g,'').trim();
+                    let tarih = hucreler[1]?.replace(/"/g,'').trim() || "";
 
-                    if(icerik && icerik.includes('i.ibb.co')) { 
+                    if(icerik && (icerik.includes('i.ibb.co') || icerik.includes('http'))) { 
                         const d = document.createElement('div');
                         d.className = 'polaroid';
                         d.innerHTML = `<img src="${icerik}" onclick="window.open('${icerik}')"><button class="btn-indir" onclick="indirResim('${icerik}')">İndir ✨</button>`;
-                        albumDiv.appendChild(d);
+                        albumDiv.prepend(d);
                     } else if(icerik) {
                         const anı = document.createElement('div');
                         anı.className = 'ani-kutusu';
                         anı.innerHTML = `<div style="font-size:0.7rem; color:#888;">${tarih}</div><div>${icerik}</div>`;
-                        listeDiv.appendChild(anı);
+                        listeDiv.prepend(anı);
                     }
                 });
-            } catch(e) {}
+            } catch(e) { console.error("Veri çekilemedi."); }
         }
         window.onload = verileriGetir;
 
         async function yukle(e) {
             const dogruCevap = "olcay";
-            const kullaniciCevabi = prompt("Fotoğraf Yüklemek İçin Soruyu Doğru Cevapla\n\nSoru: Olcay mı yoksa sen mi daha çok seviyorsun?");
-            if (!kullaniciCevabi || kullaniciCevabi.toLowerCase().trim() !== dogruCevap) {
-                alert("Üzgünüm, cevap yanlış! ❌");
-                e.target.value = ""; return;
-            }
+            const cevap = prompt("Soruyu Doğru Cevapla: Olcay mı yoksa sen mi daha çok seviyorsun?");
+            if (!cevap || cevap.toLowerCase().trim() !== dogruCevap) { alert("Hata!"); return; }
+
             const file = e.target.files[0];
             if(!file) return;
             document.getElementById('bilgi').innerText = "Gönderiliyor... ✨";
@@ -154,11 +144,11 @@
                 const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {method:'POST', body:fd});
                 const data = await res.json();
                 if(data.success) {
-                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${MY_ID}&text=${encodeURIComponent('📸 Olcay yeni resim: ' + data.data.url)}`);
+                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${MY_ID}&text=${encodeURIComponent('📸 Yeni resim geldi Olcay: ' + data.data.url)}`);
                     document.getElementById('bilgi').innerText = "Gönderildi! ❤️";
-                    alert("Olcay'a ulaştırıldı. ❤️");
+                    alert("Olcay'a iletildi.");
                 }
-            } catch(e) { alert("Hata!"); }
+            } catch(e) { alert("Yükleme hatası!"); }
         }
 
         function kalpAt() {
