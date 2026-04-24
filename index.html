@@ -7,7 +7,15 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --ana: #5d7fb9; --bg: #e9f1fa; --neon: #ff0000; --card: #ffffff; --text: #333; }
+        :root { 
+            --ana: #5d7fb9; 
+            --bg-1: #e9f1fa; 
+            --bg-2: #ffebee; 
+            --bg-3: #e8f5e9;
+            --neon: #ff4757; 
+            --card: rgba(255, 255, 255, 0.85); 
+            --text: #2d3436; 
+        }
         
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
@@ -17,9 +25,9 @@
 
         body { 
             font-family: 'Poppins', sans-serif; 
-            background: linear-gradient(-45deg, #e9f1fa, #ffebee, #e8f5e9, #fff3e0);
+            background: linear-gradient(-45deg, var(--bg-1), var(--bg-2), var(--bg-3), #fff3e0);
             background-size: 400% 400%;
-            animation: gradientBG 30s ease infinite;
+            animation: gradientBG 20s ease infinite;
             margin: 0; 
             padding: 15px; 
             display: flex; 
@@ -27,98 +35,153 @@
             align-items: center; 
             min-height: 100vh; 
             color: var(--text); 
-            transition: 0.8s; 
             overflow-x: hidden; 
-            padding-bottom: 120px; 
+            padding-bottom: 100px; 
             position: relative;
         }
 
-        /* Yüzen Kalpler Stili */
+        /* Efektler */
         .heart-float {
             position: fixed;
             bottom: -50px;
-            color: rgba(176, 42, 58, 0.2);
-            font-size: 20px;
+            color: rgba(255, 71, 87, 0.2);
             user-select: none;
             pointer-events: none;
-            z-index: -1;
+            z-index: 0;
             animation: floatUp linear forwards;
+        }
+
+        .click-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 1.2rem;
+            animation: burst 0.6s ease-out forwards;
         }
 
         @keyframes floatUp {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
         }
+
+        @keyframes burst {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; }
+        }
+
+        /* Kart Yapıları */
+        .card { 
+            background: var(--card); 
+            width: 90%; 
+            max-width: 400px; 
+            border-radius: 30px; 
+            padding: 30px 20px; 
+            text-align: center; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-bottom: 20px;
+            z-index: 2;
+        }
+
+        h1 { font-family: 'Pacifico', cursive; color: #b02a3a; margin: 10px 0; font-weight: normal; }
+        .sayaç-ust-yazi { font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: #b02a3a; margin-bottom: 8px; }
         
-        .sayaç-ust-yazi { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #b02a3a; margin-bottom: 5px; z-index: 1; }
-        .neon-inf { font-size: 3.5rem; color: var(--neon); text-shadow: 0 0 15px rgba(255,0,0,0.6); animation: pulse 2s infinite; display: block; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
-        
-        .card { background: var(--card); width: 92%; max-width: 380px; border-radius: 35px; padding: 25px 15px; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); margin-top: 5px; z-index: 1; }
-        #gun { font-size: 3rem; font-weight: 800; color: #b02a3a; line-height: 1; }
-        #saat { font-size: 1.8rem; font-weight: 600; color: var(--ana); letter-spacing: 1px; }
+        #gun { font-size: 3.2rem; font-weight: 800; color: #b02a3a; line-height: 1; margin-bottom: 5px; }
+        #saat { font-size: 1.6rem; font-weight: 600; color: var(--ana); letter-spacing: 2px; }
 
-        .progress-container { width: 85%; margin: 15px auto 0; text-align: left; }
-        .progress-bar-bg { background: #eee; height: 12px; border-radius: 10px; overflow: hidden; position: relative; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
-        .progress-fill { background: linear-gradient(90deg, var(--ana), #b02a3a); height: 100%; transition: width 1s ease-in-out; border-radius: 10px; width: 0%; }
-        .progress-text { font-size: 0.75rem; font-weight: 600; color: #666; margin-top: 5px; display: flex; justify-content: space-between; }
+        /* İlerleme Çubuğu */
+        .progress-container { width: 90%; margin: 20px auto 0; }
+        .progress-bar-bg { background: rgba(0,0,0,0.05); height: 10px; border-radius: 20px; overflow: hidden; position: relative; }
+        .progress-fill { background: linear-gradient(90deg, var(--ana), #ff4757); height: 100%; transition: width 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67); width: 0%; }
+        .progress-text { font-size: 0.8rem; font-weight: 600; color: #777; margin-top: 8px; display: flex; justify-content: space-between; }
 
-        .game-box { background: var(--card); width: 92%; max-width: 380px; border-radius: 25px; padding: 20px; text-align: center; margin-top: 20px; border: 2px dashed var(--ana); z-index: 1; }
-        .game-btn { background: var(--ana); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.3s; }
-        .game-btn:disabled { background: #ccc; cursor: not-allowed; }
+        /* Görev Kutusu */
+        .game-box { 
+            background: var(--card); 
+            width: 90%; 
+            max-width: 400px; 
+            border-radius: 25px; 
+            padding: 20px; 
+            text-align: center; 
+            border: 2px dashed rgba(93, 127, 185, 0.4); 
+            z-index: 2;
+            box-sizing: border-box;
+        }
+        .game-btn { 
+            background: var(--ana); 
+            color: white; 
+            border: none; 
+            padding: 14px; 
+            border-radius: 50px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: 15px; 
+            box-shadow: 0 4px 15px rgba(93, 127, 185, 0.3);
+            transition: 0.3s;
+        }
+        .game-btn:active { transform: scale(0.95); }
+        .game-btn:disabled { background: #cbd5e0; box-shadow: none; }
 
-        .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 20px 0; width: 92%; max-width: 380px; overflow: hidden; z-index: 1; }
-        .tab { flex: 1; padding: 15px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; }
+        /* Tab ve Galeri */
+        .tabs { display: flex; background: var(--card); border-radius: 15px; margin: 20px 0; width: 90%; max-width: 400px; overflow: hidden; z-index: 2; padding: 5px; }
+        .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; border-radius: 12px; transition: 0.3s; }
         .tab.active { background: var(--ana); color: white; }
+
+        .album { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; z-index: 2; }
+        .pol { background: white; padding: 8px 8px 25px 8px; border-radius: 5px; width: 110px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-bottom: 15px; transition: 0.3s; position: relative; }
+        .pol:nth-child(even) { transform: rotate(2deg); }
+        .pol img { width: 100%; height: 110px; object-fit: cover; border-radius: 2px; }
         
-        .pol, .ani-card { position: relative; }
-        .del-btn { position: absolute; top: -8px; right: -8px; background: #ff4757; color: white; border-radius: 50%; width: 24px; height: 24px; border: 2px solid white; cursor: pointer; z-index: 10; font-weight: bold; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .ani-card { background: var(--card); margin: 10px 0; padding: 18px; border-radius: 20px; width: 90%; max-width: 380px; border-left: 6px solid #ff4757; text-align: left; box-shadow: 0 5px 15px rgba(0,0,0,0.05); position: relative; }
 
-        .album { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; width: 100%; z-index: 1; }
-        .pol { background: white; padding: 6px; border-radius: 4px; width: 105px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transform: rotate(-1.5deg); margin-bottom: 15px; }
-        .pol img { width: 100%; height: 100px; object-fit: cover; }
-        .ani-card { background: var(--card); margin: 10px; padding: 15px; border-radius: 20px; width: 85%; border-left: 5px solid #b02a3a; text-align: left; }
+        .del-btn { position: absolute; top: -5px; right: -5px; background: #ff4757; color: white; border-radius: 50%; width: 22px; height: 22px; border: 2px solid white; cursor: pointer; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; z-index: 5; }
 
-        .kalpler { display: flex; gap: 40px; margin: 25px 0; z-index: 1; }
-        .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; padding: 0; }
+        /* Alt Panel */
+        .kalpler { display: flex; gap: 50px; margin: 30px 0; z-index: 2; }
+        .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
+        .k-btn:active { transform: scale(1.3); }
 
-        .ani-panel { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
-        .ani-btn { background: #b02a3a; color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 3px solid white; cursor: pointer; }
-        .ani-menu { display: none; background: var(--card); border-radius: 20px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 180px; position: absolute; bottom: 80px; right: 0; flex-direction: column; gap: 8px; }
-        .ani-menu-item { background: var(--bg); color: var(--ana); border: none; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer; text-align: left; }
+        /* Sabit Menü */
+        .ani-panel { position: fixed; bottom: 25px; right: 25px; z-index: 1000; }
+        .ani-btn { background: #b02a3a; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 10px 25px rgba(176, 42, 58, 0.4); cursor: pointer; border: 3px solid white; }
+        .ani-menu { display: none; background: var(--card); border-radius: 20px; padding: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); width: 170px; position: absolute; bottom: 75px; right: 0; flex-direction: column; gap: 8px; backdrop-filter: blur(15px); }
+        .ani-menu-item { background: rgba(93, 127, 185, 0.1); color: var(--ana); border: none; padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; text-align: left; }
 
-        .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .popup-box { background: var(--card); width: 85%; max-width: 320px; border-radius: 25px; padding: 20px; text-align: center; }
-        #loading-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); color:white; z-index:3000; align-items:center; justify-content:center; flex-direction:column; }
-        #ani-input { width: 100%; height: 100px; border-radius: 10px; padding: 10px; margin: 10px 0; border: 1px solid var(--ana); box-sizing: border-box; font-family: inherit; }
+        /* Popup */
+        .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .popup-box { background: white; width: 85%; max-width: 340px; border-radius: 25px; padding: 25px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        #ani-input { width: 100%; height: 120px; border-radius: 15px; padding: 12px; margin: 15px 0; border: 1.5px solid #eee; font-family: inherit; resize: none; outline: none; }
+        #loading-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); color:white; z-index:3000; align-items:center; justify-content:center; flex-direction:column; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="loading-overlay">🚀 İşlem Yapılıyor...</div>
+    <div id="loading-overlay">🚀 Büyü Yapılıyor...</div>
 
-    <h1 style="font-family:'Pacifico'; color:#b02a3a; margin:10px 0; text-align: center;">İyi ki Varsın...</h1>
+    <h1>Muly ❤️ Olcay</h1>
 
-    <div class="sayaç-ust-yazi">Seni Seviyorum Muly...</div>
+    <div class="sayaç-ust-yazi">Sonsuza dek...</div>
     <div class="card">
-        <span class="neon-inf">♾️</span>
-        <div id="gun">...</div>
+        <div id="gun">Yükleniyor...</div>
         <div id="saat">00 : 00 : 00</div>
+        
         <div class="progress-container">
             <div class="progress-bar-bg">
                 <div id="progressFill" class="progress-fill"></div>
             </div>
             <div class="progress-text">
-                <span id="targetLabel">Hedefe Yolculuk</span>
+                <span id="targetLabel">Yolun Başındayız</span>
                 <span id="percentLabel">%0</span>
             </div>
         </div>
     </div>
 
     <div class="game-box">
-        <div onclick="adminReset()" style="font-size: 0.8rem; color: var(--ana); cursor: pointer;">✨ Muly'ye Özel Görev Kutusu ✨</div>
-        <div id="task-display" style="font-family: 'Dancing Script'; font-size: 1.4rem; color: #b02a3a; margin-top: 10px;">Görevi Çek 🎁</div>
-        <div id="timer-display" style="font-size: 0.8rem; color: #b02a3a; margin-top: 5px;"></div>
+        <div onclick="adminReset()" style="font-size: 0.75rem; color: #999; cursor: pointer; margin-bottom: 5px;">Aşk Kutusu ✨</div>
+        <div id="task-display" style="font-family: 'Dancing Script'; font-size: 1.5rem; color: #b02a3a;">Bugünlük hediyen ne? 🎁</div>
+        <div id="timer-display" style="font-size: 0.8rem; color: #ff4757; margin-top: 5px;"></div>
         <button id="draw-btn" class="game-btn" onclick="getTask()">Görevi Çek</button>
     </div>
 
@@ -133,14 +196,14 @@
     <input type="file" id="fotoInput" style="display:none;" accept="image/*" onchange="handleFile(this)">
 
     <div class="kalpler">
-        <div style="text-align: center;"><div style="font-family: 'Pacifico'; font-size: 0.9rem; color: var(--ana);">Muly</div><button onclick="at('M')" class="k-btn">💖</button></div>
-        <div style="text-align: center;"><div style="font-family: 'Pacifico'; font-size: 0.9rem; color: var(--ana);">Olcay</div><button onclick="at('O')" class="k-btn">💝</button></div>
+        <div style="text-align: center;"><div style="font-size:0.8rem; font-weight:bold; color:var(--ana)">Muly</div><button onclick="at('M')" class="k-btn">💖</button></div>
+        <div style="text-align: center;"><div style="font-size:0.8rem; font-weight:bold; color:var(--ana)">Olcay</div><button onclick="at('O')" class="k-btn">💝</button></div>
     </div>
-    <div id="not" style="font-size:1rem; font-weight:bold; color:var(--ana); height:25px; text-align: center;"></div>
+    <div id="not" style="font-size:0.9rem; font-weight:bold; color:#ff4757; height:20px;"></div>
 
     <div class="ani-panel">
         <div id="aniMenu" class="ani-menu">
-            <button class="ani-menu-item" onclick="openFoto()">📸 Fotoğraf Gönder</button>
+            <button class="ani-menu-item" onclick="openFoto()">📸 Fotoğraf Ekle</button>
             <button class="ani-menu-item" onclick="openText()">✍️ Anı Yaz</button>
         </div>
         <div class="ani-btn" onclick="toggleAniMenu()">➕</div>
@@ -148,126 +211,53 @@
 
     <div id="popupOverlay" class="popup-overlay">
         <div class="popup-box">
-            <h3 style="margin:0; color:var(--ana)">Anı Defteri ✨</h3>
-            <textarea id="ani-input" placeholder="Anımızı buraya yazabilirsin..."></textarea>
-            <button class="game-btn" style="background:#b02a3a" onclick="saveTextAni()">Kaydet ✅</button>
-            <button class="game-btn" style="background:#ccc; color:#333; margin-top:5px;" onclick="closePopup()">Kapat</button>
+            <h3 style="margin:0; color:var(--ana)">Bir Anı Bırak ✨</h3>
+            <textarea id="ani-input" placeholder="Kalbimizden geçenleri buraya dökebilirsin..."></textarea>
+            <button class="game-btn" onclick="saveTextAni()">Sonsuzluğa Kaydet ✅</button>
+            <button class="game-btn" style="background:#eee; color:#666; margin-top:8px; box-shadow:none;" onclick="closePopup()">Vazgeç</button>
         </div>
     </div>
 
     <script>
-        // Yüzen Kalpler Fonksiyonu
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart-float');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 4 + 's'; // 4-7 saniye arası
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px'; // 10-30px arası
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 7000);
-        }
-        setInterval(createHeart, 800); // 800ms'de bir kalp oluştur
+        // 1. AYARLAR & SABİTLER
+        const BOT_TOKEN = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
+        const CHAT_MULY = '8697863466'; 
+        const CHAT_OLCAY = '6555602691'; 
+        const SHEET_ID = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
+        const APP_URL = 'https://script.google.com/macros/s/AKfycbx8rPIYa0_45eRuMm2f63Rc_ygES5tQidQIi5gTTN9BgA-CiRUw4pcHpD6cfOEzZ-ZT/exec';
+        
+        // Başlangıç Tarihi: 14 Mart 2026, 00:08 (Ay 0'dan başladığı için Mart=2)
+        const startDate = new Date(2026, 2, 14, 0, 8, 0);
 
-        const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
-        const M = '8697863466'; 
-        const O = '6555602691'; 
-        const S = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbx8rPIYa0_45eRuMm2f63Rc_ygES5tQidQIi5gTTN9BgA-CiRUw4pcHpD6cfOEzZ-ZT/exec';
-        const start = new Date(2026, 2, 14, 0, 8, 0);
-
-        let clicks = 0;
-        function adminReset() {
-            clicks++;
-            if(clicks >= 5) {
-                if(confirm("Görev süresini sıfırlamak istiyor musun?")) {
-                    localStorage.removeItem('last_task');
-                    updateCooldown();
-                }
-                clicks = 0;
+        // 2. EFEKTLER (Kalpler)
+        document.addEventListener('mousedown', (e) => {
+            for (let i = 0; i < 6; i++) {
+                const h = document.createElement('div');
+                h.classList.add('click-heart');
+                h.innerHTML = ['❤️','💖','💝','✨'][Math.floor(Math.random()*4)];
+                h.style.left = e.clientX + 'px';
+                h.style.top = e.clientY + 'px';
+                h.style.setProperty('--tx', (Math.random() * 160 - 80) + 'px');
+                h.style.setProperty('--ty', (Math.random() * -160 - 20) + 'px');
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 600);
             }
-            setTimeout(() => { clicks = 0; }, 2000);
+        });
+
+        function createFloatHeart() {
+            const h = document.createElement('div');
+            h.classList.add('heart-float');
+            h.innerHTML = '❤️';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            h.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 8000);
         }
+        setInterval(createFloatHeart, 1200);
 
-        async function delAni(id) {
-            if(!confirm("Bu anıyı silmek istediğine emin misin?")) return;
-            document.getElementById('loading-overlay').style.display = 'flex';
-            await fetch(`${scriptUrl}?del=${id}`, { mode: 'no-cors' });
-            setTimeout(() => { load(); document.getElementById('loading-overlay').style.display = 'none'; }, 1500);
-        }
-
-        function sendTele(msg, target) {
-            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
-        }
-
-        function openFoto() { document.getElementById('fotoInput').click(); toggleAniMenu(); }
-
-        async function handleFile(input) {
-            const file = input.files[0];
-            if (!file) return;
-            document.getElementById('loading-overlay').style.display = 'flex';
-            const formData = new FormData();
-            formData.append('image', file);
-            try {
-                const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', { method: 'POST', body: formData });
-                const data = await res.json();
-                if (data.success) {
-                    await fetch(`${scriptUrl}?ani=&foto=${encodeURIComponent(data.data.url)}`, { mode: 'no-cors' });
-                    sendTele(`📸 Olcay, yeni fotoğraf geldi:\n${data.data.url}`, O);
-                    load();
-                }
-            } catch (e) { alert("Yükleme hatası."); }
-            document.getElementById('loading-overlay').style.display = 'none';
-            input.value = "";
-        }
-
-        async function saveTextAni() {
-            const txt = document.getElementById('ani-input').value.trim();
-            if(!txt) return;
-            document.getElementById('loading-overlay').style.display = 'flex';
-            await fetch(`${scriptUrl}?ani=${encodeURIComponent(txt)}&foto=`, { mode: 'no-cors' });
-            document.getElementById('ani-input').value = "";
-            closePopup();
-            load();
-            sendTele("✍️ Muly yeni bir anı ekledi!", O);
-            document.getElementById('loading-overlay').style.display = 'none';
-        }
-
-        async function load() {
-            try {
-                const r = await fetch(`https://docs.google.com/spreadsheets/d/${S}/gviz/tq?tqx=out:csv&v=${Math.random()}`);
-                const csv = await r.text();
-                const lines = csv.split('\n').slice(1);
-                const g = document.getElementById('gs'), a = document.getElementById('as');
-                g.innerHTML = ""; a.innerHTML = "";
-                lines.forEach((l, index) => {
-                    const lineId = index + 2; 
-                    const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
-                    if(img?.includes('http')) {
-                        g.insertAdjacentHTML('afterbegin', `<div class="pol"><button class="del-btn" onclick="delAni(${lineId})">×</button><img src="${img}"></div>`);
-                    }
-                    if(txt && !txt.includes('http')) {
-                        a.insertAdjacentHTML('afterbegin', `<div class="ani-card"><button class="del-btn" onclick="delAni(${lineId})">×</button>${txt}</div>`);
-                    }
-                });
-            } catch (e) {}
-        }
-
-        function at(k) {
-            if (k === 'M') { sendTele("Muly seni çok özledi ❤️", O); } 
-            else { sendTele("Olcay'ın aklındasın 💝", M); }
-            document.getElementById('not').innerText = "Sevgi gönderildi! ❤️";
-            setTimeout(()=>document.getElementById('not').innerText="", 2000);
-        }
-
-        function count() {
+        // 3. SAYAÇ & İLERLEME
+        function updateCounter() {
             const now = new Date();
-            const f = now - start;
-            const d = Math.floor(f/86400000);
-            const h = Math.floor((f%86400000)/3600000);
-            const m = Math.floor((f%3600000)/60000);
-            const s = Math.floor((f%60000)/1000);
-            
-            document.getElementById('gun').innerText = d + " GÜN";
-            document.getElementById('saat').innerText = `${String(h).padStart(2,'0')}
+            const diff = now - startDate;
+            const validDiff
