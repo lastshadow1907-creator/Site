@@ -11,9 +11,8 @@
             --ana: #5d7fb9; 
             --bg-1: #e9f1fa; 
             --bg-2: #ffebee; 
-            --bg-3: #e8f5e9;
             --neon: #ff4757; 
-            --card: rgba(255, 255, 255, 0.85); 
+            --card: rgba(255, 255, 255, 0.9); 
             --text: #2d3436; 
         }
         
@@ -25,7 +24,7 @@
 
         body { 
             font-family: 'Poppins', sans-serif; 
-            background: linear-gradient(-45deg, var(--bg-1), var(--bg-2), var(--bg-3), #fff3e0);
+            background: linear-gradient(-45deg, var(--bg-1), var(--bg-2), #e8f5e9, #fff3e0);
             background-size: 400% 400%;
             animation: gradientBG 20s ease infinite;
             margin: 0; 
@@ -36,40 +35,9 @@
             min-height: 100vh; 
             color: var(--text); 
             overflow-x: hidden; 
-            padding-bottom: 100px; 
-            position: relative;
+            padding-bottom: 100px;
         }
 
-        /* Efektler */
-        .heart-float {
-            position: fixed;
-            bottom: -50px;
-            color: rgba(255, 71, 87, 0.2);
-            user-select: none;
-            pointer-events: none;
-            z-index: 0;
-            animation: floatUp linear forwards;
-        }
-
-        .click-heart {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            font-size: 1.2rem;
-            animation: burst 0.6s ease-out forwards;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
-        }
-
-        @keyframes burst {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; }
-        }
-
-        /* Kart Yapıları */
         .card { 
             background: var(--card); 
             width: 90%; 
@@ -77,94 +45,55 @@
             border-radius: 30px; 
             padding: 30px 20px; 
             text-align: center; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(255,255,255,0.5);
             margin-bottom: 20px;
             z-index: 2;
         }
 
-        h1 { font-family: 'Pacifico', cursive; color: #b02a3a; margin: 10px 0; font-weight: normal; }
+        h1 { font-family: 'Pacifico', cursive; color: #b02a3a; margin: 10px 0; }
         .sayaç-ust-yazi { font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: #b02a3a; margin-bottom: 8px; }
         
         #gun { font-size: 3.2rem; font-weight: 800; color: #b02a3a; line-height: 1; margin-bottom: 5px; }
-        #saat { font-size: 1.6rem; font-weight: 600; color: var(--ana); letter-spacing: 2px; }
+        #saat { font-size: 1.5rem; font-weight: 600; color: var(--ana); letter-spacing: 2px; }
 
-        /* İlerleme Çubuğu */
         .progress-container { width: 90%; margin: 20px auto 0; }
-        .progress-bar-bg { background: rgba(0,0,0,0.05); height: 10px; border-radius: 20px; overflow: hidden; position: relative; }
-        .progress-fill { background: linear-gradient(90deg, var(--ana), #ff4757); height: 100%; transition: width 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67); width: 0%; }
+        .progress-bar-bg { background: rgba(0,0,0,0.05); height: 10px; border-radius: 20px; overflow: hidden; }
+        .progress-fill { background: linear-gradient(90deg, var(--ana), #ff4757); height: 100%; transition: width 1s ease; width: 0%; }
         .progress-text { font-size: 0.8rem; font-weight: 600; color: #777; margin-top: 8px; display: flex; justify-content: space-between; }
 
-        /* Görev Kutusu */
-        .game-box { 
-            background: var(--card); 
-            width: 90%; 
-            max-width: 400px; 
-            border-radius: 25px; 
-            padding: 20px; 
-            text-align: center; 
-            border: 2px dashed rgba(93, 127, 185, 0.4); 
-            z-index: 2;
-            box-sizing: border-box;
-        }
-        .game-btn { 
-            background: var(--ana); 
-            color: white; 
-            border: none; 
-            padding: 14px; 
-            border-radius: 50px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            width: 100%; 
-            margin-top: 15px; 
-            box-shadow: 0 4px 15px rgba(93, 127, 185, 0.3);
-            transition: 0.3s;
-        }
-        .game-btn:active { transform: scale(0.95); }
-        .game-btn:disabled { background: #cbd5e0; box-shadow: none; }
+        /* Diğer görseller ve butonlar */
+        .game-box { background: var(--card); width: 90%; max-width: 400px; border-radius: 25px; padding: 20px; text-align: center; border: 2px dashed var(--ana); z-index: 2; box-sizing: border-box; }
+        .game-btn { background: var(--ana); color: white; border: none; padding: 14px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; }
+        .game-btn:disabled { background: #ccc; }
 
-        /* Tab ve Galeri */
-        .tabs { display: flex; background: var(--card); border-radius: 15px; margin: 20px 0; width: 90%; max-width: 400px; overflow: hidden; z-index: 2; padding: 5px; }
-        .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; border-radius: 12px; transition: 0.3s; }
+        .tabs { display: flex; background: var(--card); border-radius: 15px; margin: 20px 0; width: 90%; max-width: 400px; overflow: hidden; z-index: 2; }
+        .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; }
         .tab.active { background: var(--ana); color: white; }
 
-        .album { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; z-index: 2; }
-        .pol { background: white; padding: 8px 8px 25px 8px; border-radius: 5px; width: 110px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-bottom: 15px; transition: 0.3s; position: relative; }
-        .pol:nth-child(even) { transform: rotate(2deg); }
-        .pol img { width: 100%; height: 110px; object-fit: cover; border-radius: 2px; }
-        
-        .ani-card { background: var(--card); margin: 10px 0; padding: 18px; border-radius: 20px; width: 90%; max-width: 380px; border-left: 6px solid #ff4757; text-align: left; box-shadow: 0 5px 15px rgba(0,0,0,0.05); position: relative; }
+        .album { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; }
+        .pol { background: white; padding: 8px 8px 20px 8px; border-radius: 5px; width: 105px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-bottom: 10px; position: relative; }
+        .pol img { width: 100%; height: 100px; object-fit: cover; }
+        .ani-card { background: var(--card); margin: 10px 0; padding: 15px; border-radius: 15px; width: 90%; border-left: 5px solid #ff4757; position: relative; }
+        .del-btn { position: absolute; top: -5px; right: -5px; background: #ff4757; color: white; border-radius: 50%; width: 20px; height: 20px; border: none; cursor: pointer; font-size: 12px; }
 
-        .del-btn { position: absolute; top: -5px; right: -5px; background: #ff4757; color: white; border-radius: 50%; width: 22px; height: 22px; border: 2px solid white; cursor: pointer; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; z-index: 5; }
+        .ani-panel { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+        .ani-btn { background: #b02a3a; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); cursor: pointer; }
+        .ani-menu { display: none; background: white; border-radius: 15px; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 160px; position: absolute; bottom: 65px; right: 0; flex-direction: column; gap: 5px; }
+        .ani-menu-item { background: #f8f9fa; border: none; padding: 10px; border-radius: 10px; text-align: left; cursor: pointer; }
 
-        /* Alt Panel */
-        .kalpler { display: flex; gap: 50px; margin: 30px 0; z-index: 2; }
-        .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
-        .k-btn:active { transform: scale(1.3); }
-
-        /* Sabit Menü */
-        .ani-panel { position: fixed; bottom: 25px; right: 25px; z-index: 1000; }
-        .ani-btn { background: #b02a3a; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 10px 25px rgba(176, 42, 58, 0.4); cursor: pointer; border: 3px solid white; }
-        .ani-menu { display: none; background: var(--card); border-radius: 20px; padding: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); width: 170px; position: absolute; bottom: 75px; right: 0; flex-direction: column; gap: 8px; backdrop-filter: blur(15px); }
-        .ani-menu-item { background: rgba(93, 127, 185, 0.1); color: var(--ana); border: none; padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; text-align: left; }
-
-        /* Popup */
-        .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .popup-box { background: white; width: 85%; max-width: 340px; border-radius: 25px; padding: 25px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
-        #ani-input { width: 100%; height: 120px; border-radius: 15px; padding: 12px; margin: 15px 0; border: 1.5px solid #eee; font-family: inherit; resize: none; outline: none; }
-        #loading-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); color:white; z-index:3000; align-items:center; justify-content:center; flex-direction:column; font-weight: bold; }
+        .heart-float { position: fixed; bottom: -50px; color: rgba(255, 71, 87, 0.2); user-select: none; pointer-events: none; z-index: 0; animation: floatUp linear forwards; }
+        @keyframes floatUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-110vh); opacity: 0; } }
     </style>
 </head>
 <body>
 
-    <div id="loading-overlay">🚀 Büyü Yapılıyor...</div>
-
     <h1>Muly ❤️ Olcay</h1>
 
-    <div class="sayaç-ust-yazi">Sonsuza dek...</div>
+    <div class="sayaç-ust-yazi">Birlikte geçen her an...</div>
     <div class="card">
-        <div id="gun">Yükleniyor...</div>
+        <div id="gun">Hesaplanıyor...</div>
         <div id="saat">00 : 00 : 00</div>
         
         <div class="progress-container">
@@ -172,92 +101,128 @@
                 <div id="progressFill" class="progress-fill"></div>
             </div>
             <div class="progress-text">
-                <span id="targetLabel">Yolun Başındayız</span>
+                <span id="targetLabel">Hedefe Doğru</span>
                 <span id="percentLabel">%0</span>
             </div>
         </div>
     </div>
 
     <div class="game-box">
-        <div onclick="adminReset()" style="font-size: 0.75rem; color: #999; cursor: pointer; margin-bottom: 5px;">Aşk Kutusu ✨</div>
-        <div id="task-display" style="font-family: 'Dancing Script'; font-size: 1.5rem; color: #b02a3a;">Bugünlük hediyen ne? 🎁</div>
-        <div id="timer-display" style="font-size: 0.8rem; color: #ff4757; margin-top: 5px;"></div>
+        <div id="task-display" style="font-family: 'Dancing Script'; font-size: 1.4rem; color: #b02a3a;">Günün sürprizi ne? 🎁</div>
+        <div id="timer-display" style="font-size: 0.8rem; color: #666; margin-top: 5px;"></div>
         <button id="draw-btn" class="game-btn" onclick="getTask()">Görevi Çek</button>
     </div>
 
     <div class="tabs">
-        <button id="t1" class="tab active" onclick="tab('g')">🖼️ Galeri</button>
-        <button id="t2" class="tab" onclick="tab('a')">✍️ Anılar</button>
+        <button id="t1" class="tab active" onclick="tab('g')">Galeri</button>
+        <button id="t2" class="tab" onclick="tab('a')">Anılar</button>
     </div>
 
     <div id="gs" class="album"></div>
     <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
 
-    <input type="file" id="fotoInput" style="display:none;" accept="image/*" onchange="handleFile(this)">
-
-    <div class="kalpler">
-        <div style="text-align: center;"><div style="font-size:0.8rem; font-weight:bold; color:var(--ana)">Muly</div><button onclick="at('M')" class="k-btn">💖</button></div>
-        <div style="text-align: center;"><div style="font-size:0.8rem; font-weight:bold; color:var(--ana)">Olcay</div><button onclick="at('O')" class="k-btn">💝</button></div>
-    </div>
-    <div id="not" style="font-size:0.9rem; font-weight:bold; color:#ff4757; height:20px;"></div>
-
     <div class="ani-panel">
         <div id="aniMenu" class="ani-menu">
-            <button class="ani-menu-item" onclick="openFoto()">📸 Fotoğraf Ekle</button>
+            <button class="ani-menu-item" onclick="document.getElementById('fotoInput').click()">📸 Fotoğraf</button>
             <button class="ani-menu-item" onclick="openText()">✍️ Anı Yaz</button>
         </div>
         <div class="ani-btn" onclick="toggleAniMenu()">➕</div>
     </div>
 
-    <div id="popupOverlay" class="popup-overlay">
-        <div class="popup-box">
-            <h3 style="margin:0; color:var(--ana)">Bir Anı Bırak ✨</h3>
-            <textarea id="ani-input" placeholder="Kalbimizden geçenleri buraya dökebilirsin..."></textarea>
-            <button class="game-btn" onclick="saveTextAni()">Sonsuzluğa Kaydet ✅</button>
-            <button class="game-btn" style="background:#eee; color:#666; margin-top:8px; box-shadow:none;" onclick="closePopup()">Vazgeç</button>
-        </div>
-    </div>
+    <input type="file" id="fotoInput" style="display:none;" accept="image/*" onchange="handleFile(this)">
 
     <script>
-        // 1. AYARLAR & SABİTLER
-        const BOT_TOKEN = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
-        const CHAT_MULY = '8697863466'; 
-        const CHAT_OLCAY = '6555602691'; 
+        // --- AYARLAR ---
+        const startDate = new Date(2025, 2, 14, 0, 8, 0); // Yılı 2025 yaptım ki sayaç dolsun.
         const SHEET_ID = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
         const APP_URL = 'https://script.google.com/macros/s/AKfycbx8rPIYa0_45eRuMm2f63Rc_ygES5tQidQIi5gTTN9BgA-CiRUw4pcHpD6cfOEzZ-ZT/exec';
-        
-        // Başlangıç Tarihi: 14 Mart 2026, 00:08 (Ay 0'dan başladığı için Mart=2)
-        const startDate = new Date(2026, 2, 14, 0, 8, 0);
 
-        // 2. EFEKTLER (Kalpler)
-        document.addEventListener('mousedown', (e) => {
-            for (let i = 0; i < 6; i++) {
-                const h = document.createElement('div');
-                h.classList.add('click-heart');
-                h.innerHTML = ['❤️','💖','💝','✨'][Math.floor(Math.random()*4)];
-                h.style.left = e.clientX + 'px';
-                h.style.top = e.clientY + 'px';
-                h.style.setProperty('--tx', (Math.random() * 160 - 80) + 'px');
-                h.style.setProperty('--ty', (Math.random() * -160 - 20) + 'px');
-                document.body.appendChild(h);
-                setTimeout(() => h.remove(), 600);
+        // --- SAYAÇ FONKSİYONU (Düzeltildi) ---
+        function updateCounter() {
+            const now = new Date();
+            const diff = now.getTime() - startDate.getTime();
+
+            if (diff < 0) {
+                document.getElementById('gun').innerText = "Yakında...";
+                return;
             }
-        });
 
-        function createFloatHeart() {
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / (1000 * 60)) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('gun').innerText = d + " GÜN";
+            document.getElementById('saat').innerText = 
+                `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
+
+            // İlerleme Çubuğu
+            let target = d < 365 ? 365 : (d < 500 ? 500 : 1000);
+            const percent = Math.min((d / target) * 100, 100).toFixed(1);
+            document.getElementById('progressFill').style.width = percent + "%";
+            document.getElementById('percentLabel').innerText = "%" + percent;
+            document.getElementById('targetLabel').innerText = target + ". Gün Hedefi";
+        }
+
+        // --- DİĞER SİSTEMLER ---
+        async function loadData() {
+            try {
+                const res = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&v=${Math.random()}`);
+                const csv = await res.text();
+                const lines = csv.split('\n').slice(1);
+                const g = document.getElementById('gs'), a = document.getElementById('as');
+                g.innerHTML = ""; a.innerHTML = "";
+                lines.forEach((line, idx) => {
+                    const row = idx + 2;
+                    const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    let txt = cols[0]?.replace(/"/g,''), url = cols[1]?.replace(/"/g,'');
+                    if(url?.includes('http')) g.insertAdjacentHTML('afterbegin', `<div class="pol"><img src="${url}"></div>`);
+                    else if(txt) a.insertAdjacentHTML('afterbegin', `<div class="ani-card">${txt}</div>`);
+                });
+            } catch(e) {}
+        }
+
+        function getTask() {
+            const tasks = ["Ses at: Seni Seviyorum de ❤️", "Selfie at 📸", "En sevdiğin huyumu söyle 🥰", "Bir anımızı anlat 🎙️"];
+            document.getElementById('task-display').innerText = tasks[Math.floor(Math.random()*tasks.length)];
+            localStorage.setItem('last_task', Date.now());
+            updateCooldown();
+        }
+
+        function updateCooldown() {
+            const last = localStorage.getItem('last_task') || 0;
+            const diff = 10800000 - (Date.now() - last);
+            const btn = document.getElementById('draw-btn');
+            if(diff > 0) {
+                btn.disabled = true;
+                document.getElementById('timer-display').innerText = "Beklemede...";
+            } else {
+                btn.disabled = false;
+                document.getElementById('timer-display').innerText = "Hazır! 🎁";
+            }
+        }
+
+        function toggleAniMenu() { const m = document.getElementById('aniMenu'); m.style.display = m.style.display === 'flex' ? 'none' : 'flex'; }
+        function tab(x) {
+            document.getElementById('gs').style.display = x==='g'?'flex':'none';
+            document.getElementById('as').style.display = x==='a'?'flex':'none';
+            document.getElementById('t1').classList.toggle('active', x==='g');
+            document.getElementById('t2').classList.toggle('active', x==='a');
+        }
+
+        // Başlat
+        setInterval(updateCounter, 1000);
+        setInterval(() => {
             const h = document.createElement('div');
             h.classList.add('heart-float');
             h.innerHTML = '❤️';
             h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = (Math.random() * 15 + 10) + 'px';
-            h.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            h.style.animationDuration = (Math.random() * 3 + 4) + 's';
             document.body.appendChild(h);
-            setTimeout(() => h.remove(), 8000);
-        }
-        setInterval(createFloatHeart, 1200);
+            setTimeout(() => h.remove(), 7000);
+        }, 1500);
 
-        // 3. SAYAÇ & İLERLEME
-        function updateCounter() {
-            const now = new Date();
-            const diff = now - startDate;
-            const validDiff
+        window.onload = () => { updateCounter(); loadData(); updateCooldown(); };
+    </script>
+</body>
+</html>
