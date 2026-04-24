@@ -65,7 +65,7 @@
     </div>
 
     <div class="game-box">
-        <div onclick="adminClick()" style="font-size: 0.8rem; color: var(--ana); cursor: pointer;">✨ Muly'ye Özel Görev Kutusu ✨</div>
+        <div id="admin-trigger" onclick="adminClick()" style="font-size: 0.8rem; color: var(--ana); cursor: pointer;">✨ Muly'ye Özel Görev Kutusu ✨</div>
         <div id="task-display" style="font-family: 'Dancing Script'; font-size: 1.4rem; color: #b02a3a; margin-top: 10px;">Görevi Çek 🎁</div>
         <div id="timer-display" style="font-size: 0.8rem; color: #b02a3a; margin-top: 5px;"></div>
         <button id="draw-btn" class="game-btn" onclick="getTask()">Görevi Çek</button>
@@ -112,6 +112,20 @@
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbx8rPIYa0_45eRuMm2f63Rc_ygES5tQidQIi5gTTN9BgA-CiRUw4pcHpD6cfOEzZ-ZT/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
 
+        let clickCount = 0;
+        function adminClick() {
+            clickCount++;
+            if(clickCount >= 5) {
+                if(confirm("Yönetici Paneli: Görev süresini sıfırlamak istiyor musun?")) {
+                    localStorage.removeItem('last_task');
+                    updateCooldown();
+                    alert("Süre sıfırlandı, yeni görev çekebilirsin!");
+                }
+                clickCount = 0;
+            }
+            setTimeout(() => { clickCount = 0; }, 3000);
+        }
+
         function sendTele(msg, target) {
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
         }
@@ -124,33 +138,23 @@
         async function handleFile(input) {
             const file = input.files[0];
             if (!file) return;
-
             document.getElementById('loading-overlay').style.display = 'flex';
-
             const formData = new FormData();
             formData.append('image', file);
-
             try {
-                // ImgBB API
                 const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', {
                     method: 'POST',
                     body: formData
                 });
-                
                 const data = await res.json();
-
                 if (data.success) {
                     const link = data.data.url;
                     const mesaj = `📸 Olcay, yeni bir anı fotoğrafı geldi! B sütununa ekle:\n${link}`;
                     sendTele(mesaj, O);
                     alert("Fotoğraf bağlantısı Olcay'a iletildi! ❤️");
-                } else {
-                    throw new Error(data.error.message);
-                }
-
+                } else { throw new Error(data.error.message); }
             } catch (err) {
-                console.error("Yükleme Hatası:", err);
-                alert("Bağlantı oluşturulamadı. Sebebi şunlar olabilir:\n1. Fotoğraf boyutu çok büyük.\n2. İnternet bağlantısı zayıf.\n3. Günlük yükleme limiti dolmuş olabilir.");
+                alert("Bağlantı oluşturulamadı. Lütfen tekrar dene.");
             } finally {
                 document.getElementById('loading-overlay').style.display = 'none';
                 input.value = ""; 
@@ -172,95 +176,4 @@
         async function sil(item) {
             if(!confirm("Bu kaydı silmek istediğine emin misin?")) return;
             document.getElementById('loading-overlay').style.display = 'flex';
-            await fetch(`${scriptUrl}?action=delete&text=${encodeURIComponent(item)}`, { mode: 'no-cors' });
-            load();
-            document.getElementById('loading-overlay').style.display = 'none';
-        }
-
-        async function load() {
-            try {
-                const r = await fetch(`https://docs.google.com/spreadsheets/d/${S}/gviz/tq?tqx=out:csv&v=${Math.random()}`);
-                const csv = await r.text();
-                const lines = csv.split('\n').slice(1);
-                const g = document.getElementById('gs'), a = document.getElementById('as');
-                g.innerHTML = ""; a.innerHTML = "";
-                lines.forEach(l => {
-                    const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
-                    if(img?.includes('http')) {
-                        g.insertAdjacentHTML('afterbegin', `<div class="pol"><button class="del-btn" onclick="sil('${img}')">×</button><img src="${img}"><a href="${img}" target="_blank" class="dl-btn">Gör</a></div>`);
-                    }
-                    if(txt && !txt.includes('http')) {
-                        a.insertAdjacentHTML('afterbegin', `<div class="ani-card"><button class="del-btn" onclick="sil('${txt}')">×</button>${txt}</div>`);
-                    }
-                });
-            } catch (e) { }
-        }
-
-        function at(k) {
-            if (k === 'M') { sendTele("Muly seni çok özledi ❤️", O); } 
-            else { sendTele("Olcay'ın aklındasın, Pardon ne zaman çıktın ki?💝", M); }
-            document.getElementById('not').innerText = "Sevgi gönderildi! ❤️";
-            setTimeout(()=>document.getElementById('not').innerText="", 2000);
-        }
-
-        function count() {
-            const f = new Date() - start;
-            const d = Math.floor(f/86400000), h = Math.floor((f%86400000)/3600000), m = Math.floor((f%3600000)/60000), s = Math.floor((f%60000)/1000);
-            document.getElementById('gun').innerText = d + " GÜN";
-            document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
-        }
-
-        function mode() {
-            const h = new Date().getHours();
-            if (h >= 20 || h < 6) { 
-                document.body.classList.add('gece'); 
-                document.getElementById('baslik').innerText = "Gökyüzündeki En Parlak Yıldızım Muly...";
-                document.getElementById('ust-metin').innerText = "İyi Geceler Her Şeyim...";
-                const container = document.getElementById('yildizlar');
-                for(let i=0; i<40; i++) {
-                    const s = document.createElement('div');
-                    s.style.cssText = `position:absolute; width:2px; height:2px; background:white; border-radius:50%; top:${Math.random()*100}%; left:${Math.random()*100}%; opacity:${Math.random()};`;
-                    container.appendChild(s);
-                }
-            }
-        }
-
-        function getTask() {
-            const now = Date.now();
-            if (now - (localStorage.getItem('last_task') || 0) < 10800000) return;
-            const ts = ["Ses at 🎙️", "Seni seviyorum de ❤️", "Anlık foto at 📸", "En çok sen beni seviyorsun de 💝"];
-            const task = ts[Math.floor(Math.random() * ts.length)];
-            document.getElementById('task-display').innerText = task;
-            localStorage.setItem('last_task', now);
-            updateCooldown();
-            sendTele("🔔 Muly görevini çekti: " + task, O);
-        }
-
-        function updateCooldown() {
-            const last = localStorage.getItem('last_task') || 0;
-            const remaining = 10800000 - (Date.now() - last);
-            const btn = document.getElementById('draw-btn');
-            if (remaining > 0) {
-                btn.disabled = true;
-                const h = Math.floor(remaining/3600000), m = Math.floor((remaining%3600000)/60000), s = Math.floor((remaining%60000)/1000);
-                document.getElementById('timer-display').innerText = `Doluyor: ${h}s ${m}d ${s}sn`;
-                setTimeout(updateCooldown, 1000);
-            } else { btn.disabled = false; document.getElementById('timer-display').innerText = "Hazır!"; }
-        }
-
-        function toggleAniMenu() { const m = document.getElementById('aniMenu'); m.style.display = (m.style.display === 'flex' ? 'none' : 'flex'); }
-        function openText() { document.getElementById('popupOverlay').style.display = 'flex'; toggleAniMenu(); }
-        function closePopup() { document.getElementById('popupOverlay').style.display = 'none'; }
-        function tab(x) {
-            document.getElementById('gs').style.display = x==='g'?'flex':'none';
-            document.getElementById('as').style.display = x==='a'?'flex':'none';
-            document.getElementById('t1').classList.toggle('active', x==='g');
-            document.getElementById('t2').classList.toggle('active', x==='a');
-        }
-
-        setInterval(count, 1000);
-        window.onload = () => { mode(); load(); count(); updateCooldown(); };
-    </script>
-</body>
-</html>
+            await fetch(`${scriptUrl}?action=delete&
