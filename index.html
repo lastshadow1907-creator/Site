@@ -86,10 +86,19 @@
 
     <div class="ani-panel">
         <div id="aniMenu" class="ani-menu">
-            <button class="ani-menu-item" onclick="openPhoto()">📸 Fotoğraf Gönder (Bot)</button>
+            <button class="ani-menu-item" onclick="openPhoto()">📸 Fotoğraf Yükle (Sorulu)</button>
             <button class="ani-menu-item" onclick="openText()">✍️ Anı Yaz</button>
         </div>
         <div class="ani-btn" onclick="toggleAniMenu()">➕</div>
+    </div>
+
+    <div id="popupOverlay" class="popup-overlay">
+        <div class="popup-box">
+            <h3 style="margin:0; color:var(--ana)">Anı Defteri ✨</h3>
+            <textarea id="ani-input" placeholder="Anımızı buraya yazabilirsin..."></textarea>
+            <button class="game-btn" style="background:#b02a3a" onclick="saveTextAni()">Kaydet ✅</button>
+            <button class="game-btn" style="background:#ccc; color:#333; margin-top:5px;" onclick="closePopup()">Kapat</button>
+        </div>
     </div>
 
     <script>
@@ -141,24 +150,42 @@
             } else { btn.disabled = false; timerDiv.innerText = "Yeni görev hazır!"; }
         }
 
-        // --- GARANTİ BİLDİRİM SİSTEMİ ---
+        // --- ÖZEL SORU SİSTEMİ ---
         function openPhoto() {
-            // Arka planda bildirim gönder
-            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${O}&text=${encodeURIComponent("📷 Muly fotoğraf göndermek için bota giriyor!")}`);
-            // Kullanıcıyı doğrudan botun içine at (En sağlam yöntem)
-            window.open(`https://t.me/olcaymulybot`, '_blank');
+            const answer = prompt("Dünyada Muly'yi en çok kim seviyor? ❤️");
+            // Cevabı kontrol et (büyük/küçük harf duyarsız)
+            if(answer !== null && answer.trim().toLowerCase() === 'olcay') { 
+                fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${O}&text=${encodeURIComponent("📷 Bildirim: Muly soruyu doğru bildi! Fotoğraf yüklemek için onayını bekliyor Olcay. ❤️")}`);
+                alert("Doğru cevap prenses! ✨ Olcay'a bildirim gitti, o yükleyecek.");
+            } else if(answer !== null) {
+                alert("Cıııırt! Yanlış cevap. Bir daha düşün bakalım. 🤔");
+            }
             toggleAniMenu();
         }
 
         function at(k) {
-            const id = (k === 'M') ? M : O;
-            const msg = (k === 'M') ? "Muly seni çok özledi ❤️" : "Olcayın aklındasın, ne zaman çıktınki 💝";
-            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${id}&text=${encodeURIComponent(msg)}`);
+            const targetId = (k === 'M') ? O : M;
+            const msg = (k === 'M') ? "Muly seni çok özledi ❤️" : "Olcay aklındasın 💝";
+            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${targetId}&text=${encodeURIComponent(msg)}`);
             document.getElementById('not').innerText = "Sevgi gönderildi! ❤️";
             setTimeout(()=>document.getElementById('not').innerText="", 2000);
         }
 
-        // --- DİĞER ---
+        async function saveTextAni() {
+            const txt = document.getElementById('ani-input').value.trim();
+            if(!txt) return;
+            await fetch(`${scriptUrl}?ani=${encodeURIComponent(txt)}&foto=`, { mode: 'no-cors' });
+            closePopup();
+            load();
+            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${O}&text=${encodeURIComponent("✍️ Muly yeni bir anı ekledi!")}`);
+        }
+
+        async function sil(item) {
+            if(!confirm("Emin misin?")) return;
+            await fetch(`${scriptUrl}?action=delete&text=${encodeURIComponent(item)}`, { mode: 'no-cors' });
+            load();
+        }
+
         async function load() {
             const r = await fetch(`https://docs.google.com/spreadsheets/d/${S}/gviz/tq?tqx=out:csv&v=${Math.random()}`);
             const csv = await r.text();
@@ -193,17 +220,15 @@
                 const container = document.getElementById('yildizlar');
                 for(let i=0; i<40; i++) {
                     const s = document.createElement('div');
-                    s.className = 'yildiz';
-                    const size = Math.random() * 3;
-                    s.style.width = size + 'px'; s.style.height = size + 'px';
-                    s.style.top = Math.random() * 100 + '%'; s.style.left = Math.random() * 100 + '%';
-                    s.style.setProperty('--d', (Math.random() * 3 + 2) + 's');
+                    s.style.cssText = `position:absolute; width:2px; height:2px; background:white; border-radius:50%; top:${Math.random()*100}%; left:${Math.random()*100}%; opacity:${Math.random()};`;
                     container.appendChild(s);
                 }
             }
         }
 
         function toggleAniMenu() { const m = document.getElementById('aniMenu'); m.style.display = (m.style.display === 'flex' ? 'none' : 'flex'); }
+        function openText() { document.getElementById('popupOverlay').style.display = 'flex'; toggleAniMenu(); }
+        function closePopup() { document.getElementById('popupOverlay').style.display = 'none'; }
         function tab(x) {
             document.getElementById('gs').style.display = x==='g'?'flex':'none';
             document.getElementById('as').style.display = x==='a'?'flex':'none';
