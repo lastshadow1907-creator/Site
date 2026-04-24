@@ -1,95 +1,185 @@
 <!DOCTYPE html>
+
 <html lang="tr">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>Muly ❤️ Olcay</title>
+
     
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
     <style>
+
         :root { --ana: #5d7fb9; --bg: #e9f1fa; --neon: #ff0000; --card: #ffffff; --text: #333; }
+
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; color: var(--text); transition: 0.8s; overflow-x: hidden; padding-bottom: 120px; }
+
         
+
         .sayaç-ust-yazi { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #b02a3a; margin-bottom: 5px; }
+
         .neon-inf { font-size: 3.5rem; color: var(--neon); text-shadow: 0 0 15px rgba(255,0,0,0.6); animation: pulse 2s infinite; display: block; }
+
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
+
         
+
         .card { background: var(--card); width: 92%; max-width: 380px; border-radius: 35px; padding: 25px 15px; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.1); margin-top: 5px; }
+
         #gun { font-size: 3rem; font-weight: 800; color: #b02a3a; }
+
         #saat { font-size: 1.8rem; font-weight: 600; color: var(--ana); }
 
+
+
         .game-box { background: var(--card); width: 92%; max-width: 380px; border-radius: 25px; padding: 20px; text-align: center; margin-top: 20px; border: 2px dashed var(--ana); }
+
         .game-btn { background: var(--ana); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
 
+
+
+        .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 20px 0; width: 92%; max-width: 380px; overflow: hidden; }
+
+        .tab { flex: 1; padding: 15px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; }
+
+        .tab.active { background: var(--ana); color: white; }
+
+
+
         .album { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; width: 100%; }
+
         .pol { background: white; padding: 6px; border-radius: 4px; width: 105px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+
         .pol img { width: 100%; height: 100px; object-fit: cover; }
 
+
+
         .ani-card { background: var(--card); margin: 10px; padding: 15px; border-radius: 20px; width: 85%; border-left: 5px solid #b02a3a; }
+
     </style>
+
 </head>
+
 <body>
+
+
 
 <h1>İyi ki Varsın ❤️</h1>
 
+
+
 <div class="card">
+
     <span class="neon-inf">♾️</span>
+
     <div id="gun">...</div>
+
     <div id="saat">00:00:00</div>
+
 </div>
+
+
 
 <div class="game-box">
+
     <div id="task-display">Görevi Çek 🎁</div>
+
     <button class="game-btn" onclick="getTask()">Görevi Çek</button>
+
 </div>
 
+
+
 <div id="gs" class="album"></div>
+
 <div id="as" style="display:none;"></div>
 
-<!-- STREAK GÖSTERİM -->
+
+
 <div id="streakBox"></div>
 
+
+
 <script>
+
 const start = new Date(2026,2,14,0,8,0);
 
+let clicks = 0;
+
+
+
 function count(){
+
     const f = new Date() - start;
+
     const d = Math.floor(f/86400000);
+
     const h = Math.floor((f%86400000)/3600000);
+
     const m = Math.floor((f%3600000)/60000);
+
     const s = Math.floor((f%60000)/1000);
+
     document.getElementById('gun').innerText = d + " GÜN";
+
     document.getElementById('saat').innerText = `${h} : ${m} : ${s}`;
+
 }
+
+
 
 function getTask(){
+
     const tasks = ["Ses at 🎙️","Foto at 📸","Seni seviyorum de ❤️"];
+
     document.getElementById('task-display').innerText = tasks[Math.floor(Math.random()*tasks.length)];
+
 }
 
-// 🔥 STREAK SİSTEMİ
+
+
+// 🔥 STREAK SİSTEMİ EKLENDİ
+
 const today = new Date().toISOString().split("T")[0];
+
 const last = localStorage.getItem("last_day");
+
 let streak = Number(localStorage.getItem("streak") || 0);
 
+
+
 if(last !== today){
+
     streak++;
+
     localStorage.setItem("streak", streak);
+
     localStorage.setItem("last_day", today);
+
 }
 
-// ekranda göster
-function showStreak(){
-    document.getElementById("streakBox").innerHTML = 
-    `<div style='position:fixed;top:10px;right:10px;background:#b02a3a;color:white;padding:8px 12px;border-radius:10px;z-index:9999'>🔥 Seri: ${streak}</div>`;
-}
+
+
+document.getElementById("streakBox").innerHTML = 
+
+`<div style='position:fixed;top:10px;right:10px;background:#b02a3a;color:white;padding:8px 12px;border-radius:10px;'>🔥 Seri: ${streak}</div>`;
+
+
 
 setInterval(count,1000);
-window.onload = () => {
-    count();
-    showStreak();
-};
+
+window.onload = count;
+
 </script>
 
+
+
 </body>
+
 </html>
