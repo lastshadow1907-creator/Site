@@ -14,237 +14,80 @@
         .neon-inf { font-size: 3.5rem; color: var(--neon); text-shadow: 0 0 15px rgba(255,0,0,0.6); animation: pulse 2s infinite; display: block; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
         
-        .card { background: var(--card); width: 92%; max-width: 380px; border-radius: 35px; padding: 25px 15px; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); margin-top: 5px; }
-        #gun { font-size: 3rem; font-weight: 800; color: #b02a3a; line-height: 1; }
-        #saat { font-size: 1.8rem; font-weight: 600; color: var(--ana); letter-spacing: 1px; }
+        .card { background: var(--card); width: 92%; max-width: 380px; border-radius: 35px; padding: 25px 15px; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.1); margin-top: 5px; }
+        #gun { font-size: 3rem; font-weight: 800; color: #b02a3a; }
+        #saat { font-size: 1.8rem; font-weight: 600; color: var(--ana); }
 
         .game-box { background: var(--card); width: 92%; max-width: 380px; border-radius: 25px; padding: 20px; text-align: center; margin-top: 20px; border: 2px dashed var(--ana); }
-        .game-btn { background: var(--ana); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.3s; }
-        .game-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .game-btn { background: var(--ana); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
 
         .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 20px 0; width: 92%; max-width: 380px; overflow: hidden; }
         .tab { flex: 1; padding: 15px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; }
         .tab.active { background: var(--ana); color: white; }
-        
-        /* Silme butonu stilleri */
-        .pol, .ani-card { position: relative; }
-        .del-btn { position: absolute; top: -8px; right: -8px; background: #ff4757; color: white; border-radius: 50%; width: 24px; height: 24px; border: 2px solid white; cursor: pointer; z-index: 10; font-weight: bold; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
         .album { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; width: 100%; }
-        .pol { background: white; padding: 6px; border-radius: 4px; width: 105px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transform: rotate(-1.5deg); margin-bottom: 15px; }
+        .pol { background: white; padding: 6px; border-radius: 4px; width: 105px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .pol img { width: 100%; height: 100px; object-fit: cover; }
-        .ani-card { background: var(--card); margin: 10px; padding: 15px; border-radius: 20px; width: 85%; border-left: 5px solid #b02a3a; text-align: left; }
 
-        .kalpler { display: flex; gap: 40px; margin: 25px 0; }
-        .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; padding: 0; }
-
-        .ani-panel { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
-        .ani-btn { background: #b02a3a; color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 3px solid white; cursor: pointer; }
-        .ani-menu { display: none; background: var(--card); border-radius: 20px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 180px; position: absolute; bottom: 80px; right: 0; flex-direction: column; gap: 8px; }
-        .ani-menu-item { background: var(--bg); color: var(--ana); border: none; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer; text-align: left; }
-
-        .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .popup-box { background: var(--card); width: 85%; max-width: 320px; border-radius: 25px; padding: 20px; text-align: center; }
-        #loading-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); color:white; z-index:3000; align-items:center; justify-content:center; flex-direction:column; }
-        #ani-input { width: 100%; height: 100px; border-radius: 10px; padding: 10px; margin: 10px 0; border: 1px solid var(--ana); box-sizing: border-box; font-family: inherit; }
+        .ani-card { background: var(--card); margin: 10px; padding: 15px; border-radius: 20px; width: 85%; border-left: 5px solid #b02a3a; }
     </style>
 </head>
 <body>
 
-    <div id="loading-overlay">🚀 İşlem Yapılıyor...</div>
+<h1>İyi ki Varsın ❤️</h1>
 
-    <h1 style="font-family:'Pacifico'; color:#b02a3a; margin:10px 0; text-align: center;">İyi ki Varsın...</h1>
+<div class="card">
+    <span class="neon-inf">♾️</span>
+    <div id="gun">...</div>
+    <div id="saat">00:00:00</div>
+</div>
 
-    <div class="sayaç-ust-yazi">Seni Seviyorum Muly...</div>
-    <div class="card">
-        <span class="neon-inf">♾️</span>
-        <div id="gun">...</div>
-        <div id="saat">00 : 00 : 00</div>
-    </div>
+<div class="game-box">
+    <div id="task-display">Görevi Çek 🎁</div>
+    <button class="game-btn" onclick="getTask()">Görevi Çek</button>
+</div>
 
-    <div class="game-box">
-        <div onclick="adminReset()" style="font-size: 0.8rem; color: var(--ana); cursor: pointer;">✨ Muly'ye Özel Görev Kutusu ✨</div>
-        <div id="task-display" style="font-family: 'Dancing Script'; font-size: 1.4rem; color: #b02a3a; margin-top: 10px;">Görevi Çek 🎁</div>
-        <div id="timer-display" style="font-size: 0.8rem; color: #b02a3a; margin-top: 5px;"></div>
-        <button id="draw-btn" class="game-btn" onclick="getTask()">Görevi Çek</button>
-    </div>
+<div id="gs" class="album"></div>
+<div id="as" style="display:none;"></div>
 
-    <div class="tabs">
-        <button id="t1" class="tab active" onclick="tab('g')">🖼️ Galeri</button>
-        <button id="t2" class="tab" onclick="tab('a')">✍️ Anılar</button>
-    </div>
+<div id="streakBox"></div>
 
-    <div id="gs" class="album"></div>
-    <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
+<script>
+const start = new Date(2026,2,14,0,8,0);
+let clicks = 0;
 
-    <input type="file" id="fotoInput" style="display:none;" accept="image/*" onchange="handleFile(this)">
+function count(){
+    const f = new Date() - start;
+    const d = Math.floor(f/86400000);
+    const h = Math.floor((f%86400000)/3600000);
+    const m = Math.floor((f%3600000)/60000);
+    const s = Math.floor((f%60000)/1000);
+    document.getElementById('gun').innerText = d + " GÜN";
+    document.getElementById('saat').innerText = `${h} : ${m} : ${s}`;
+}
 
-    <div class="kalpler">
-        <div style="text-align: center;"><div style="font-family: 'Pacifico'; font-size: 0.9rem; color: var(--ana);">Muly</div><button onclick="at('M')" class="k-btn">💖</button></div>
-        <div style="text-align: center;"><div style="font-family: 'Pacifico'; font-size: 0.9rem; color: var(--ana);">Olcay</div><button onclick="at('O')" class="k-btn">💝</button></div>
-    </div>
-    <div id="not" style="font-size:1rem; font-weight:bold; color:var(--ana); height:25px; text-align: center;"></div>
+function getTask(){
+    const tasks = ["Ses at 🎙️","Foto at 📸","Seni seviyorum de ❤️"];
+    document.getElementById('task-display').innerText = tasks[Math.floor(Math.random()*tasks.length)];
+}
 
-    <div class="ani-panel">
-        <div id="aniMenu" class="ani-menu">
-            <button class="ani-menu-item" onclick="openFoto()">📸 Fotoğraf Gönder</button>
-            <button class="ani-menu-item" onclick="openText()">✍️ Anı Yaz</button>
-        </div>
-        <div class="ani-btn" onclick="toggleAniMenu()">➕</div>
-    </div>
+// 🔥 STREAK SİSTEMİ EKLENDİ
+const today = new Date().toISOString().split("T")[0];
+const last = localStorage.getItem("last_day");
+let streak = Number(localStorage.getItem("streak") || 0);
 
-    <div id="popupOverlay" class="popup-overlay">
-        <div class="popup-box">
-            <h3 style="margin:0; color:var(--ana)">Anı Defteri ✨</h3>
-            <textarea id="ani-input" placeholder="Anımızı buraya yazabilirsin..."></textarea>
-            <button class="game-btn" style="background:#b02a3a" onclick="saveTextAni()">Kaydet ✅</button>
-            <button class="game-btn" style="background:#ccc; color:#333; margin-top:5px;" onclick="closePopup()">Kapat</button>
-        </div>
-    </div>
+if(last !== today){
+    streak++;
+    localStorage.setItem("streak", streak);
+    localStorage.setItem("last_day", today);
+}
 
-    <script>
-        const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
-        const M = '8697863466'; 
-        const O = '6555602691'; 
-        const S = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbx8rPIYa0_45eRuMm2f63Rc_ygES5tQidQIi5gTTN9BgA-CiRUw4pcHpD6cfOEzZ-ZT/exec';
-        const start = new Date(2026, 2, 14, 0, 8, 0);
+document.getElementById("streakBox").innerHTML = 
+`<div style='position:fixed;top:10px;right:10px;background:#b02a3a;color:white;padding:8px 12px;border-radius:10px;'>🔥 Seri: ${streak}</div>`;
 
-        let clicks = 0;
-        function adminReset() {
-            clicks++;
-            if(clicks >= 5) {
-                if(confirm("Görev süresini sıfırlamak istiyor musun?")) {
-                    localStorage.removeItem('last_task');
-                    updateCooldown();
-                }
-                clicks = 0;
-            }
-            setTimeout(() => { clicks = 0; }, 2000);
-        }
+setInterval(count,1000);
+window.onload = count;
+</script>
 
-        async function delAni(id) {
-            if(!confirm("Bu anıyı silmek istediğine emin misin?")) return;
-            document.getElementById('loading-overlay').style.display = 'flex';
-            await fetch(`${scriptUrl}?del=${id}`, { mode: 'no-cors' });
-            setTimeout(() => { load(); document.getElementById('loading-overlay').style.display = 'none'; }, 1500);
-        }
-
-        function sendTele(msg, target) {
-            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
-        }
-
-        function openFoto() { document.getElementById('fotoInput').click(); toggleAniMenu(); }
-
-        async function handleFile(input) {
-            const file = input.files[0];
-            if (!file) return;
-            document.getElementById('loading-overlay').style.display = 'flex';
-            const formData = new FormData();
-            formData.append('image', file);
-            try {
-                const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', { method: 'POST', body: formData });
-                const data = await res.json();
-                if (data.success) {
-                    await fetch(`${scriptUrl}?ani=&foto=${encodeURIComponent(data.data.url)}`, { mode: 'no-cors' });
-                    sendTele(`📸 Olcay, yeni fotoğraf geldi:\n${data.data.url}`, O);
-                    load();
-                }
-            } catch (e) { alert("Yükleme hatası."); }
-            document.getElementById('loading-overlay').style.display = 'none';
-            input.value = "";
-        }
-
-        async function saveTextAni() {
-            const txt = document.getElementById('ani-input').value.trim();
-            if(!txt) return;
-            document.getElementById('loading-overlay').style.display = 'flex';
-            await fetch(`${scriptUrl}?ani=${encodeURIComponent(txt)}&foto=`, { mode: 'no-cors' });
-            document.getElementById('ani-input').value = "";
-            closePopup();
-            load();
-            sendTele("✍️ Muly yeni bir anı ekledi!", O);
-            document.getElementById('loading-overlay').style.display = 'none';
-        }
-
-        async function load() {
-            try {
-                const r = await fetch(`https://docs.google.com/spreadsheets/d/${S}/gviz/tq?tqx=out:csv&v=${Math.random()}`);
-                const csv = await r.text();
-                const lines = csv.split('\n').slice(1);
-                const g = document.getElementById('gs'), a = document.getElementById('as');
-                g.innerHTML = ""; a.innerHTML = "";
-                lines.forEach((l, index) => {
-                    const lineId = index + 2; 
-                    const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
-                    if(img?.includes('http')) {
-                        g.insertAdjacentHTML('afterbegin', `<div class="pol"><button class="del-btn" onclick="delAni(${lineId})">×</button><img src="${img}"></div>`);
-                    }
-                    if(txt && !txt.includes('http')) {
-                        a.insertAdjacentHTML('afterbegin', `<div class="ani-card"><button class="del-btn" onclick="delAni(${lineId})">×</button>${txt}</div>`);
-                    }
-                });
-            } catch (e) {}
-        }
-
-        function at(k) {
-            if (k === 'M') { sendTele("Muly seni çok özledi ❤️", O); } 
-            else { sendTele("Olcay'ın aklındasın, ne zaman çıktınki? 💝", M); }
-            document.getElementById('not').innerText = "Sevgi gönderildi! ❤️";
-            setTimeout(()=>document.getElementById('not').innerText="", 2000);
-        }
-
-        function count() {
-            const f = new Date() - start;
-            const d = Math.floor(f/86400000), h = Math.floor((f%86400000)/3600000), m = Math.floor((f%3600000)/60000), s = Math.floor((f%60000)/1000);
-            document.getElementById('gun').innerText = d + " GÜN";
-            document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
-        }
-
-        function getTask() {
-            const now = Date.now();
-            if (now - (localStorage.getItem('last_task') || 0) < 10800000) return;
-            const ts = [
-                "Ses at ve seste seni seviyorum de 🎙️",
-                "Anlık foto at 📸",
-                "Ses at ve en çok beni seviyorsun de 💝",
-                "Ses at ve seni çook seviyorum de ❤️",
-                "Ses at ve bir olay anlat 🗣️",
-                "Günün nasıl geçti sesli anlat 🎙️",
-                "En sevdiğin huyumu söyleyen ses at 🥰"
-            ];
-            const task = ts[Math.floor(Math.random() * ts.length)];
-            document.getElementById('task-display').innerText = task;
-            localStorage.setItem('last_task', now);
-            updateCooldown();
-            sendTele("🔔 Muly görev çekti: " + task, O);
-        }
-
-        function updateCooldown() {
-            const last = localStorage.getItem('last_task') || 0;
-            const remain = 10800000 - (Date.now() - last);
-            const btn = document.getElementById('draw-btn');
-            if (remain > 0) {
-                btn.disabled = true;
-                const h = Math.floor(remain/3600000), m = Math.floor((remain%3600000)/60000), s = Math.floor((remain%60000)/1000);
-                document.getElementById('timer-display').innerText = `Doluyor: ${h}s ${m}d ${s}sn`;
-                setTimeout(updateCooldown, 1000);
-            } else { btn.disabled = false; document.getElementById('timer-display').innerText = "Hazır!"; }
-        }
-
-        function toggleAniMenu() { const m = document.getElementById('aniMenu'); m.style.display = (m.style.display === 'flex' ? 'none' : 'flex'); }
-        function openText() { document.getElementById('popupOverlay').style.display = 'flex'; toggleAniMenu(); }
-        function closePopup() { document.getElementById('popupOverlay').style.display = 'none'; }
-        function tab(x) {
-            document.getElementById('gs').style.display = x==='g'?'flex':'none';
-            document.getElementById('as').style.display = x==='a'?'flex':'none';
-            document.getElementById('t1').classList.toggle('active', x==='g');
-            document.getElementById('t2').classList.toggle('active', x==='a');
-        }
-
-        setInterval(count, 1000);
-        window.onload = () => { load(); count(); updateCooldown(); };
-    </script>
 </body>
 </html>
