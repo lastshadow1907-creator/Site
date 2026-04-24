@@ -216,7 +216,8 @@
         const M = '8697863466'; 
         const O = '6555602691'; 
         const S = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbx8rPIYa0_45eRuMm2f63Rc_ygES5tQidQIi5gTTN9BgA-CiRUw4pcHpD6cfOEzZ-ZT/exec';
+        // YENİ GÜNCELLEDİĞİN SCRIPT URL
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwi-0o6xAFHr8DlkR6BWPYiA9bDK2ecghWt_uUdvBsazcdVzU9BoNtLafblCXK27ZjTKA/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
 
         let selectedFile = null;
@@ -253,16 +254,29 @@
             formData.append('image', selectedFile);
             
             try {
+                // Fotoğrafı ImgBB'ye yükle
                 const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', { method: 'POST', body: formData });
                 const data = await res.json();
+                
                 if (data.success) {
-                    await fetch(`${scriptUrl}?ani=&foto=${encodeURIComponent(data.data.url)}`, { mode: 'no-cors' });
-                    sendTele(`📸 Olcay! Muly yeni bir fotoğraf yükledi:\n${data.data.url}`, O);
-                    load();
+                    const imgUrl = data.data.url;
+                    // Google Script'e gönder (YENİ URL KULLANILIYOR)
+                    await fetch(`${scriptUrl}?ani=&foto=${encodeURIComponent(imgUrl)}`, { mode: 'no-cors' });
+                    
+                    // Telegram Bildirimi
+                    sendTele(`📸 Olcay! Muly yeni bir fotoğraf yükledi:\n${imgUrl}`, O);
+                    
+                    // Galeriyi yenilemek için biraz bekle ve yükle
+                    setTimeout(() => { load(); loader.style.display = 'none'; }, 2000);
+                } else {
+                    alert("Fotoğraf sunucuya yüklenemedi.");
+                    loader.style.display = 'none';
                 }
-            } catch (e) { alert("Yükleme hatası."); }
-            loader.style.display = 'none';
-            loader.innerText = "🚀 Büyü Hazırlanıyor...";
+            } catch (e) { 
+                alert("Bağlantı hatası oluştu."); 
+                loader.style.display = 'none';
+            }
+            loader.innerText = "🚀 Büyü Hazırlanıyor... Ready!";
         }
 
         // --- EL TUTUŞMA SİSTEMİ ---
@@ -287,7 +301,7 @@
             status.innerText = "Dokun ve hisset...";
         }
 
-        // --- DİĞER FONKSİYONLAR ---
+        // --- TEMEL FONKSİYONLAR ---
         function checkTheme() {
             const hour = new Date().getHours();
             const body = document.getElementById('mainBody');
@@ -317,9 +331,9 @@
             document.getElementById('loading-overlay').style.display = 'flex';
             await fetch(`${scriptUrl}?ani=${encodeURIComponent(txt)}&foto=`, { mode: 'no-cors' });
             document.getElementById('ani-input').value = "";
-            closePopup(); load();
+            closePopup(); 
+            setTimeout(() => { load(); document.getElementById('loading-overlay').style.display = 'none'; }, 1000);
             sendTele("✍️ Muly anı defterimize yeni bir not bıraktı!", O);
-            document.getElementById('loading-overlay').style.display = 'none';
         }
 
         async function load() {
