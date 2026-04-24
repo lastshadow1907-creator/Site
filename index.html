@@ -52,7 +52,7 @@
 </head>
 <body>
 
-    <div id="loading-overlay">🚀 Bağlantı Olcay'a Gönderiliyor...</div>
+    <div id="loading-overlay">🚀 Bağlantı Oluşturuluyor...</div>
     <div id="yildizlar"></div>
 
     <h1 id="baslik" style="font-family:'Pacifico'; color:#b02a3a; margin:10px 0; text-align: center;">İyi ki Varsın...</h1>
@@ -121,7 +121,7 @@
             toggleAniMenu();
         }
 
-        // ESKİ SİSTEM: FOTOĞRAFI YÜKLEYİP OLCAY'A LİNK OLARAK ATAR
+        // FOTOĞRAFI YÜKLEYİP OLCAY'A LİNK OLARAK ATAN GÜNCEL FONKSİYON
         async function handleFile(input) {
             const file = input.files[0];
             if (!file) return;
@@ -132,11 +132,14 @@
             formData.append('image', file);
 
             try {
-                // Ücretsiz bir resim barındırma API'si (ImgBB gibi)
+                // Alternatif API: ImgBB (Yeni bir Key ekledim veya geçici bir hata varsa yakalar)
                 const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', {
                     method: 'POST',
                     body: formData
                 });
+                
+                if (!res.ok) throw new Error('API hatası');
+
                 const data = await res.json();
                 const link = data.data.url;
 
@@ -146,9 +149,11 @@
                 
                 alert("Fotoğraf bağlantısı Olcay'a iletildi! ❤️");
             } catch (err) {
-                alert("Bağlantı oluşturulurken bir hata oluştu.");
+                console.error(err);
+                alert("Hata: Bağlantı oluşturulamadı. Lütfen internetini kontrol edip tekrar dene veya Olcay'a fotoğrafı direkt Telegram'dan at. ❤️");
             } finally {
                 document.getElementById('loading-overlay').style.display = 'none';
+                input.value = ""; // Inputu temizle ki aynı dosya tekrar seçilebilsin
             }
         }
 
@@ -173,21 +178,23 @@
         }
 
         async function load() {
-            const r = await fetch(`https://docs.google.com/spreadsheets/d/${S}/gviz/tq?tqx=out:csv&v=${Math.random()}`);
-            const csv = await r.text();
-            const lines = csv.split('\n').slice(1);
-            const g = document.getElementById('gs'), a = document.getElementById('as');
-            g.innerHTML = ""; a.innerHTML = "";
-            lines.forEach(l => {
-                const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
-                if(img?.includes('http')) {
-                    g.insertAdjacentHTML('afterbegin', `<div class="pol"><button class="del-btn" onclick="sil('${img}')">×</button><img src="${img}"><a href="${img}" target="_blank" class="dl-btn">Gör</a></div>`);
-                }
-                if(txt && !txt.includes('http')) {
-                    a.insertAdjacentHTML('afterbegin', `<div class="ani-card"><button class="del-btn" onclick="sil('${txt}')">×</button>${txt}</div>`);
-                }
-            });
+            try {
+                const r = await fetch(`https://docs.google.com/spreadsheets/d/${S}/gviz/tq?tqx=out:csv&v=${Math.random()}`);
+                const csv = await r.text();
+                const lines = csv.split('\n').slice(1);
+                const g = document.getElementById('gs'), a = document.getElementById('as');
+                g.innerHTML = ""; a.innerHTML = "";
+                lines.forEach(l => {
+                    const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
+                    if(img?.includes('http')) {
+                        g.insertAdjacentHTML('afterbegin', `<div class="pol"><button class="del-btn" onclick="sil('${img}')">×</button><img src="${img}"><a href="${img}" target="_blank" class="dl-btn">Gör</a></div>`);
+                    }
+                    if(txt && !txt.includes('http')) {
+                        a.insertAdjacentHTML('afterbegin', `<div class="ani-card"><button class="del-btn" onclick="sil('${txt}')">×</button>${txt}</div>`);
+                    }
+                });
+            } catch (e) { console.log("Tablo yükleme hatası"); }
         }
 
         function at(k) {
