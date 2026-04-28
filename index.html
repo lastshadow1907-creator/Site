@@ -2,70 +2,110 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Muly ❤️ Olcay</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --ana: #ff758c; --bg: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%); --card: rgba(255, 255, 255, 0.95); --text: #4a4a4a; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; transition: 1s; padding-bottom: 100px; }
-        
-        /* Giriş Ekranı (Müzik Engeli İçin) */
-        #intro { position: fixed; inset: 0; background: #ff758c; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; transition: 0.5s; }
-        .start-heart { font-size: 80px; cursor: pointer; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #4a4a4a;
+            padding-bottom: 100px;
+        }
 
-        .card { background: var(--card); width: 90%; max-width: 380px; border-radius: 30px; padding: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: 20px; }
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            width: 90%;
+            max-width: 350px;
+            border-radius: 30px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
         #gun { font-size: 3rem; font-weight: 800; color: #ff4757; }
         
-        /* Müzik Plak */
-        .music-player { position: fixed; bottom: 20px; left: 20px; z-index: 1000; }
-        .music-btn { background: white; border: 3px solid #ff758c; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; animation: rotate 4s linear infinite; animation-play-state: paused; }
-        .music-btn.playing { animation-play-state: running; }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        /* Kalpler ve Yazılar */
+        .kalpler { display: flex; gap: 40px; margin: 20px 0; }
+        .k-box { text-align: center; cursor: pointer; transition: 0.3s; }
+        .k-box:active { transform: scale(1.2); }
+        .k-text { font-family: 'Dancing Script', cursive; font-size: 1.2rem; color: white; font-weight: bold; }
 
         /* Polaroid Galeri */
-        .pol { background: white; padding: 10px 10px 25px 10px; width: 110px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin: 10px; transform: rotate(-2deg); position: relative; display: inline-block; }
+        .gallery { display: flex; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 20px; }
+        .pol {
+            background: white;
+            padding: 10px 10px 25px 10px;
+            width: 100px;
+            margin: 10px;
+            transform: rotate(-3deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
         .pol img { width: 100%; height: 100px; object-fit: cover; }
-        .del-btn { position: absolute; top: -5px; right: -5px; background: #ff4757; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-weight: bold; }
+        .del-btn {
+            position: absolute; top: -5px; right: -5px;
+            background: #ff4757; color: white; border: none;
+            border-radius: 50%; width: 22px; height: 22px; cursor: pointer;
+        }
 
-        .add-btn { position: fixed; bottom: 20px; right: 20px; background: #ff4757; color: white; width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; font-size: 28px; cursor: pointer; z-index: 1000; }
-        #loading { display:none; position:fixed; inset:0; background:rgba(255,117,140,0.9); z-index:10000; align-items:center; justify-content:center; color:white; font-weight:bold; }
-        
-        .floating-heart { position: fixed; color: rgba(255,255,255,0.4); pointer-events: none; animation: floatUp 8s linear infinite; z-index: -1; }
-        @keyframes floatUp { 0% { transform: translateY(110vh); opacity: 1; } 100% { transform: translateY(-10vh); opacity: 0; } }
+        /* Kontrol Butonları */
+        .music-ctrl {
+            position: fixed; bottom: 20px; left: 20px;
+            background: white; border: 2px solid #ff758c;
+            padding: 10px 15px; border-radius: 50px; cursor: pointer;
+            font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .upload-btn {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #ff4757; color: white; border: none;
+            width: 60px; height: 60px; border-radius: 50%;
+            font-size: 30px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        #loading {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.8); z-index: 9999;
+            color: white; align-items: center; justify-content: center;
+        }
     </style>
 </head>
 <body>
 
-    <div id="intro">
-        <div class="start-heart" onclick="startApp()">❤️</div>
-        <p style="font-family:'Pacifico'; font-size: 1.2rem;">Dokun ve Aşkımızı Başlat</p>
-    </div>
-
     <div id="loading">İşleniyor... ❤️</div>
 
-    <h1 style="font-family:'Pacifico'; color:white; margin-top: 30px;">Muly & Olcay</h1>
+    <h1 style="font-family: 'Pacifico'; color: white; margin-top: 20px;">Muly & Olcay</h1>
 
     <div class="card">
         <div id="gun">...</div>
-        <div id="saat" style="font-size: 1.5rem; font-weight: 600; color: #ff758c;">00:00:00</div>
+        <div id="saat" style="font-weight: bold; color: #ff758c;">00:00:00</div>
     </div>
 
-    <div style="display: flex; gap: 40px; margin: 20px 0;">
-        <button onclick="sendHeart('M')" style="background:none; border:none; font-size:3.5rem; cursor:pointer;">💖</button>
-        <button onclick="sendHeart('O')" style="background:none; border:none; font-size:3.5rem; cursor:pointer;">💝</button>
+    <div class="kalpler">
+        <div class="k-box" onclick="sendHeart('M')">
+            <div style="font-size: 3.5rem;">💖</div>
+            <div class="k-text">Muly</div>
+        </div>
+        <div class="k-box" onclick="sendHeart('O')">
+            <div style="font-size: 3.5rem;">💝</div>
+            <div class="k-text">Olcay</div>
+        </div>
     </div>
 
-    <div id="gs" style="display: flex; flex-wrap: wrap; justify-content: center; padding: 10px;"></div>
+    <div class="gallery" id="gallery"></div>
 
-    <audio id="ourSong" src="https://files.catbox.moe/bkrabb.mp3" loop></audio>
-    
-    <div class="music-player">
-        <div id="musicBtn" class="music-btn" onclick="toggleMusic()">🎵</div>
-    </div>
+    <audio id="mySong" src="https://files.catbox.moe/bkrabb.mp3" loop></audio>
+    <div class="music-ctrl" onclick="toggleMusic()" id="musicBtn">🎵 Müziği Başlat</div>
 
     <input type="file" id="fotoInput" style="display:none;" accept="image/*" onchange="uploadPhoto(this)">
-    <button class="add-btn" onclick="document.getElementById('fotoInput').click()">📸</button>
+    <button class="upload-btn" onclick="document.getElementById('fotoInput').click()">📸</button>
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwi-0o6xAFHr8DlkR6BWPYiA9bDK2ecghWt_uUdvBsazcdVzU9BoNtLafblCXK27ZjTKA/exec';
@@ -73,47 +113,41 @@
         const IMBB_KEY = '81c9056d649d8ec38029019623e1373a';
         const START_DATE = new Date(2026, 2, 14, 0, 8, 0);
 
-        function startApp() {
-            const music = document.getElementById('ourSong');
-            music.play().catch(() => console.log("Müzik otomatik başlatılamadı"));
-            document.getElementById('musicBtn').classList.add('playing');
-            document.getElementById('intro').style.opacity = '0';
-            setTimeout(() => document.getElementById('intro').style.display = 'none', 500);
-            loadGallery();
-        }
-
         function toggleMusic() {
-            const music = document.getElementById('ourSong');
+            const m = document.getElementById('mySong');
             const btn = document.getElementById('musicBtn');
-            if (music.paused) { music.play(); btn.classList.add('playing'); }
-            else { music.pause(); btn.classList.remove('playing'); }
+            if (m.paused) {
+                m.play();
+                btn.innerText = "⏸ Müziği Durdur";
+            } else {
+                m.pause();
+                btn.innerText = "▶ Müziği Oynat";
+            }
         }
 
         async function uploadPhoto(input) {
             if (!input.files[0]) return;
-            document.getElementById('loading').style.display = 'flex';
-            
+            const loader = document.getElementById('loading');
+            loader.style.display = 'flex';
+
             const formData = new FormData();
             formData.append('image', input.files[0]);
 
             try {
-                // 1. Fotoğrafı imgBB'ye yükle
                 const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMBB_KEY}`, { method: 'POST', body: formData });
                 const data = await res.json();
                 
                 if (data.success) {
-                    const url = data.data.url;
-                    // 2. Google Tabloya kaydet
-                    await fetch(`${SCRIPT_URL}?ani=&foto=${encodeURIComponent(url)}`, { mode: 'no-cors' });
-                    alert("Fotoğraf başarıyla eklendi! ✨");
-                    setTimeout(loadGallery, 2000);
+                    await fetch(`${SCRIPT_URL}?ani=&foto=${encodeURIComponent(data.data.url)}`, { mode: 'no-cors' });
+                    alert("Fotoğraf anılara eklendi! ✨");
+                    loadGallery();
                 } else {
-                    alert("Fotoğraf yükleme servisi hata verdi.");
+                    alert("Yükleme hatası: Servis yanıt vermedi.");
                 }
             } catch (e) {
-                alert("Bağlantı hatası: " + e.message);
+                alert("Hata oluştu! Bağlantını kontrol et.");
             } finally {
-                document.getElementById('loading').style.display = 'none';
+                loader.style.display = 'none';
             }
         }
 
@@ -122,7 +156,7 @@
                 const r = await fetch(SHEET_CSV + '&v=' + Math.random());
                 const data = await r.text();
                 const lines = data.split('\n').slice(1);
-                const g = document.getElementById('gs');
+                const g = document.getElementById('gallery');
                 g.innerHTML = "";
                 
                 lines.forEach((l, index) => {
@@ -137,15 +171,22 @@
                         `);
                     }
                 });
-            } catch (e) { console.log("Yükleme hatası:", e); }
+            } catch (e) {}
         }
 
         async function deleteItem(id) {
-            if (!confirm("Silmek istediğine emin misin?")) return;
+            if (!confirm("Siliyorum?")) return;
             document.getElementById('loading').style.display = 'flex';
             await fetch(`${SCRIPT_URL}?del=${id}`, { mode: 'no-cors' });
-            setTimeout(loadGallery, 1500);
+            loadGallery();
             document.getElementById('loading').style.display = 'none';
+        }
+
+        function sendHeart(k) {
+            alert("Kalp gönderildi! ❤️");
+            const target = (k === 'M') ? '6555602691' : '8697863466';
+            const msg = (k === 'M') ? "Muly sana kalp gönderdi! ❤️" : "Olcay seni düşünüyor! 💝";
+            fetch(`https://api.telegram.org/bot8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
         }
 
         function count() {
@@ -159,24 +200,8 @@
             document.getElementById('saat').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
 
-        function sendHeart(k) {
-            alert("Sevgi iletildi! ❤️");
-            const target = (k === 'M') ? '6555602691' : '8697863466';
-            const msg = (k === 'M') ? "Muly sana kalp gönderdi! ❤️" : "Olcay seni düşünüyor! 💝";
-            fetch(`https://api.telegram.org/bot8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
-        }
-
-        setInterval(() => {
-            const h = document.createElement('div');
-            h.className = 'floating-heart';
-            h.innerHTML = '❤️';
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = (Math.random() * 20 + 10) + 'px';
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 8000);
-        }, 1500);
-
         setInterval(count, 1000);
+        window.onload = loadGallery;
     </script>
 </body>
 </html>
