@@ -7,39 +7,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --ana: #5d7fb9; --bg: #e9f1fa; --card: rgba(255, 255, 255, 0.95); --text: #333; --red: #b02a3a; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; color: var(--text); padding-bottom: 250px; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; color: var(--text); padding-bottom: 50px; }
 
         .card { background: var(--card); width: 92%; max-width: 380px; border-radius: 35px; padding: 25px 15px; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.1); margin-top: 10px; }
-        #gun { font-size: 3rem; font-weight: 800; color: var(--red); line-height: 1; }
-        #saat { font-size: 1.6rem; font-weight: 600; color: var(--ana); letter-spacing: 1px; }
+        #gun { font-size: 3.5rem; font-weight: 800; color: var(--red); line-height: 1; margin-bottom: 5px; }
+        #saat { font-size: 1.8rem; font-weight: 600; color: var(--ana); letter-spacing: 1px; }
+        .quote { font-family: 'Dancing Script', cursive; font-size: 1.2rem; color: #777; margin-top: 10px; font-weight: bold; }
 
         .kalpler { display: flex; gap: 50px; margin: 20px 0; justify-content: center; }
         .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; padding: 0; }
         .k-label { font-size: 1.1rem; font-weight: 800; color: var(--red); font-family: 'Dancing Script', cursive; }
 
-        /* Tabs */
-        .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 20px 0; width: 92%; max-width: 380px; padding: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .game-box { background: var(--card); width: 92%; max-width: 380px; border-radius: 25px; padding: 20px; text-align: center; margin-top: 20px; border: 2px dashed var(--ana); box-sizing: border-box; }
+        #task-display { font-family: 'Poppins'; font-weight: 600; color: var(--red); margin-bottom: 10px; font-size: 1.1rem; }
+        #task-timer { font-size: 1.2rem; font-weight: bold; color: #ff4757; display: none; margin-top: 5px; }
+        .game-btn { background: var(--ana); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; }
+
+        .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 20px 0; width: 92%; max-width: 380px; padding: 5px; }
         .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; border-radius: 15px; }
         .tab.active { background: var(--ana); color: white; }
 
-        /* Not & Galeri */
         .pol { background: white; padding: 8px 8px 25px 8px; width: 105px; box-shadow: 3px 5px 15px rgba(0,0,0,0.15); position: relative; margin: 8px; transform: rotate(-3deg); display: inline-block; }
         .pol img { width: 100%; height: 100px; object-fit: cover; }
         .not-item { background: white; margin: 10px; padding: 15px; border-radius: 15px; width: 85%; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: left; }
         .del-btn { position: absolute; top: -8px; right: -8px; background: var(--red); color: white; border-radius: 50%; width: 24px; height: 24px; border: 2px solid white; font-weight: bold; cursor: pointer; font-size: 14px; }
 
-        /* Not Ekleme Bölümü */
-        .not-input-container { width: 92%; max-width: 380px; margin-bottom: 20px; }
-        .not-input { width: 100%; padding: 15px; border-radius: 20px; border: 2px solid var(--ana); font-family: 'Poppins'; box-sizing: border-box; resize: none; }
-        .add-btn { background: var(--ana); color: white; border: none; padding: 12px; border-radius: 50px; width: 100%; font-weight: bold; margin-top: 8px; cursor: pointer; }
-
-        /* YouTube Music Sabit Panel */
-        .yt-player { position: fixed; bottom: 0; left: 0; width: 100%; height: 80px; background: #000; z-index: 2000; border-top: 3px solid var(--ana); }
-        .yt-frame { width: 100%; height: 100%; border: none; }
-
-        /* Sabit Kontroller */
-        .floating-ctrl { position: fixed; bottom: 95px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
-        .circle-btn { width: 55px; height: 55px; border-radius: 50%; border: 3px solid white; color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .not-input-container { width: 92%; max-width: 380px; margin-bottom: 15px; }
+        .not-input { width: 100%; padding: 15px; border-radius: 20px; border: 2px solid var(--ana); box-sizing: border-box; resize: none; font-family: 'Poppins'; }
+        
+        .floating-ctrl { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+        .circle-btn { width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; background: var(--red); color: white; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
         #loading { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); color:white; z-index:9999; align-items:center; justify-content:center; }
     </style>
@@ -53,11 +50,18 @@
     <div class="card">
         <div id="gun">...</div>
         <div id="saat">00 : 00 : 00</div>
+        <div class="quote">Sonsuza dek sürecek bir aşk hikayesi...</div>
     </div>
 
     <div class="kalpler">
         <div style="text-align: center;"><button onclick="at('M')" class="k-btn">💖</button><div class="k-label">Muly</div></div>
         <div style="text-align: center;"><button onclick="at('O')" class="k-btn">💝</button><div class="k-label">Olcay</div></div>
+    </div>
+
+    <div class="game-box">
+        <div id="task-display">Bir görev çekmeye ne dersin? ✨</div>
+        <div id="task-timer">Kalan Süre: 03:00:00</div>
+        <button id="taskBtn" class="game-btn" onclick="getTask()">Görevi Çek</button>
     </div>
 
     <div class="tabs">
@@ -66,8 +70,8 @@
     </div>
 
     <div id="not-input-area" class="not-input-container" style="display:none;">
-        <textarea id="notTxt" class="not-input" placeholder="Bugün ne oldu? ❤️" rows="2"></textarea>
-        <button class="add-btn" onclick="saveNote()">Anıyı Ölümsüzleştir</button>
+        <textarea id="notTxt" class="not-input" placeholder="Anını buraya yaz..."></textarea>
+        <button class="game-btn" style="margin-top:5px;" onclick="saveNote()">Notu Kaydet</button>
     </div>
 
     <div id="gs" style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;"></div>
@@ -75,11 +79,7 @@
 
     <div class="floating-ctrl">
         <input type="file" id="fotoInput" style="display:none;" accept="image/*" onchange="uploadPhoto(this)">
-        <div class="circle-btn" style="background:var(--red);" onclick="document.getElementById('fotoInput').click()">📸</div>
-    </div>
-
-    <div class="yt-player">
-        <iframe class="yt-frame" src="https://www.youtube.com/embed/videoseries?list=PLlym122HHr420XitYDC2H4Vc5UGXbxAXR" allow="autoplay"></iframe>
+        <div class="circle-btn" onclick="document.getElementById('fotoInput').click()">📸</div>
     </div>
 
     <script>
@@ -88,6 +88,46 @@
         const S = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbwi-0o6xAFHr8DlkR6BWPYiA9bDK2ecghWt_uUdvBsazcdVzU9BoNtLafblCXK27ZjTKA/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
+
+        const tasks = [
+            "Bana en sevdiğimiz fotoğrafımızı anılara ekle.",
+            "Şu anki hislerini anlatan kısa bir not yaz.",
+            "Bana 1 dakikalık ses kaydı gönder.",
+            "Yarına beraber yapacağımız bir aktivite planla."
+        ];
+
+        let timerInterval;
+
+        function getTask() {
+            const btn = document.getElementById('taskBtn');
+            const display = document.getElementById('task-display');
+            const timerDisplay = document.getElementById('task-timer');
+            
+            const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
+            display.innerText = randomTask;
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
+            timerDisplay.style.display = "block";
+
+            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${O}&text=${encodeURIComponent("⚠️ Görev Çekildi!\nGörev: " + randomTask + "\nSüre: 3 Saat")}`);
+            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${M}&text=${encodeURIComponent("⚠️ Görev Çekildi!\nGörev: " + randomTask + "\nSüre: 3 Saat")}`);
+
+            let timeLeft = 3 * 60 * 60;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                let h = Math.floor(timeLeft / 3600);
+                let m = Math.floor((timeLeft % 3600) / 60);
+                let s = timeLeft % 60;
+                timerDisplay.innerText = `Kalan Süre: ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.innerText = "Süre Doldu!";
+                    btn.disabled = false;
+                    btn.style.opacity = "1";
+                }
+                timeLeft--;
+            }, 1000);
+        }
 
         async function saveNote() {
             const val = document.getElementById('notTxt').value;
@@ -153,7 +193,7 @@
         }
 
         function at(k) {
-            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${k==='M'?O:M}&text=${encodeURIComponent("Muly/Olcay sana bir kalp gönderdi! ❤️")}`);
+            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${k==='M'?O:M}&text=${encodeURIComponent("Kalp gönderildi! ❤️")}`);
             alert("İletildi! ✨");
         }
 
