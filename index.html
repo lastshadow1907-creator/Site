@@ -2,206 +2,180 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Muly ❤️ Olcay</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            color: #4a4a4a;
-            padding-bottom: 100px;
-        }
+        :root { --ana: #5d7fb9; --bg: #e9f1fa; --card: rgba(255, 255, 255, 0.9); --text: #333; --neon: #ff4757; --shadow: rgba(0,0,0,0.1); }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; color: var(--text); overflow-x: hidden; padding-bottom: 120px; }
 
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            width: 90%;
-            max-width: 350px;
-            border-radius: 30px;
-            padding: 20px;
-            text-align: center;
-            margin-top: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
+        .card { background: var(--card); width: 92%; max-width: 380px; border-radius: 35px; padding: 25px 15px; text-align: center; box-shadow: 0 12px 30px var(--shadow); margin-top: 10px; }
+        #gun { font-size: 3.2rem; font-weight: 800; color: #b02a3a; line-height: 1; }
+        #saat { font-size: 1.8rem; font-weight: 600; color: var(--ana); letter-spacing: 1px; }
 
-        #gun { font-size: 3rem; font-weight: 800; color: #ff4757; }
-        
         /* Kalpler ve Yazılar */
-        .kalpler { display: flex; gap: 40px; margin: 20px 0; }
-        .k-box { text-align: center; cursor: pointer; transition: 0.3s; }
-        .k-box:active { transform: scale(1.2); }
-        .k-text { font-family: 'Dancing Script', cursive; font-size: 1.2rem; color: white; font-weight: bold; }
+        .kalpler { display: flex; gap: 60px; margin: 25px 0; align-items: center; justify-content: center; }
+        .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; padding: 0; }
+        .k-label { font-size: 1.1rem; font-weight: 800; color: #b02a3a; margin-top: 5px; font-family: 'Dancing Script', cursive; }
 
-        /* Polaroid Galeri */
-        .gallery { display: flex; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 20px; }
-        .pol {
-            background: white;
-            padding: 10px 10px 25px 10px;
-            width: 100px;
-            margin: 10px;
-            transform: rotate(-3deg);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            position: relative;
-        }
+        /* Görev Kutusu */
+        .game-box { background: var(--card); width: 92%; max-width: 380px; border-radius: 25px; padding: 20px; text-align: center; margin-top: 20px; border: 2px dashed var(--ana); box-sizing: border-box; }
+        .game-btn { background: var(--ana); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+
+        /* Galeri & Tablar */
+        .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 20px 0; width: 92%; max-width: 380px; overflow: hidden; padding: 5px; }
+        .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; border-radius: 15px; }
+        .tab.active { background: var(--ana); color: white; }
+
+        .pol { background: white; padding: 8px 8px 25px 8px; border-radius: 2px; width: 105px; box-shadow: 3px 5px 15px rgba(0,0,0,0.15); position: relative; margin-bottom: 15px; transform: rotate(-3deg); }
         .pol img { width: 100%; height: 100px; object-fit: cover; }
-        .del-btn {
-            position: absolute; top: -5px; right: -5px;
-            background: #ff4757; color: white; border: none;
-            border-radius: 50%; width: 22px; height: 22px; cursor: pointer;
-        }
+        .del-btn { position: absolute; top: -8px; right: -8px; background: #ff4757; color: white; border-radius: 50%; width: 24px; height: 24px; border: 2px solid white; font-weight: bold; cursor: pointer; }
 
-        /* Kontrol Butonları */
-        .music-ctrl {
-            position: fixed; bottom: 20px; left: 20px;
-            background: white; border: 2px solid #ff758c;
-            padding: 10px 15px; border-radius: 50px; cursor: pointer;
-            font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        /* Müzik Plak */
+        .music-player { position: fixed; bottom: 110px; left: 25px; z-index: 1000; }
+        .music-btn { background: white; border: 3px solid var(--ana); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; animation: rotate 4s linear infinite; animation-play-state: paused; }
+        .music-btn.playing { animation-play-state: running; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .upload-btn {
-            position: fixed; bottom: 20px; right: 20px;
-            background: #ff4757; color: white; border: none;
-            width: 60px; height: 60px; border-radius: 50%;
-            font-size: 30px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        #loading {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.8); z-index: 9999;
-            color: white; align-items: center; justify-content: center;
-        }
+        #loading { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); color:white; z-index:9999; align-items:center; justify-content:center; }
+        .ani-panel { position: fixed; bottom: 110px; right: 25px; z-index: 1000; }
+        .ani-btn { background: #b02a3a; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
     </style>
 </head>
-<body>
+<body onclick="tryPlay()">
 
-    <div id="loading">İşleniyor... ❤️</div>
+    <div id="loading">Büyü Hazırlanıyor... ❤️</div>
 
-    <h1 style="font-family: 'Pacifico'; color: white; margin-top: 20px;">Muly & Olcay</h1>
+    <h1 style="font-family:'Pacifico'; color:#b02a3a;">İyi ki Varsın...</h1>
 
     <div class="card">
         <div id="gun">...</div>
-        <div id="saat" style="font-weight: bold; color: #ff758c;">00:00:00</div>
+        <div id="saat">00 : 00 : 00</div>
     </div>
 
     <div class="kalpler">
-        <div class="k-box" onclick="sendHeart('M')">
-            <div style="font-size: 3.5rem;">💖</div>
-            <div class="k-text">Muly</div>
+        <div style="text-align: center;">
+            <button onclick="at('M')" class="k-btn">💖</button>
+            <div class="k-label">Muly</div>
         </div>
-        <div class="k-box" onclick="sendHeart('O')">
-            <div style="font-size: 3.5rem;">💝</div>
-            <div class="k-text">Olcay</div>
+        <div style="text-align: center;">
+            <button onclick="at('O')" class="k-btn">💝</button>
+            <div class="k-label">Olcay</div>
         </div>
     </div>
 
-    <div class="gallery" id="gallery"></div>
+    <div class="game-box">
+        <div id="task-display" style="font-family: 'Dancing Script'; font-size: 1.5rem; color: #b02a3a;">Hediyeni Çek 🎁</div>
+        <button class="game-btn" onclick="getTask()">Görevi Çek</button>
+    </div>
 
-    <audio id="mySong" src="https://files.catbox.moe/bkrabb.mp3" loop></audio>
-    <div class="music-ctrl" onclick="toggleMusic()" id="musicBtn">🎵 Müziği Başlat</div>
+    <div class="tabs">
+        <button id="t1" class="tab active" onclick="tab('g')">🖼️ Galeri</button>
+        <button id="t2" class="tab" onclick="tab('a')">✍️ Anılar</button>
+    </div>
+
+    <div id="gs" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%;"></div>
+    <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
+
+    <div class="music-player">
+        <audio id="ourSong" src="https://files.catbox.moe/bkrabb.mp3" loop></audio>
+        <div id="musicBtn" class="music-btn" onclick="toggleMusic()">🎵</div>
+    </div>
 
     <input type="file" id="fotoInput" style="display:none;" accept="image/*" onchange="uploadPhoto(this)">
-    <button class="upload-btn" onclick="document.getElementById('fotoInput').click()">📸</button>
+    <div class="ani-panel">
+        <div class="ani-btn" onclick="document.getElementById('fotoInput').click()">📸</div>
+    </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwi-0o6xAFHr8DlkR6BWPYiA9bDK2ecghWt_uUdvBsazcdVzU9BoNtLafblCXK27ZjTKA/exec';
-        const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk/gviz/tq?tqx=out:csv';
-        const IMBB_KEY = '81c9056d649d8ec38029019623e1373a';
-        const START_DATE = new Date(2026, 2, 14, 0, 8, 0);
+        const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
+        const M = '8697863466'; const O = '6555602691';
+        const S = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwi-0o6xAFHr8DlkR6BWPYiA9bDK2ecghWt_uUdvBsazcdVzU9BoNtLafblCXK27ZjTKA/exec';
+        const start = new Date(2026, 2, 14, 0, 8, 0);
+
+        const tasks = ["Birbirimize en sevdiğimiz şarkıyı armağan edelim.", "Bugün birbirimize 5 tane 'neden seni seviyorum' cümlesi kuralım.", "En sevdiğimiz ortak anıyı sesli anlatalım.", "Görüntülü konuşup beraber bir kahve içelim."];
+
+        function tryPlay() { document.getElementById('ourSong').play().catch(()=>{}); }
 
         function toggleMusic() {
-            const m = document.getElementById('mySong');
-            const btn = document.getElementById('musicBtn');
-            if (m.paused) {
-                m.play();
-                btn.innerText = "⏸ Müziği Durdur";
-            } else {
-                m.pause();
-                btn.innerText = "▶ Müziği Oynat";
-            }
+            const m = document.getElementById('ourSong');
+            const b = document.getElementById('musicBtn');
+            if(m.paused){ m.play(); b.classList.add('playing'); }
+            else { m.pause(); b.classList.remove('playing'); }
+        }
+
+        function getTask() {
+            const t = tasks[Math.floor(Math.random() * tasks.length)];
+            document.getElementById('task-display').innerText = t;
         }
 
         async function uploadPhoto(input) {
-            if (!input.files[0]) return;
-            const loader = document.getElementById('loading');
-            loader.style.display = 'flex';
-
+            if(!input.files[0]) return;
+            document.getElementById('loading').style.display = 'flex';
             const formData = new FormData();
             formData.append('image', input.files[0]);
-
             try {
-                const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMBB_KEY}`, { method: 'POST', body: formData });
+                const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', {method:'POST', body:formData});
                 const data = await res.json();
-                
-                if (data.success) {
-                    await fetch(`${SCRIPT_URL}?ani=&foto=${encodeURIComponent(data.data.url)}`, { mode: 'no-cors' });
-                    alert("Fotoğraf anılara eklendi! ✨");
-                    loadGallery();
-                } else {
-                    alert("Yükleme hatası: Servis yanıt vermedi.");
+                if(data.success) {
+                    await fetch(`${scriptUrl}?ani=&foto=${encodeURIComponent(data.data.url)}`, {mode:'no-cors'});
+                    alert("Fotoğraf eklendi! ✨");
+                    load();
                 }
-            } catch (e) {
-                alert("Hata oluştu! Bağlantını kontrol et.");
-            } finally {
-                loader.style.display = 'none';
-            }
-        }
-
-        async function loadGallery() {
-            try {
-                const r = await fetch(SHEET_CSV + '&v=' + Math.random());
-                const data = await r.text();
-                const lines = data.split('\n').slice(1);
-                const g = document.getElementById('gallery');
-                g.innerHTML = "";
-                
-                lines.forEach((l, index) => {
-                    const cols = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    const img = cols[1]?.replace(/"/g, '');
-                    if (img && img.includes('http')) {
-                        g.insertAdjacentHTML('afterbegin', `
-                            <div class="pol">
-                                <button class="del-btn" onclick="deleteItem(${index + 2})">×</button>
-                                <img src="${img}">
-                            </div>
-                        `);
-                    }
-                });
-            } catch (e) {}
-        }
-
-        async function deleteItem(id) {
-            if (!confirm("Siliyorum?")) return;
-            document.getElementById('loading').style.display = 'flex';
-            await fetch(`${SCRIPT_URL}?del=${id}`, { mode: 'no-cors' });
-            loadGallery();
+            } catch(e){ alert("Hata oluştu."); }
             document.getElementById('loading').style.display = 'none';
         }
 
-        function sendHeart(k) {
-            alert("Kalp gönderildi! ❤️");
-            const target = (k === 'M') ? '6555602691' : '8697863466';
-            const msg = (k === 'M') ? "Muly sana kalp gönderdi! ❤️" : "Olcay seni düşünüyor! 💝";
-            fetch(`https://api.telegram.org/bot8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
+        async function load() {
+            try {
+                const r = await fetch(`https://docs.google.com/spreadsheets/d/${S}/gviz/tq?tqx=out:csv&v=${Math.random()}`);
+                const data = await r.text();
+                const lines = data.split('\n').slice(1);
+                const g = document.getElementById('gs'), a = document.getElementById('as');
+                g.innerHTML = ""; a.innerHTML = "";
+                lines.forEach((l, index) => {
+                    const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
+                    if(img && img.includes('http')) {
+                        g.insertAdjacentHTML('afterbegin', `<div class="pol"><button class="del-btn" onclick="del(${index+2})">×</button><img src="${img}"></div>`);
+                    } else if(txt && !txt.includes("TASK")) {
+                        a.insertAdjacentHTML('afterbegin', `<div style="background:white; margin:10px; padding:15px; border-radius:15px; width:85%;">${txt}</div>`);
+                    }
+                });
+            } catch(e){}
+        }
+
+        async function del(id) {
+            if(!confirm("Silinsin mi?")) return;
+            document.getElementById('loading').style.display = 'flex';
+            await fetch(`${scriptUrl}?del=${id}`, {mode:'no-cors'});
+            load();
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function at(k) {
+            const target = k==='M'?O:M;
+            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent("Seni çok seviyorum! ❤️")}`);
+            alert("Kalp İletildi! ✨");
         }
 
         function count() {
             const now = new Date();
-            const diff = now - START_DATE;
-            const d = Math.floor(diff / 86400000);
-            const h = Math.floor((diff % 86400000) / 3600000);
-            const m = Math.floor((diff % 3600000) / 60000);
-            const s = Math.floor((diff % 60000) / 1000);
+            const f = now - start;
+            const d = Math.floor(f/86400000), h = Math.floor((f%86400000)/3600000), m = Math.floor((f%3600000)/60000), s = Math.floor((f%60000)/1000);
             document.getElementById('gun').innerText = d + " GÜN";
-            document.getElementById('saat').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
         }
 
-        setInterval(count, 1000);
-        window.onload = loadGallery;
+        function tab(x) {
+            document.getElementById('gs').style.display = x==='g'?'flex':'none';
+            document.getElementById('as').style.display = x==='a'?'flex':'none';
+            document.getElementById('t1').classList.toggle('active', x==='g');
+            document.getElementById('t2').classList.toggle('active', x==='a');
+        }
+
+        window.onload = () => { load(); setInterval(count, 1000); };
     </script>
 </body>
 </html>
