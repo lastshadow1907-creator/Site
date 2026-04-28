@@ -89,14 +89,18 @@
         .progress-fill { background: linear-gradient(90deg, var(--ana), #b02a3a); height: 100%; transition: width 1s ease-in-out; border-radius: 10px; width: 0%; }
         .progress-text { font-size: 0.75rem; font-weight: 600; color: var(--text); opacity: 0.7; margin-top: 5px; display: flex; justify-content: space-between; }
 
-        .game-box { background: var(--card); width: 92%; max-width: 380px; border-radius: 25px; padding: 20px; text-align: center; margin-top: 20px; border: 2px dashed var(--ana); box-sizing: border-box; }
-        .game-btn { background: var(--ana); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.3s; }
-        .game-btn:disabled { background: #ccc; cursor: not-allowed; }
+        /* Müzik Çalar Plak Efekti */
+        .music-player { position: fixed; bottom: 110px; left: 20px; z-index: 1000; }
+        .music-btn { background: white; border: 3px solid var(--ana); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); animation: rotate 4s linear infinite; animation-play-state: paused; }
+        .music-btn.playing { animation-play-state: running; border-color: #ff4757; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 20px 0; width: 92%; max-width: 380px; overflow: hidden; padding: 5px; box-sizing: border-box; }
-        .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; border-radius: 15px; transition: 0.3s; }
-        .tab.active { background: var(--ana); color: white; }
-        
+        /* Kalpler ve Yazılar */
+        .kalpler { display: flex; gap: 60px; margin: 25px 0; align-items: center; justify-content: center; }
+        .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; padding: 0; filter: drop-shadow(0 0 5px rgba(0,0,0,0.2)); }
+        .k-label { font-size: 1.1rem; font-weight: 800; color: #b02a3a; margin-top: 5px; font-family: 'Dancing Script', cursive; }
+
+        /* Galeri Polaroid Tasarımı */
         .pol { 
             background: white; 
             padding: 8px 8px 25px 8px; 
@@ -110,25 +114,19 @@
         .pol:nth-child(odd) { transform: rotate(-3deg); }
         .pol:nth-child(even) { transform: rotate(3deg); }
         .pol img { width: 100%; height: 100px; object-fit: cover; border-radius: 2px; }
-
-        .ani-card { background: var(--card); margin: 10px; padding: 15px; border-radius: 20px; width: 85%; border-left: 5px solid #b02a3a; text-align: left; position: relative; }
         .del-btn { position: absolute; top: -8px; right: -8px; background: #ff4757; color: white; border-radius: 50%; width: 24px; height: 24px; border: 2px solid white; cursor: pointer; z-index: 10; font-weight: bold; }
 
-        .kalpler { display: flex; gap: 40px; margin: 25px 0; }
-        .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.3s; padding: 0; filter: drop-shadow(0 0 5px rgba(0,0,0,0.2)); }
-
-        .hand-hold-container { position: fixed; bottom: 0; left: 0; width: 100%; height: 100px; background: linear-gradient(transparent, var(--card)); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 999; backdrop-filter: blur(5px); }
-        .touch-heart { font-size: 3rem; cursor: pointer; transition: 0.5s; filter: grayscale(1); user-select: none; }
-        .touch-heart.active { filter: grayscale(0) drop-shadow(0 0 20px #ff4757); transform: scale(1.3); }
+        .tabs { display: flex; background: var(--card); border-radius: 20px; margin: 20px 0; width: 92%; max-width: 380px; overflow: hidden; padding: 5px; box-sizing: border-box; }
+        .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; border-radius: 15px; transition: 0.3s; }
+        .tab.active { background: var(--ana); color: white; }
 
         .ani-panel { position: fixed; bottom: 110px; right: 20px; z-index: 1000; }
         .ani-btn { background: #b02a3a; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 2px solid white; cursor: pointer; }
-        .ani-menu { display: none; background: var(--card); border-radius: 20px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 180px; position: absolute; bottom: 70px; right: 0; flex-direction: column; gap: 8px; backdrop-filter: blur(10px); }
-        .ani-menu-item { background: rgba(93, 127, 185, 0.1); color: var(--ana); border: none; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer; text-align: left; }
 
         .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .popup-box { background: var(--card); width: 85%; max-width: 320px; border-radius: 25px; padding: 25px; text-align: center; }
-        #ani-input { width: 100%; height: 100px; border-radius: 10px; padding: 10px; margin: 10px 0; border: 1.5px solid var(--ana); box-sizing: border-box; background: rgba(255,255,255,0.1); color: var(--text); }
+        .game-btn { background: var(--ana); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.3s; }
+        
         #loading-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); color:white; z-index:3000; align-items:center; justify-content:center; }
     </style>
 </head>
@@ -139,7 +137,6 @@
 
     <h1 style="font-family:'Pacifico'; color:#b02a3a; margin:10px 0; text-align: center;">İyi ki Varsın...</h1>
 
-    <div class="sayaç-ust-yazi">Seni Seviyorum Muly...</div>
     <div class="card">
         <span class="neon-inf">♾️</span>
         <div id="gun">...</div>
@@ -156,12 +153,17 @@
         </div>
     </div>
 
-    <div class="game-box">
-        <div style="font-size: 0.8rem; color: var(--ana); font-weight: 600;">✨ Muly'ye Özel Görev Kutusu ✨</div>
-        <div id="task-display" style="font-family: 'Dancing Script'; font-size: 1.5rem; color: #b02a3a; margin-top: 10px;">Hediyeni Çek 🎁</div>
-        <div id="timer-display" style="font-size: 0.85rem; color: #b02a3a; margin-top: 5px; font-weight: bold;"></div>
-        <button id="draw-btn" class="game-btn" onclick="getTask()">Görevi Çek</button>
+    <div class="kalpler">
+        <div style="text-align: center;">
+            <button onclick="at('M')" class="k-btn">💖</button>
+            <div class="k-label">Muly</div>
+        </div>
+        <div style="text-align: center;">
+            <button onclick="at('O')" class="k-btn">💝</button>
+            <div class="k-label">Olcay</div>
+        </div>
     </div>
+    <div id="not" style="font-size:1rem; font-weight:bold; color:#ff4757; height:25px; text-align: center;"></div>
 
     <div class="tabs">
         <button id="t1" class="tab active" onclick="tab('g')">🖼️ Galeri</button>
@@ -171,34 +173,15 @@
     <div id="gs" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%;"></div>
     <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
 
+    <div class="music-player">
+        <audio id="ourSong" src="https://files.catbox.moe/bkrabb.mp3" loop></audio>
+        <div id="musicBtn" class="music-btn" onclick="toggleMusic()">🎵</div>
+    </div>
+
     <input type="file" id="fotoInput" style="display:none;" accept="image/*" onchange="handleFile(this)">
 
-    <div class="kalpler">
-        <div style="text-align: center;"><button onclick="at('M')" class="k-btn">💖</button></div>
-        <div style="text-align: center;"><button onclick="at('O')" class="k-btn">💝</button></div>
-    </div>
-    <div id="not" style="font-size:1rem; font-weight:bold; color:#ff4757; height:25px; text-align: center;"></div>
-
-    <div class="hand-hold-container">
-        <div id="touchHeart" class="touch-heart" onmousedown="startTouch()" onmouseup="endTouch()" ontouchstart="startTouch()" ontouchend="endTouch()">❤️</div>
-        <div style="font-size: 0.75rem; font-weight: bold; color: var(--ana); margin-top: 5px;">Dokun ve hisset...</div>
-    </div>
-
     <div class="ani-panel">
-        <div id="aniMenu" class="ani-menu">
-            <button class="ani-menu-item" onclick="openFoto()">📸 Fotoğraf Gönder</button>
-            <button class="ani-menu-item" onclick="openText()">✍️ Anı Yaz</button>
-        </div>
-        <div class="ani-btn" onclick="toggleAniMenu()">➕</div>
-    </div>
-
-    <div id="popupOverlay" class="popup-overlay">
-        <div class="popup-box">
-            <h3 style="margin:0; color:var(--ana)">Anı Defterimiz ✨</h3>
-            <textarea id="ani-input" placeholder="Kalbimizden geçenleri yazalım..."></textarea>
-            <button class="game-btn" style="background:#b02a3a" onclick="saveTextAni()">Sonsuza Kaydet ✅</button>
-            <button class="game-btn" style="background:#ccc; color:#333; margin-top:5px;" onclick="closePopup()">Kapat</button>
-        </div>
+        <div class="ani-btn" onclick="document.getElementById('fotoInput').click()">📸</div>
     </div>
 
     <div id="previewOverlay" class="popup-overlay">
@@ -218,33 +201,15 @@
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbwi-0o6xAFHr8DlkR6BWPYiA9bDK2ecghWt_uUdvBsazcdVzU9BoNtLafblCXK27ZjTKA/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
 
-        let currentTaskData = { text: "Hediyeni Çek 🎁", time: 0 };
         let selectedFile = null;
 
-        function checkTheme() {
-            const hour = new Date().getHours();
-            const body = document.getElementById('mainBody');
-            if (hour >= 20 || hour < 8) body.classList.add('night');
-            else body.classList.remove('night');
+        function toggleMusic() {
+            const music = document.getElementById('ourSong');
+            const btn = document.getElementById('musicBtn');
+            if (music.paused) { music.play(); btn.classList.add('playing'); } 
+            else { music.pause(); btn.classList.remove('playing'); }
         }
 
-        function createStars() {
-            const container = document.getElementById('stars');
-            container.innerHTML = '';
-            for (let i = 0; i < 50; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                const size = Math.random() * 3 + 1 + 'px';
-                star.style.width = size; star.style.height = size;
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
-                star.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(star);
-            }
-        }
-
-        function openFoto() { document.getElementById('fotoInput').click(); toggleAniMenu(); }
         function handleFile(input) {
             const file = input.files[0];
             if (!file) return;
@@ -255,8 +220,8 @@
                 document.getElementById('previewOverlay').style.display = 'flex';
             }
             reader.readAsDataURL(file);
-            input.value = "";
         }
+
         function closePreview() { document.getElementById('previewOverlay').style.display = 'none'; selectedFile = null; }
 
         async function uploadConfirmedFile() {
@@ -271,7 +236,7 @@
                 const data = await res.json();
                 if (data.success) {
                     await fetch(`${scriptUrl}?ani=&foto=${encodeURIComponent(data.data.url)}`, { mode: 'no-cors' });
-                    sendTele(`📸 Muly yeni bir fotoğraf yükledi!`, O);
+                    fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${O}&text=${encodeURIComponent("📸 Muly yeni bir fotoğraf yükledi!")}`);
                     setTimeout(() => { load(); loader.style.display = 'none'; }, 2000);
                 }
             } catch (e) { loader.style.display = 'none'; }
@@ -288,26 +253,27 @@
                     const lineId = index + 2; 
                     const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
-                    if(txt && txt.startsWith("TASK_SYNC|")) {
-                        const p = txt.split("|");
-                        currentTaskData = { text: p[1], time: parseInt(p[2]) };
-                        updateTaskUI();
-                        return;
-                    }
                     if(img?.includes('http')) {
                         g.insertAdjacentHTML('afterbegin', `<div class="pol"><button class="del-btn" onclick="delAni(${lineId})">×</button><img src="${img}"></div>`);
-                    } else if(txt && !txt.startsWith("HEART_")) {
-                        a.insertAdjacentHTML('afterbegin', `<div class="ani-card"><button class="del-btn" onclick="delAni(${lineId})">×</button>${txt}</div>`);
+                    } else if(txt && !txt.startsWith("TASK_SYNC") && !txt.startsWith("HEART_")) {
+                        a.insertAdjacentHTML('afterbegin', `<div class="ani-card" style="background:var(--card); margin:10px; padding:15px; border-radius:20px; border-left:5px solid #b02a3a;">${txt}</div>`);
                     }
                 });
             } catch (e) {}
         }
 
         async function delAni(id) {
-            if(!confirm("Silmek istediğine emin misin?")) return;
+            if(!confirm("Bu anıyı silmek istiyor musun?")) return;
             document.getElementById('loading-overlay').style.display = 'flex';
             await fetch(`${scriptUrl}?del=${id}`, { mode: 'no-cors' });
             setTimeout(() => { load(); document.getElementById('loading-overlay').style.display = 'none'; }, 1500);
+        }
+
+        function at(k) {
+            if (k === 'M') fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${O}&text=${encodeURIComponent("Muly seni çok özledi ve kalp gönderdi ❤️")}`);
+            else fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${M}&text=${encodeURIComponent("Olcay seni düşünüyor ve kalp gönderdi 💝")}`);
+            document.getElementById('not').innerText = "Sevgi iletildi! ✨";
+            setTimeout(()=>document.getElementById('not').innerText="", 2000);
         }
 
         function count() {
@@ -317,51 +283,29 @@
             const h = Math.floor((f%86400000)/3600000), m = Math.floor((f%3600000)/60000), s = Math.floor((f%60000)/1000);
             document.getElementById('gun').innerText = d + " GÜN";
             document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
-            const percent = Math.min((d / 365) * 100, 100).toFixed(1);
-            document.getElementById('progressFill').style.width = percent + "%";
-            document.getElementById('percentLabel').innerText = "%" + percent;
+            document.getElementById('progressFill').style.width = Math.min((d/365)*100, 100) + "%";
         }
 
-        async function getTask() {
-            const now = Date.now();
-            if (now - currentTaskData.time < 10800000) return;
-            const ts = ["Ses at ve seni seviyorum de 🎙️", "Bir selfie gönder 📸", "En çok beni sevdiğini söyleyen ses at 💝"];
-            const task = ts[Math.floor(Math.random() * ts.length)];
-            await fetch(`${scriptUrl}?ani=${encodeURIComponent('TASK_SYNC|'+task+'|'+now)}&foto=`, { mode: 'no-cors' });
-            currentTaskData = { text: task, time: now };
-            updateTaskUI();
-            sendTele("🔔 Görev seçildi: " + task, O);
-            setTimeout(load, 2000);
+        function createStars() {
+            const container = document.getElementById('stars');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+                container.appendChild(star);
+            }
         }
 
-        function updateTaskUI() {
-            document.getElementById('task-display').innerText = currentTaskData.text;
-            const remain = 10800000 - (Date.now() - currentTaskData.time);
-            const btn = document.getElementById('draw-btn');
-            if (remain > 0) {
-                btn.disabled = true;
-                const h = Math.floor(remain/3600000), m = Math.floor((remain%3600000)/60000);
-                document.getElementById('timer-display').innerText = `Bekleme: ${h}s ${m}d`;
-            } else { btn.disabled = false; document.getElementById('timer-display').innerText = "Hediye Hazır!"; }
-        }
-
-        function startTouch() { document.getElementById('touchHeart').classList.add('active'); }
-        function endTouch() { document.getElementById('touchHeart').classList.remove('active'); }
-
-        function toggleAniMenu() { const m = document.getElementById('aniMenu'); m.style.display = (m.style.display === 'flex' ? 'none' : 'flex'); }
-        function openText() { document.getElementById('popupOverlay').style.display = 'flex'; toggleAniMenu(); }
-        function closePopup() { document.getElementById('popupOverlay').style.display = 'none'; }
         function tab(x) {
             document.getElementById('gs').style.display = x==='g'?'flex':'none';
             document.getElementById('as').style.display = x==='a'?'flex':'none';
             document.getElementById('t1').classList.toggle('active', x==='g');
             document.getElementById('t2').classList.toggle('active', x==='a');
         }
-        function sendTele(msg, target) { fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`); }
 
-        window.onload = () => { load(); count(); checkTheme(); createStars(); };
-        setInterval(count, 1000);
-        setInterval(load, 30000);
+        window.onload = () => { load(); count(); setInterval(count, 1000); createStars(); };
     </script>
 </body>
 </html>
