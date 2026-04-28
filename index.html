@@ -10,7 +10,7 @@
             --ana: #ff4757; 
             --bg-top: #2c0808; 
             --bg-bottom: #5d1515;
-            --card: rgba(20, 0, 0, 0.7); 
+            --card: rgba(20, 0, 0, 0.65); 
             --text: #ffffff; 
             --accent: #ff7f50;
         }
@@ -24,6 +24,7 @@
             min-height: 100vh; color: var(--text); padding-bottom: 50px; 
         }
 
+        /* Görseldeki gibi şık başlık */
         h1 { font-family: 'Pacifico'; font-size: 2.2rem; margin: 20px 0; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
 
         .card { 
@@ -40,25 +41,10 @@
         #saat { font-size: 1.8rem; font-weight: 600; color: var(--accent); letter-spacing: 2px; margin-top: 10px; }
         .quote { font-family: 'Dancing Script', cursive; font-size: 1.2rem; opacity: 0.8; margin-top: 15px; }
 
-        .kalpler { display: flex; gap: 40px; margin: 25px 0 15px 0; justify-content: center; }
-        .k-btn { background: none; border: none; cursor: pointer; font-size: 3.5rem; transition: 0.4s; padding: 0; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
-        .k-btn:active { transform: scale(1.2); }
-
-        /* Yeni Eklenen Fotoğraf Alanı */
-        .main-photo-container {
-            width: 85%;
-            max-width: 320px;
-            margin: 10px auto 20px auto;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 3px solid rgba(255,255,255,0.1);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-        }
-        .main-photo-container img {
-            width: 100%;
-            display: block;
-            object-fit: cover;
-        }
+        .kalpler { display: flex; gap: 40px; margin: 30px 0; justify-content: center; }
+        .k-btn { background: none; border: none; cursor: pointer; font-size: 4rem; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 0; filter: drop-shadow(0 0 15px rgba(255,255,255,0.2)); }
+        .k-btn:active { transform: scale(1.3) rotate(10deg); }
+        .k-label { font-size: 1.3rem; font-weight: 800; color: var(--ana); font-family: 'Dancing Script', cursive; margin-top: 5px; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 
         .game-box { 
             background: rgba(255, 255, 255, 0.05); 
@@ -68,24 +54,31 @@
             border: 1px dashed var(--accent); 
             box-sizing: border-box; 
         }
-        .game-btn { background: var(--ana); color: white; border: none; padding: 14px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; }
+        #task-display { font-weight: 600; color: var(--accent); font-size: 1.1rem; }
+        #task-timer { font-size: 1.2rem; font-weight: bold; color: #ff4757; display: none; margin-top: 10px; letter-spacing: 1px; }
+        .game-btn { background: var(--ana); color: white; border: none; padding: 14px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; box-shadow: 0 5px 15px rgba(255,71,87,0.3); }
 
         .tabs { display: flex; background: rgba(0,0,0,0.3); border-radius: 20px; margin: 25px 0; width: 92%; max-width: 380px; padding: 5px; }
-        .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: rgba(255,255,255,0.5); cursor: pointer; border-radius: 15px; }
-        .tab.active { background: var(--card); color: white; }
+        .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: rgba(255,255,255,0.5); cursor: pointer; border-radius: 15px; transition: 0.3s; }
+        .tab.active { background: var(--card); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        .pol { background: white; padding: 10px 10px 30px 10px; width: 110px; box-shadow: 5px 10px 25px rgba(0,0,0,0.4); position: relative; margin: 10px; transform: rotate(-3deg); display: inline-block; }
+        .pol { background: white; padding: 10px 10px 30px 10px; width: 110px; box-shadow: 5px 10px 25px rgba(0,0,0,0.4); position: relative; margin: 10px; transform: rotate(-3deg); display: inline-block; transition: 0.3s; }
         .pol img { width: 100%; height: 105px; object-fit: cover; }
+        .not-item { background: rgba(255,255,255,0.1); margin: 10px; padding: 20px; border-radius: 15px; width: 85%; position: relative; border-left: 4px solid var(--ana); text-align: left; }
+        .del-btn { position: absolute; top: -10px; right: -10px; background: var(--ana); color: white; border-radius: 50%; width: 28px; height: 28px; border: 2px solid #2c0808; font-weight: bold; cursor: pointer; }
+
+        .not-input-container { width: 92%; max-width: 380px; margin-bottom: 20px; }
+        .not-input { width: 100%; padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: white; box-sizing: border-box; resize: none; font-family: 'Poppins'; }
         
         .floating-ctrl { position: fixed; bottom: 30px; right: 25px; z-index: 1000; }
         .circle-btn { width: 65px; height: 65px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); background: var(--ana); color: white; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
 
-        #loading { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); color:white; z-index:9999; align-items:center; justify-content:center; }
+        #loading { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); color:white; z-index:9999; align-items:center; justify-content:center; flex-direction: column; gap: 15px; font-size: 1.2rem; }
     </style>
 </head>
 <body>
 
-    <div id="loading">✨ Anılarımız Hazırlanıyor... ❤️</div>
+    <div id="loading">✨ Aşkımız Yükleniyor... ❤️</div>
 
     <h1>Muly ❤️ Olcay</h1>
 
@@ -96,12 +89,8 @@
     </div>
 
     <div class="kalpler">
-        <button onclick="at('M')" class="k-btn">💖</button>
-        <button onclick="at('O')" class="k-btn">💝</button>
-    </div>
-
-    <div class="main-photo-container">
-        <img src="https://i.ibb.co/VWzZs4QC/MG-20260419-153009-533.webp" alt="En Güzel Anımız">
+        <div style="text-align: center;"><button onclick="at('M')" class="k-btn">💖</button><div class="k-label">Muly</div></div>
+        <div style="text-align: center;"><button onclick="at('O')" class="k-btn">💝</button><div class="k-label">Olcay</div></div>
     </div>
 
     <div class="game-box">
@@ -115,6 +104,11 @@
         <button id="t2" class="tab" onclick="tab('a')">✍️ Anılar</button>
     </div>
 
+    <div id="not-input-area" class="not-input-container" style="display:none;">
+        <textarea id="notTxt" class="not-input" placeholder="Anını buraya bırak... ❤️"></textarea>
+        <button class="game-btn" onclick="saveNote()">Kaydet</button>
+    </div>
+
     <div id="gs" style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;"></div>
     <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
 
@@ -125,23 +119,39 @@
 
     <script>
         const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
-        const M_ID = '8697863466'; 
-        const O_ID = '6555602691'; 
+        const M_ID = '8697863466'; // Muly ID
+        const O_ID = '6555602691'; // Olcay ID
         const S = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbwi-0o6xAFHr8DlkR6BWPYiA9bDK2ecghWt_uUdvBsazcdVzU9BoNtLafblCXK27ZjTKA/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
 
+        const tasks = [
+            "En sevdiğin fotoğrafımızı anılara ekle.",
+            "Şu anki hislerini anlatan kısa bir not yaz.",
+            "Bana 1 dakikalık sesli mesaj gönder.",
+            "Yarına özel bir plan yap ve bana söyle."
+        ];
+
+        let timerInterval;
+
         function at(k) {
-            let msg = k === 'M' ? "Muly seni çok özledi Olcay" : "Olcayın yine aklındasın. Pardon ne zaman çıktın ki?";
-            let target = k === 'M' ? O_ID : M_ID;
+            let msg = "";
+            let target = "";
+            if(k === 'M') {
+                msg = "Muly seni çok özledi Olcay";
+                target = O_ID;
+            } else {
+                msg = "Olcayın yine aklındasın. Pardon ne zaman çıktın ki?";
+                target = M_ID;
+            }
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
+            // Ekranda alert/yazı çıkmaması için alert kaldırıldı.
         }
 
         function getTask() {
             const btn = document.getElementById('taskBtn');
             const display = document.getElementById('task-display');
             const timerDisplay = document.getElementById('task-timer');
-            const tasks = ["Birbirimize en sevdiğimiz fotoğrafı anılara ekle.", "Şu an ne yapıyorsan onun fotoğrafını çekip at.", "Bana 1 dakikalık sesli mesaj gönder.", "Yarına beraber yapacağımız bir aktivite planla."];
             const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
             
             display.innerText = randomTask;
@@ -149,33 +159,80 @@
             btn.style.opacity = "0.5";
             timerDisplay.style.display = "block";
 
+            // Her iki tarafa da bildirim gider
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${O_ID}&text=${encodeURIComponent("⚠️ Görev Başladı: " + randomTask)}`);
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${M_ID}&text=${encodeURIComponent("⚠️ Görev Başladı: " + randomTask)}`);
 
             let timeLeft = 3 * 60 * 60;
-            let timerInterval = setInterval(() => {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
                 let h = Math.floor(timeLeft / 3600);
                 let m = Math.floor((timeLeft % 3600) / 60);
                 let s = timeLeft % 60;
                 timerDisplay.innerText = `Kalan Süre: ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-                if (timeLeft <= 0) { clearInterval(timerInterval); timerDisplay.innerText = "Süre Doldu!"; btn.disabled = false; btn.style.opacity = "1"; }
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.innerText = "Süre Doldu!";
+                    btn.disabled = false; btn.style.opacity = "1";
+                }
                 timeLeft--;
             }, 1000);
+        }
+
+        async function saveNote() {
+            const val = document.getElementById('notTxt').value;
+            if(!val) return;
+            document.getElementById('loading').style.display = 'flex';
+            await fetch(`${scriptUrl}?ani=${encodeURIComponent(val)}&foto=`, {mode:'no-cors'});
+            document.getElementById('notTxt').value = "";
+            load();
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        async function uploadPhoto(input) {
+            if(!input.files[0]) return;
+            document.getElementById('loading').style.display = 'flex';
+            const fd = new FormData(); fd.append('image', input.files[0]);
+            const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', {method:'POST', body:fd});
+            const d = await res.json();
+            if(d.success) {
+                await fetch(`${scriptUrl}?ani=&foto=${encodeURIComponent(d.data.url)}`, {mode:'no-cors'});
+                load();
+            }
+            document.getElementById('loading').style.display = 'none';
         }
 
         async function load() {
             const r = await fetch(`https://docs.google.com/spreadsheets/d/${S}/gviz/tq?tqx=out:csv&v=${Math.random()}`);
             const data = await r.text();
             const lines = data.split('\n').slice(1);
-            const g = document.getElementById('gs');
-            g.innerHTML = "";
+            const g = document.getElementById('gs'), a = document.getElementById('as');
+            g.innerHTML = ""; a.innerHTML = "";
             lines.forEach((l, i) => {
                 const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                let img = c[1]?.replace(/"/g,'');
+                let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
                 if(img && img.includes('http')) {
-                    g.insertAdjacentHTML('afterbegin', `<div class="pol"><img src="${img}"></div>`);
+                    g.insertAdjacentHTML('afterbegin', `<div class="pol"><button class="del-btn" onclick="del(${i+2})">×</button><img src="${img}"></div>`);
+                } else if(txt && txt.trim() !== "") {
+                    a.insertAdjacentHTML('afterbegin', `<div class="not-item"><button class="del-btn" onclick="del(${i+2})">×</button>${txt}</div>`);
                 }
             });
+        }
+
+        async function del(id) {
+            if(!confirm("Bu anıyı siliyorum, emin misin?")) return;
+            document.getElementById('loading').style.display = 'flex';
+            await fetch(`${scriptUrl}?del=${id}`, {mode:'no-cors'});
+            load();
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function tab(x) {
+            document.getElementById('gs').style.display = x==='g'?'block':'none';
+            document.getElementById('as').style.display = x==='a'?'flex':'none';
+            document.getElementById('not-input-area').style.display = x==='a'?'block':'none';
+            document.getElementById('t1').classList.toggle('active', x==='g');
+            document.getElementById('t2').classList.toggle('active', x==='a');
         }
 
         function count() {
