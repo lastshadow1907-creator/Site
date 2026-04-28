@@ -41,6 +41,7 @@
             position: relative;
         }
 
+        /* Arka Plan Yıldızları */
         .stars-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -96,7 +97,6 @@
         .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: var(--ana); cursor: pointer; border-radius: 15px; transition: 0.3s; }
         .tab.active { background: var(--ana); color: white; }
         
-        /* Polaroid Galerisi - Güzel Görünüm */
         .pol { 
             background: white; 
             padding: 8px 8px 25px 8px; 
@@ -109,7 +109,6 @@
         }
         .pol:nth-child(odd) { transform: rotate(-3deg); }
         .pol:nth-child(even) { transform: rotate(3deg); }
-        .pol:hover { transform: scale(1.1) rotate(0deg); z-index: 10; }
         .pol img { width: 100%; height: 100px; object-fit: cover; border-radius: 2px; }
 
         .ani-card { background: var(--card); margin: 10px; padding: 15px; border-radius: 20px; width: 85%; border-left: 5px solid #b02a3a; text-align: left; position: relative; }
@@ -222,65 +221,6 @@
         let currentTaskData = { text: "Hediyeni Çek 🎁", time: 0 };
         let selectedFile = null;
 
-        // --- FOTOĞRAF SİSTEMİ ---
-        function openFoto() { document.getElementById('fotoInput').click(); toggleAniMenu(); }
-
-        function handleFile(input) {
-            const file = input.files[0];
-            if (!file) return;
-            selectedFile = file;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('imgPreview').src = e.target.result;
-                document.getElementById('previewOverlay').style.display = 'flex';
-            }
-            reader.readAsDataURL(file);
-            input.value = ""; // Inputu temizle ki aynı dosya tekrar seçilebilsin
-        }
-
-        function closePreview() {
-            document.getElementById('previewOverlay').style.display = 'none';
-            selectedFile = null;
-        }
-
-        async function uploadConfirmedFile() {
-            if (!selectedFile) return;
-            closePreview();
-            const loader = document.getElementById('loading-overlay');
-            loader.style.display = 'flex';
-            loader.innerText = "🚀 Fotoğrafın Olcay'a uçuyor...";
-
-            const formData = new FormData();
-            formData.append('image', selectedFile);
-            
-            try {
-                // Fotoğrafı ImgBB'ye yükle (Kendi API anahtarını kullanmanı öneririm)
-                const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', { method: 'POST', body: formData });
-                const data = await res.json();
-                
-                if (data.success) {
-                    const imgUrl = data.data.url;
-                    // Google Tabloya kaydet
-                    await fetch(`${scriptUrl}?ani=&foto=${encodeURIComponent(imgUrl)}`, { mode: 'no-cors' });
-                    
-                    // Telegram Bildirimi
-                    sendTele(`📸 Olcay! Muly yeni bir fotoğraf yükledi:\n${imgUrl}`, O);
-                    
-                    // Galeriyi yenilemek için biraz bekle
-                    setTimeout(() => { load(); loader.style.display = 'none'; loader.innerText = "🚀 Büyü Hazırlanıyor..."; }, 2000);
-                } else {
-                    alert("Aşkımızın bu karesini şu an kaydedemedim, tekrar dener misin?");
-                    loader.style.display = 'none';
-                    loader.innerText = "🚀 Büyü Hazırlanıyor...";
-                }
-            } catch (e) { 
-                alert("Bağlantı hatası oluştu."); 
-                loader.style.display = 'none';
-                loader.innerText = "🚀 Büyü Hazırlanıyor...";
-            }
-        }
-
-        // --- DİĞER TEMEL FONKSİYONLAR ---
         function checkTheme() {
             const hour = new Date().getHours();
             const body = document.getElementById('mainBody');
@@ -304,15 +244,37 @@
             }
         }
 
-        async function saveTextAni() {
-            const txt = document.getElementById('ani-input').value.trim();
-            if(!txt) return;
-            document.getElementById('loading-overlay').style.display = 'flex';
-            await fetch(`${scriptUrl}?ani=${encodeURIComponent(txt)}&foto=`, { mode: 'no-cors' });
-            document.getElementById('ani-input').value = "";
-            closePopup(); 
-            setTimeout(() => { load(); document.getElementById('loading-overlay').style.display = 'none'; }, 1000);
-            sendTele("✍️ Muly anı defterimize yeni bir not bıraktı!", O);
+        function openFoto() { document.getElementById('fotoInput').click(); toggleAniMenu(); }
+        function handleFile(input) {
+            const file = input.files[0];
+            if (!file) return;
+            selectedFile = file;
+            const reader = new FileReader();
+            reader.onload = e => {
+                document.getElementById('imgPreview').src = e.target.result;
+                document.getElementById('previewOverlay').style.display = 'flex';
+            }
+            reader.readAsDataURL(file);
+            input.value = "";
+        }
+        function closePreview() { document.getElementById('previewOverlay').style.display = 'none'; selectedFile = null; }
+
+        async function uploadConfirmedFile() {
+            if (!selectedFile) return;
+            closePreview();
+            const loader = document.getElementById('loading-overlay');
+            loader.style.display = 'flex';
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+            try {
+                const res = await fetch('https://api.imgbb.com/1/upload?key=81c9056d649d8ec38029019623e1373a', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (data.success) {
+                    await fetch(`${scriptUrl}?ani=&foto=${encodeURIComponent(data.data.url)}`, { mode: 'no-cors' });
+                    sendTele(`📸 Muly yeni bir fotoğraf yükledi!`, O);
+                    setTimeout(() => { load(); loader.style.display = 'none'; }, 2000);
+                }
+            } catch (e) { loader.style.display = 'none'; }
         }
 
         async function load() {
@@ -324,20 +286,17 @@
                 g.innerHTML = ""; a.innerHTML = "";
                 lines.forEach((l, index) => {
                     const lineId = index + 2; 
-                    const c = l.split(/,(?=(?:?:[^"]*"){2})*[^"]*$)/);
+                    const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
-                    
                     if(txt && txt.startsWith("TASK_SYNC|")) {
-                        const parts = txt.split("|");
-                        currentTaskData = { text: parts[1], time: parseInt(parts[2]) };
+                        const p = txt.split("|");
+                        currentTaskData = { text: p[1], time: parseInt(p[2]) };
                         updateTaskUI();
                         return;
                     }
-
                     if(img?.includes('http')) {
                         g.insertAdjacentHTML('afterbegin', `<div class="pol"><button class="del-btn" onclick="delAni(${lineId})">×</button><img src="${img}"></div>`);
-                    }
-                    if(txt && !txt.includes('http') && !txt.startsWith("TASK_SYNC|")) {
+                    } else if(txt && !txt.startsWith("HEART_")) {
                         a.insertAdjacentHTML('afterbegin', `<div class="ani-card"><button class="del-btn" onclick="delAni(${lineId})">×</button>${txt}</div>`);
                     }
                 });
@@ -351,13 +310,6 @@
             setTimeout(() => { load(); document.getElementById('loading-overlay').style.display = 'none'; }, 1500);
         }
 
-        function at(k) {
-            if (k === 'M') sendTele("Muly seni çok özledi ve kalp gönderdi ❤️", O);
-            else sendTele("Olcay seni düşünüyor ve kalp gönderdi 💝", M);
-            document.getElementById('not').innerText = "Sevgi iletildi! ✨";
-            setTimeout(()=>document.getElementById('not').innerText="", 2000);
-        }
-
         function count() {
             const now = new Date();
             const f = now - start;
@@ -365,8 +317,7 @@
             const h = Math.floor((f%86400000)/3600000), m = Math.floor((f%3600000)/60000), s = Math.floor((f%60000)/1000);
             document.getElementById('gun').innerText = d + " GÜN";
             document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
-            let target = 365;
-            const percent = Math.min((d / target) * 100, 100).toFixed(1);
+            const percent = Math.min((d / 365) * 100, 100).toFixed(1);
             document.getElementById('progressFill').style.width = percent + "%";
             document.getElementById('percentLabel').innerText = "%" + percent;
         }
@@ -376,8 +327,7 @@
             if (now - currentTaskData.time < 10800000) return;
             const ts = ["Ses at ve seni seviyorum de 🎙️", "Bir selfie gönder 📸", "En çok beni sevdiğini söyleyen ses at 💝"];
             const task = ts[Math.floor(Math.random() * ts.length)];
-            const syncString = `TASK_SYNC|${task}|${now}`;
-            await fetch(`${scriptUrl}?ani=${encodeURIComponent(syncString)}&foto=`, { mode: 'no-cors' });
+            await fetch(`${scriptUrl}?ani=${encodeURIComponent('TASK_SYNC|'+task+'|'+now)}&foto=`, { mode: 'no-cors' });
             currentTaskData = { text: task, time: now };
             updateTaskUI();
             sendTele("🔔 Görev seçildi: " + task, O);
@@ -395,15 +345,8 @@
             } else { btn.disabled = false; document.getElementById('timer-display').innerText = "Hediye Hazır!"; }
         }
 
-        let touchTimeout;
-        function startTouch() {
-            document.getElementById('touchHeart').classList.add('active');
-            touchTimeout = setTimeout(() => sendTele("🤝 Muly senin için kalbe dokunuyor...", O), 2000);
-        }
-        function endTouch() {
-            clearTimeout(touchTimeout);
-            document.getElementById('touchHeart').classList.remove('active');
-        }
+        function startTouch() { document.getElementById('touchHeart').classList.add('active'); }
+        function endTouch() { document.getElementById('touchHeart').classList.remove('active'); }
 
         function toggleAniMenu() { const m = document.getElementById('aniMenu'); m.style.display = (m.style.display === 'flex' ? 'none' : 'flex'); }
         function openText() { document.getElementById('popupOverlay').style.display = 'flex'; toggleAniMenu(); }
@@ -418,7 +361,6 @@
 
         window.onload = () => { load(); count(); checkTheme(); createStars(); };
         setInterval(count, 1000);
-        setInterval(updateTaskUI, 10000);
         setInterval(load, 30000);
     </script>
 </body>
