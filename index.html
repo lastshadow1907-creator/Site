@@ -45,6 +45,7 @@
             border: 1px solid rgba(255,255,255,0.05);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            box-sizing: border-box;
         }
 
         #gun { 
@@ -66,6 +67,19 @@
         }
         
         .quote { font-family: 'Dancing Script', cursive; font-size: 1.3rem; opacity: 0.8; margin-top: 20px; color: #ffb3b3; }
+
+        /* 🗓️ YENI AY DÖNÜMÜ GÖSTERGE KUTUSU */
+        .ay-sayac-box {
+            background: rgba(0, 0, 0, 0.3);
+            width: 92%; max-width: 380px;
+            margin-top: 15px; padding: 15px;
+            border-radius: 18px;
+            border: 1px dashed rgba(255, 127, 80, 0.4);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        #ay-hedef-text { font-size: 0.95rem; font-weight: 600; color: #ffffff; }
+        #ay-kalan-gun { font-size: 1.2rem; font-weight: 800; color: var(--ana); margin-top: 5px; text-shadow: 0 0 10px rgba(255,71,87,0.3); }
 
         .kalpler { display: flex; gap: 35px; margin: 30px 0; justify-content: center; }
         .k-container { display: flex; flex-direction: column; align-items: center; }
@@ -153,7 +167,6 @@
         }
         .del-btn:active { background: var(--ana); color: white; border-color: transparent; }
 
-        /* Geliştirilmiş Giriş Formu Öğeleri */
         .not-input-container { width: 92%; max-width: 380px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
         
         .not-date-input {
@@ -245,6 +258,11 @@
         <div class="quote">Sonsuza dek sürecek bir aşk hikayesi...</div>
     </div>
 
+    <div class="ay-sayac-box">
+        <div id="ay-hedef-text">Yükleniyor...</div>
+        <div id="ay-kalan-gun">...</div>
+    </div>
+
     <div class="kalpler">
         <div class="k-container"><button onclick="at('M')" class="k-btn">💖</button><div class="k-label">Muly</div></div>
         <div class="k-container"><button onclick="at('O')" class="k-btn">💝</button><div class="k-label">Olcay</div></div>
@@ -282,7 +300,7 @@
         const O_ID = '6555602691'; 
         const S = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbwi-0o6xAFHr8DlkR6BWPYiA9bDK2ecghWt_uUdvBsazcdVzU9BoNtLafblCXK27ZjTKA/exec';
-        const start = new Date(2026, 2, 14, 0, 8, 0);
+        const start = new Date(2026, 2, 14, 0, 8, 0); // 14 Mart 2026
 
         function at(k) {
             let msg = ""; let target = "";
@@ -291,15 +309,10 @@
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
         }
 
-        // Tarih formatlama fonksiyonu (Kullanıcı seçimine göre ya da otomatik bugünün tarihi)
         function getSecilenVeyaBugunTarih() {
             const dateInput = document.getElementById('notDate').value;
             let d;
-            if (dateInput) {
-                d = new Date(dateInput);
-            } else {
-                d = new Date();
-            }
+            if (dateInput) { d = new Date(dateInput); } else { d = new Date(); }
             return `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
         }
 
@@ -307,14 +320,11 @@
             const val = document.getElementById('notTxt').value;
             if(!val) return;
             document.getElementById('loading').style.display = 'flex';
-            
-            // Tarihi alıp mesaja ekliyoruz
             const secilenTarih = getSecilenVeyaBugunTarih();
             const formatliNot = `📅 ${secilenTarih} | ${val}`;
-            
             await fetch(`${scriptUrl}?ani=${encodeURIComponent(formatliNot)}&foto=`, {mode:'no-cors'});
             document.getElementById('notTxt').value = "";
-            document.getElementById('notDate').value = ""; // Tarih alanını sıfırla
+            document.getElementById('notDate').value = "";
             load();
             document.getElementById('loading').style.display = 'none';
         }
@@ -406,11 +416,46 @@
             }
         }
 
+        // 🗓️ DINAMIK AY VE GUN HESAPLAYICI FONKSIYON
+        function updateAySayaci() {
+            const simdi = new Date();
+            const gunler = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+            
+            let hedefYil = simdi.getFullYear();
+            let hedefAy = simdi.getMonth(); // 0 = Ocak, 4 = Mayıs vb.
+            
+            // Eğer bugünün günü 14'ünden büyükse veya bugün 14'üyse ama saat geçtiyse bir sonraki aya geç
+            if (simdi.getDate() > 14 || (simdi.getDate() === 14 && simdi.getHours() >= 0)) {
+                hedefAy += 1;
+                if (hedefAy > 11) {
+                    hedefAy = 0;
+                    hedefYil += 1;
+                }
+            }
+            
+            const sonrakiAyDonumu = new Date(hedefYil, hedefAy, 14, 0, 8, 0);
+            
+            // Başlangıçtan (Mart 2026) sonraki ay dönümüne kaç ay geçmiş olduğunu bul (Hedef Ay Sayısı)
+            let toplamAy = (sonrakiAyDonumu.getFullYear() - start.getFullYear()) * 12 + (sonrakiAyDonumu.getMonth() - start.getMonth());
+            
+            // Kalan gün sayısını tam gün olarak hesapla
+            const farkMilisaniye = sonrakiAyDonumu - simdi;
+            const kalanGun = Math.ceil(farkMilisaniye / (1000 * 60 * 60 * 24));
+            
+            const gunAdi = gunler[sonrakiAyDonumu.getDay()];
+            
+            document.getElementById('ay-hedef-text').innerText = `✨ Önümüzdeki Dönüm Noktası: ${toplamAy}. Ay`;
+            document.getElementById('ay-kalan-gun').innerText = `⏳ Sonraki aya ${kalanGun} gün kaldı (${gunAdi})`;
+        }
+
         function count() {
             const f = new Date() - start;
             const d = Math.floor(f/86400000), h = Math.floor((f%86400000)/3600000), m = Math.floor((f%3600000)/60000), s = Math.floor((f%60000)/1000);
             document.getElementById('gun').innerText = d + " GÜN";
             document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
+            
+            // Ay sayacını da her saniye kontrol et/güncelle
+            updateAySayaci();
         }
 
         window.onload = () => { load(); setInterval(count, 1000); tab('a'); };
