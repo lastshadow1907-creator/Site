@@ -68,7 +68,7 @@
         
         .quote { font-family: 'Dancing Script', cursive; font-size: 1.3rem; opacity: 0.8; margin-top: 20px; color: #ffb3b3; }
 
-        /* 🗓️ YENI AY DÖNÜMÜ GÖSTERGE KUTUSU */
+        /* 🗓️ 30 GÜNLÜK DÖNGÜYE UYGUN YENİ AY KUTUSU */
         .ay-sayac-box {
             background: rgba(0, 0, 0, 0.3);
             width: 92%; max-width: 380px;
@@ -416,36 +416,30 @@
             }
         }
 
-        // 🗓️ DINAMIK AY VE GUN HESAPLAYICI FONKSIYON
-        function updateAySayaci() {
-            const simdi = new Date();
+        // 🗓️ TAM 30 GÜNDE BİR AY SAYAN YENİ GELİŞMİŞ SİSTEM
+        function update30GunlukAySayaci(gecenMilisaniye) {
             const gunler = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+            const simdi = new Date();
             
-            let hedefYil = simdi.getFullYear();
-            let hedefAy = simdi.getMonth(); // 0 = Ocak, 4 = Mayıs vb.
+            // Toplam kaç tam gün geçmiş
+            const gecenToplamGun = Math.floor(gecenMilisaniye / 86400000);
             
-            // Eğer bugünün günü 14'ünden büyükse veya bugün 14'üyse ama saat geçtiyse bir sonraki aya geç
-            if (simdi.getDate() > 14 || (simdi.getDate() === 14 && simdi.getHours() >= 0)) {
-                hedefAy += 1;
-                if (hedefAy > 11) {
-                    hedefAy = 0;
-                    hedefYil += 1;
-                }
-            }
+            // Şu an kaçıncı 30 günlük döngünün içindesiniz (Örn: 0-29 gün arası 1. ay, 30-59 arası 2. ay)
+            const suAnkiAy = Math.floor(gecenToplamGun / 30) + 1;
+            const gelecekAy = suAnkiAy + 1;
             
-            const sonrakiAyDonumu = new Date(hedefYil, hedefAy, 14, 0, 8, 0);
+            // Bir sonraki ay dönümü için gereken toplam gün hedefi (Örn: 2. ay için 30. gün, 3. ay için 60. gün)
+            const hedefToplamGun = (suAnkiAy) * 30;
             
-            // Başlangıçtan (Mart 2026) sonraki ay dönümüne kaç ay geçmiş olduğunu bul (Hedef Ay Sayısı)
-            let toplamAy = (sonrakiAyDonumu.getFullYear() - start.getFullYear()) * 12 + (sonrakiAyDonumu.getMonth() - start.getMonth());
+            // Hedef güne kalan tam gün sayısı
+            const kalanGun = hedefToplamGun - gecenToplamGun;
             
-            // Kalan gün sayısını tam gün olarak hesapla
-            const farkMilisaniye = sonrakiAyDonumu - simdi;
-            const kalanGun = Math.ceil(farkMilisaniye / (1000 * 60 * 60 * 24));
+            // Gelecek 30. günün tam tarihini bulup hangi gün olduğunu öğrenme
+            const gelecekAyDonumuTarihi = new Date(start.getTime() + (hedefToplamGun * 86400000));
+            const gunAdi = gunler[gelecekAyDonumuTarihi.getDay()];
             
-            const gunAdi = gunler[sonrakiAyDonumu.getDay()];
-            
-            document.getElementById('ay-hedef-text').innerText = `✨ Önümüzdeki Dönüm Noktası: ${toplamAy}. Ay`;
-            document.getElementById('ay-kalan-gun').innerText = `⏳ Sonraki aya ${kalanGun} gün kaldı (${gunAdi})`;
+            document.getElementById('ay-hedef-text').innerText = `✨ Şu an ${suAnkiAy}. Ayın İçindesiniz`;
+            document.getElementById('ay-kalan-gun').innerText = `⏳ ${gelecekAy}. Aya ${kalanGun} gün kaldı (${gunAdi})`;
         }
 
         function count() {
@@ -454,8 +448,8 @@
             document.getElementById('gun').innerText = d + " GÜN";
             document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
             
-            // Ay sayacını da her saniye kontrol et/güncelle
-            updateAySayaci();
+            // 30 günlük periyodu tetikle
+            update30GunlukAySayaci(f);
         }
 
         window.onload = () => { load(); setInterval(count, 1000); tab('a'); };
