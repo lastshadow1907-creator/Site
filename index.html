@@ -62,10 +62,66 @@
         .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: rgba(255,255,255,0.5); cursor: pointer; border-radius: 15px; transition: 0.3s; }
         .tab.active { background: var(--card); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        .pol { background: white; padding: 10px 10px 30px 10px; width: 110px; box-shadow: 5px 10px 25px rgba(0,0,0,0.4); position: relative; margin: 10px; transform: rotate(-3deg); display: inline-block; transition: 0.3s; }
-        .pol img { width: 100%; height: 105px; object-fit: cover; }
+        /* Geliştirilmiş Özel İndirilebilir Galeri Tasarımı */
+        .galeri-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 92%;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
+        .photo-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .photo-card img:active {
+            transform: scale(0.98);
+        }
+
+        .download-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .download-btn:active {
+            background: var(--ana);
+        }
+
         .not-item { background: rgba(255,255,255,0.1); margin: 10px; padding: 20px; border-radius: 15px; width: 85%; position: relative; border-left: 4px solid var(--ana); text-align: left; }
-        .del-btn { position: absolute; top: -10px; right: -10px; background: var(--ana); color: white; border-radius: 50%; width: 28px; height: 28px; border: 2px solid #2c0808; font-weight: bold; cursor: pointer; }
+        .del-btn { position: absolute; top: -5px; right: -5px; background: var(--ana); color: white; border-radius: 50%; width: 24px; height: 24px; border: 2px solid #2c0808; font-weight: bold; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 14px; }
 
         .not-input-container { width: 92%; max-width: 380px; margin-bottom: 20px; }
         .not-input { width: 100%; padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: white; box-sizing: border-box; resize: none; font-family: 'Poppins'; }
@@ -109,7 +165,7 @@
         <button class="game-btn" onclick="saveNote()">Kaydet</button>
     </div>
 
-    <div id="gs" style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;"></div>
+    <div id="gs" class="galeri-container"></div>
     <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
 
     <div class="floating-ctrl">
@@ -119,8 +175,8 @@
 
     <script>
         const T = '8679884252:AAExbOnyIg_MNFv00NRnW79-vtlH5KB6j0w';
-        const M_ID = '8697863466'; // Muly ID
-        const O_ID = '6555602691'; // Olcay ID
+        const M_ID = '8697863466'; 
+        const O_ID = '6555602691'; 
         const S = '1JgcElY-IQEvViAZjivDtZPhzDJqE6kwetokPrnR-Kjk';
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbwi-0o6xAFHr8DlkR6BWPYiA9bDK2ecghWt_uUdvBsazcdVzU9BoNtLafblCXK27ZjTKA/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
@@ -145,7 +201,6 @@
                 target = M_ID;
             }
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
-            // Ekranda alert/yazı çıkmaması için alert kaldırıldı.
         }
 
         function getTask() {
@@ -159,7 +214,6 @@
             btn.style.opacity = "0.5";
             timerDisplay.style.display = "block";
 
-            // Her iki tarafa da bildirim gider
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${O_ID}&text=${encodeURIComponent("⚠️ Görev Başladı: " + randomTask)}`);
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${M_ID}&text=${encodeURIComponent("⚠️ Görev Başladı: " + randomTask)}`);
 
@@ -202,17 +256,43 @@
             document.getElementById('loading').style.display = 'none';
         }
 
+        // Güvenli ve doğrudan indirme fonksiyonu
+        async function indirFoto(url, index) {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = `muly-olcay-foto-${index}.jpg`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(blobUrl);
+            } catch (error) {
+                // Tarayıcı CORS kısıtlaması yaparsa yedek yöntem olarak yeni sekmede açar
+                window.open(url, '_blank');
+            }
+        }
+
         async function load() {
             const r = await fetch(`https://docs.google.com/spreadsheets/d/${S}/gviz/tq?tqx=out:csv&v=${Math.random()}`);
             const data = await r.text();
             const lines = data.split('\n').slice(1);
             const g = document.getElementById('gs'), a = document.getElementById('as');
             g.innerHTML = ""; a.innerHTML = "";
+            
             lines.forEach((l, i) => {
                 const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
                 if(img && img.includes('http')) {
-                    g.insertAdjacentHTML('afterbegin', `<div class="pol"><button class="del-btn" onclick="del(${i+2})">×</button><img src="${img}"></div>`);
+                    g.insertAdjacentHTML('afterbegin', `
+                        <div class="photo-card">
+                            <button class="del-btn" onclick="del(${i+2})">×</button>
+                            <img src="${img}" onclick="indirFoto('${img}', ${i})" alt="Fotoğraf">
+                            <button class="download-btn" onclick="indirFoto('${img}', ${i})">💾 İndir</button>
+                        </div>
+                    `);
                 } else if(txt && txt.trim() !== "") {
                     a.insertAdjacentHTML('afterbegin', `<div class="not-item"><button class="del-btn" onclick="del(${i+2})">×</button>${txt}</div>`);
                 }
@@ -228,7 +308,7 @@
         }
 
         function tab(x) {
-            document.getElementById('gs').style.display = x==='g'?'block':'none';
+            document.getElementById('gs').style.display = x==='g'?'grid':'none';
             document.getElementById('as').style.display = x==='a'?'flex':'none';
             document.getElementById('not-input-area').style.display = x==='a'?'block':'none';
             document.getElementById('t1').classList.toggle('active', x==='g');
