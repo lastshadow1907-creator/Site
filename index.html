@@ -4,180 +4,229 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Muly ❤️ Olcay</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { 
             --ana: #ff4757; 
-            --bg-top: #2c0808; 
-            --bg-bottom: #5d1515;
-            --card: rgba(20, 0, 0, 0.65); 
+            --bg-top: #1a0303; 
+            --bg-bottom: #3d0e0e;
+            --card: rgba(35, 10, 10, 0.55); 
             --text: #ffffff; 
             --accent: #ff7f50;
+            --neon-glow: rgba(255, 71, 87, 0.4);
         }
         
         body { 
             font-family: 'Poppins', sans-serif; 
-            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 50%, #1a0505 100%);
+            background: linear-gradient(135deg, var(--bg-top) 0%, var(--bg-bottom) 50%, #120202 100%);
             background-attachment: fixed;
-            margin: 0; padding: 15px; 
+            margin: 0; padding: 20px 15px; 
             display: flex; flex-direction: column; align-items: center; 
-            min-height: 100vh; color: var(--text); padding-bottom: 50px; 
+            min-height: 100vh; color: var(--text); padding-bottom: 60px; 
+            -webkit-font-smoothing: antialiased;
         }
 
-        h1 { font-family: 'Pacifico'; font-size: 2.2rem; margin: 20px 0; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        h1 { 
+            font-family: 'Pacifico'; 
+            font-size: 2.4rem; 
+            margin: 15px 0 25px 0; 
+            text-shadow: 0 4px 20px rgba(255, 71, 87, 0.3);
+            background: linear-gradient(45deg, #fff, #ff7f50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
         .card { 
             background: var(--card); 
             width: 92%; max-width: 380px; 
-            border-radius: 30px; padding: 30px 15px; 
+            border-radius: 24px; padding: 35px 20px; 
             text-align: center; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(15px);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1); 
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
-        #gun { font-size: 3.8rem; font-weight: 800; color: var(--ana); line-height: 1; text-shadow: 0 0 20px rgba(255,71,87,0.4); }
-        #saat { font-size: 1.8rem; font-weight: 600; color: var(--accent); letter-spacing: 2px; margin-top: 10px; }
-        .quote { font-family: 'Dancing Script', cursive; font-size: 1.2rem; opacity: 0.8; margin-top: 15px; }
+        #gun { 
+            font-size: 4rem; 
+            font-weight: 800; 
+            color: var(--ana); 
+            line-height: 1; 
+            text-shadow: 0 0 25px var(--neon-glow); 
+            letter-spacing: -1px;
+        }
+        
+        #saat { 
+            font-size: 1.6rem; 
+            font-weight: 700; 
+            color: var(--accent); 
+            letter-spacing: 3px; 
+            margin-top: 15px;
+            opacity: 0.9;
+        }
+        
+        .quote { font-family: 'Dancing Script', cursive; font-size: 1.3rem; opacity: 0.8; margin-top: 20px; color: #ffb3b3; }
 
-        .kalpler { display: flex; gap: 40px; margin: 30px 0; justify-content: center; }
-        .k-btn { background: none; border: none; cursor: pointer; font-size: 4rem; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 0; filter: drop-shadow(0 0 15px rgba(255,255,255,0.2)); }
-        .k-btn:active { transform: scale(1.3) rotate(10deg); }
-        .k-label { font-size: 1.3rem; font-weight: 800; color: var(--ana); font-family: 'Dancing Script', cursive; margin-top: 5px; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .kalpler { display: flex; gap: 35px; margin: 30px 0; justify-content: center; }
+        .k-container { display: flex; flex-direction: column; align-items: center; }
+        .k-btn { 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            cursor: pointer; 
+            font-size: 3rem; 
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .k-btn:active { transform: scale(1.15) rotate(10deg); background: rgba(255,71,87,0.2); }
+        .k-label { font-size: 1.2rem; font-weight: 700; color: #ffffff; font-family: 'Dancing Script', cursive; margin-top: 8px; opacity: 0.9; }
 
-        .game-btn { background: var(--ana); color: white; border: none; padding: 14px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; box-shadow: 0 5px 15px rgba(255,71,87,0.3); }
+        .game-btn { 
+            background: linear-gradient(135deg, var(--ana) 0%, #ff6b81 100%); 
+            color: white; border: none; padding: 16px; 
+            border-radius: 50px; font-weight: 700; font-size: 1rem;
+            cursor: pointer; width: 100%; margin-top: 15px; 
+            box-shadow: 0 8px 25px rgba(255,71,87,0.4); 
+            transition: 0.3s ease;
+            letter-spacing: 1px;
+        }
+        .game-btn:active { transform: scale(0.98); box-shadow: 0 4px 10px rgba(255,71,87,0.2); }
 
-        .tabs { display: flex; background: rgba(0,0,0,0.3); border-radius: 20px; margin: 25px 0; width: 92%; max-width: 380px; padding: 5px; }
-        .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: rgba(255,255,255,0.5); cursor: pointer; border-radius: 15px; transition: 0.3s; }
-        .tab.active { background: var(--card); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .tabs { 
+            display: flex; 
+            background: rgba(0,0,0,0.4); 
+            border-radius: 50px; 
+            margin: 25px 0 15px 0; 
+            width: 92%; max-width: 380px; 
+            padding: 6px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .tab { 
+            flex: 1; padding: 14px; border: none; background: none; 
+            font-weight: 700; font-size: 0.95rem; color: rgba(255,255,255,0.4); 
+            cursor: pointer; border-radius: 50px; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        .tab.active { background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.03) 100%); color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); }
 
-        /* 🖼️ ÖZEL GALERİ SAYFASI */
+        .not-item { 
+            background: linear-gradient(135deg, rgba(40, 15, 15, 0.6) 0%, rgba(25, 8, 8, 0.7) 100%); 
+            margin: 15px 0; padding: 22px; 
+            border-radius: 20px; width: 92%; max-width: 380px;
+            position: relative; 
+            border-left: 4px solid var(--ana); 
+            text-align: left; 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            box-sizing: border-box;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .not-tarih {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #ffffff;
+            background: rgba(255, 127, 80, 0.2);
+            padding: 4px 10px;
+            border-radius: 30px;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: inline-block;
+            border: 1px solid rgba(255, 127, 80, 0.2);
+        }
+
+        .not-metin { font-size: 1.05rem; color: #f0f0f0; line-height: 1.6; word-wrap: break-word; font-weight: 400; }
+
+        .del-btn { 
+            position: absolute; 
+            top: 18px; right: 18px; 
+            background: rgba(0,0,0,0.4); 
+            color: rgba(255,255,255,0.6); 
+            border-radius: 50%; 
+            width: 26px; height: 26px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            font-weight: normal; cursor: pointer; 
+            z-index: 99; display: flex; align-items: center; justify-content: center; 
+            font-size: 14px; transition: 0.2s;
+        }
+        .del-btn:active { background: var(--ana); color: white; border-color: transparent; }
+
+        /* Geliştirilmiş Giriş Formu Öğeleri */
+        .not-input-container { width: 92%; max-width: 380px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
+        
+        .not-date-input {
+            width: 100%; padding: 12px 15px; border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(0, 0, 0, 0.3); color: white;
+            font-family: 'Poppins'; font-size: 0.9rem; box-sizing: border-box;
+            outline: none; transition: 0.3s;
+        }
+        .not-date-input:focus { border-color: var(--accent); }
+
+        .not-input { 
+            width: 100%; padding: 18px; border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.08); 
+            background: rgba(0, 0, 0, 0.3); color: white; 
+            box-sizing: border-box; resize: none; font-family: 'Poppins';
+            font-size: 0.95rem; transition: 0.3s;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .not-input:focus { outline: none; border-color: var(--ana); background: rgba(0,0,0,0.4); }
+        
         .galeri-sayfasi {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(180deg, #1f0505 0%, #3a0d0d 100%);
-            z-index: 5000;
-            overflow-y: auto;
-            padding: 20px 15px 80px 15px;
-            flex-direction: column;
-            align-items: center;
+            display: none; position: fixed; inset: 0;
+            background: linear-gradient(180deg, #0f0202 0%, #240707 100%);
+            z-index: 5000; overflow-y: auto;
+            padding: 25px 15px 90px 15px;
+            flex-direction: column; align-items: center;
         }
 
         .galeri-baslik-alani {
-            width: 100%;
-            max-width: 380px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 10px;
+            width: 100%; max-width: 380px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 15px;
         }
-
         .galeri-baslik { font-family: 'Pacifico'; font-size: 1.8rem; color: white; margin: 0; }
-
         .geri-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: white; padding: 10px 20px; border-radius: 30px;
+            font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.3s;
         }
-        .geri-btn:active { background: var(--ana); }
+        .geri-btn:active { background: var(--ana); border-color: transparent; }
 
         .buyuk-galeri-listesi { display: flex; flex-direction: column; gap: 25px; width: 100%; max-width: 380px; }
 
         .photo-card-big {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 25px;
-            padding: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            position: relative;
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 24px; padding: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            position: relative; backdrop-filter: blur(10px);
         }
+        .photo-card-big img { width: 100%; height: auto; max-height: 480px; object-fit: cover; border-radius: 16px; display: block; cursor: zoom-in; }
 
-        .photo-card-big img { width: 100%; height: auto; max-height: 450px; object-fit: cover; border-radius: 18px; display: block; cursor: zoom-in; }
-
-        /* ✍️ TARIHLI ANI KARTLARI */
-        .not-item { 
-            background: var(--card); 
-            margin: 15px 0; 
-            padding: 20px; 
-            border-radius: 20px; 
-            width: 92%; 
-            max-width: 380px;
-            position: relative; 
-            border-left: 5px solid var(--ana); 
-            text-align: left; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            box-sizing: border-box;
-            backdrop-filter: blur(10px);
-        }
-
-        .not-tarih {
-            font-size: 0.85rem;
-            font-weight: 800;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .not-metin {
-            font-size: 1.05rem;
-            color: #ffffff;
-            line-height: 1.5;
-            word-wrap: break-word;
-        }
-
-        .del-btn { 
-            position: absolute; 
-            top: 15px; 
-            right: 15px; 
-            background: var(--ana); 
-            color: white; 
-            border-radius: 50%; 
-            width: 28px; 
-            height: 28px; 
-            border: 2px solid #2c0808; 
-            font-weight: bold; 
-            cursor: pointer; 
-            z-index: 99; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 16px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4); 
-        }
-        .del-btn:hover { transform: scale(1.1); }
-
-        /* Lightbox */
-        .lightbox {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            inset: 0;
-            background: rgba(0,0,0,0.95);
-            align-items: center;
-            justify-content: center;
-            cursor: zoom-out;
-        }
-        .lightbox img { max-width: 95%; max-height: 85vh; border-radius: 10px; box-shadow: 0 0 30px rgba(255,255,255,0.1); }
-
-        .not-input-container { width: 92%; max-width: 380px; margin-bottom: 20px; }
-        .not-input { width: 100%; padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: white; box-sizing: border-box; resize: none; font-family: 'Poppins'; }
-        
         .floating-ctrl { position: fixed; bottom: 30px; right: 25px; z-index: 6000; }
-        .circle-btn { width: 65px; height: 65px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); background: var(--ana); color: white; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+        .circle-btn { 
+            width: 68px; height: 68px; border-radius: 50%; 
+            border: 1px solid rgba(255,255,255,0.2); 
+            background: linear-gradient(135deg, var(--ana) 0%, #ff6b81 100%); 
+            color: white; display: flex; align-items: center; justify-content: center; 
+            font-size: 28px; cursor: pointer; 
+            box-shadow: 0 10px 30px rgba(255,71,87,0.5);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .circle-btn:active { transform: scale(0.9) rotate(-15deg); }
 
-        #loading { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); color:white; z-index:9999; align-items:center; justify-content:center; flex-direction: column; gap: 15px; font-size: 1.2rem; }
+        .lightbox {
+            display: none; position: fixed; z-index: 10000; inset: 0;
+            background: rgba(5,2,2,0.97); align-items: center; justify-content: center; cursor: zoom-out;
+        }
+        .lightbox img { max-width: 95%; max-height: 85vh; border-radius: 14px; box-shadow: 0 0 40px rgba(255,71,87,0.2); }
+
+        #loading { display:none; position:fixed; inset:0; background:rgba(10,3,3,0.92); color:white; z-index:9999; align-items:center; justify-content:center; flex-direction: column; gap: 15px; font-size: 1.2rem; font-weight:600; backdrop-filter: blur(5px); }
     </style>
 </head>
 <body>
@@ -197,8 +246,8 @@
     </div>
 
     <div class="kalpler">
-        <div style="text-align: center;"><button onclick="at('M')" class="k-btn">💖</button><div class="k-label">Muly</div></div>
-        <div style="text-align: center;"><button onclick="at('O')" class="k-btn">💝</button><div class="k-label">Olcay</div></div>
+        <div class="k-container"><button onclick="at('M')" class="k-btn">💖</button><div class="k-label">Muly</div></div>
+        <div class="k-container"><button onclick="at('O')" class="k-btn">💝</button><div class="k-label">Olcay</div></div>
     </div>
 
     <div class="tabs">
@@ -207,8 +256,9 @@
     </div>
 
     <div id="not-input-area" class="not-input-container">
-        <textarea id="notTxt" class="not-input" placeholder="Anını buraya bırak... ❤️"></textarea>
-        <button class="game-btn" onclick="saveNote()">Kaydet</button>
+        <input type="date" id="notDate" class="not-date-input">
+        <textarea id="notTxt" class="not-input" rows="3" placeholder="Anını buraya bırak... ❤️"></textarea>
+        <button class="game-btn" onclick="saveNote()">Anıyı Kaydet</button>
     </div>
 
     <div id="as" style="display:flex; width:100%; flex-direction:column; align-items:center;"></div>
@@ -241,8 +291,15 @@
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
         }
 
-        function getBugunTarih() {
-            const d = new Date();
+        // Tarih formatlama fonksiyonu (Kullanıcı seçimine göre ya da otomatik bugünün tarihi)
+        function getSecilenVeyaBugunTarih() {
+            const dateInput = document.getElementById('notDate').value;
+            let d;
+            if (dateInput) {
+                d = new Date(dateInput);
+            } else {
+                d = new Date();
+            }
             return `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
         }
 
@@ -250,9 +307,14 @@
             const val = document.getElementById('notTxt').value;
             if(!val) return;
             document.getElementById('loading').style.display = 'flex';
-            const formatliNot = `📅 ${getBugunTarih()} | ${val}`;
+            
+            // Tarihi alıp mesaja ekliyoruz
+            const secilenTarih = getSecilenVeyaBugunTarih();
+            const formatliNot = `📅 ${secilenTarih} | ${val}`;
+            
             await fetch(`${scriptUrl}?ani=${encodeURIComponent(formatliNot)}&foto=`, {mode:'no-cors'});
             document.getElementById('notTxt').value = "";
+            document.getElementById('notDate').value = ""; // Tarih alanını sıfırla
             load();
             document.getElementById('loading').style.display = 'none';
         }
@@ -338,7 +400,7 @@
             } else {
                 document.getElementById('galeriSayfasi').style.display = 'none';
                 document.getElementById('as').style.display = 'flex';
-                document.getElementById('not-input-area').style.display = 'block';
+                document.getElementById('not-input-area').style.display = 'flex';
                 document.getElementById('t1').classList.remove('active');
                 document.getElementById('t2').classList.add('active');
             }
