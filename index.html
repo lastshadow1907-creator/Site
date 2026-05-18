@@ -24,7 +24,7 @@
             min-height: 100vh; color: var(--text); padding-bottom: 50px; 
         }
 
-        /* Görseldeki gibi şık başlık */
+        /* Başlık */
         h1 { font-family: 'Pacifico'; font-size: 2.2rem; margin: 20px 0; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
 
         .card { 
@@ -62,43 +62,83 @@
         .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: rgba(255,255,255,0.5); cursor: pointer; border-radius: 15px; transition: 0.3s; }
         .tab.active { background: var(--card); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        /* Yeni Özel Büyük Galeri Tasarımı */
-        .buyuk-galeri {
+        /* 🖼️ ÖZEL GALERİ SAYFASI (TAM EKRAN KATMANI) */
+        .galeri-sayfasi {
+            display: none; /* İlk başta gizli */
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(180deg, #1f0505 0%, #3a0d0d 100%);
+            z-index: 5000;
+            overflow-y: auto;
+            padding: 20px 15px 80px 15px;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .galeri-baslik-alani {
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+        .galeri-baslik {
+            font-family: 'Pacifico';
+            font-size: 1.8rem;
+            color: white;
+            margin: 0;
+        }
+
+        .geri-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .geri-btn:active {
+            background: var(--ana);
+        }
+
+        /* Büyük Fotoğraf Kartları */
+        .buyuk-galeri-listesi {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            width: 92%;
+            gap: 25px;
+            width: 100%;
             max-width: 380px;
-            margin: 0 auto;
         }
 
         .photo-card-big {
-            background: rgba(20, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 25px;
-            padding: 10px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            padding: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
             position: relative;
             backdrop-filter: blur(10px);
-            overflow: hidden;
         }
 
         .photo-card-big img {
             width: 100%;
             height: auto;
-            max-height: 400px;
+            max-height: 450px;
             object-fit: cover;
             border-radius: 18px;
             display: block;
             cursor: zoom-in;
-            transition: transform 0.3s ease;
         }
 
-        .photo-card-big img:active {
-            transform: scale(0.98);
-        }
-
-        /* Fotoğrafa Tıklayınca Tam Ekran Yapma (Lightbox) */
+        /* Fotoğrafa Tıklayınca Tam Ekran Önizleme (Lightbox) */
         .lightbox {
             display: none;
             position: fixed;
@@ -118,12 +158,12 @@
         }
 
         .not-item { background: rgba(255,255,255,0.1); margin: 10px; padding: 20px; border-radius: 15px; width: 85%; position: relative; border-left: 4px solid var(--ana); text-align: left; }
-        .del-btn { position: absolute; top: 18px; right: 18px; background: var(--ana); color: white; border-radius: 50%; width: 28px; height: 28px; border: 2px solid #2c0808; font-weight: bold; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .del-btn { position: absolute; top: 20px; right: 20px; background: var(--ana); color: white; border-radius: 50%; width: 28px; height: 28px; border: 2px solid #2c0808; font-weight: bold; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
 
         .not-input-container { width: 92%; max-width: 380px; margin-bottom: 20px; }
         .not-input { width: 100%; padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: white; box-sizing: border-box; resize: none; font-family: 'Poppins'; }
         
-        .floating-ctrl { position: fixed; bottom: 30px; right: 25px; z-index: 1000; }
+        .floating-ctrl { position: fixed; bottom: 30px; right: 25px; z-index: 6000; }
         .circle-btn { width: 65px; height: 65px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); background: var(--ana); color: white; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
 
         #loading { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); color:white; z-index:9999; align-items:center; justify-content:center; flex-direction: column; gap: 15px; font-size: 1.2rem; }
@@ -134,7 +174,7 @@
     <div id="loading">✨ Aşkımız Yükleniyor... ❤️</div>
 
     <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-        <img id="lightbox-img" src="" alt="Büyük Görünüm">
+        <img id="lightbox-img" src="" alt="Büyük Önizleme">
     </div>
 
     <h1>Muly ❤️ Olcay</h1>
@@ -166,8 +206,17 @@
         <button class="game-btn" onclick="saveNote()">Kaydet</button>
     </div>
 
-    <div id="gs" class="buyuk-galeri"></div>
     <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
+
+
+    <div id="galeriSayfasi" class="galeri-sayfasi">
+        <div class="galeri-baslik-alani">
+            <h2 class="galeri-baslik">Fotoğraflarımız ❤️</h2>
+            <button class="geri-btn" onclick="kapatGaleriSayfasi()">← Geri Dön</button>
+        </div>
+        <div id="gs" class="buyuk-galeri-listesi"></div>
+    </div>
+
 
     <div class="floating-ctrl">
         <input type="file" id="fotoInput" style="display:none;" accept="image/*" onchange="uploadPhoto(this)">
@@ -183,7 +232,7 @@
         const start = new Date(2026, 2, 14, 0, 8, 0);
 
         const tasks = [
-            "En sevdiğin fotoğrafımızı anılara ekle.",
+            "En sevdiğin fotoğrafimizi anılara ekle.",
             "Şu anki hislerini anlatan kısa bir not yaz.",
             "Bana 1 dakikalık sesli mesaj gönder.",
             "Yarına özel bir plan yap ve bana söyle."
@@ -257,13 +306,20 @@
             document.getElementById('loading').style.display = 'none';
         }
 
-        // Fotoğrafı Tam Ekran Gösterme Fonksiyonları
+        // Pop-up Büyük Resim Önizleme Fonksiyonları
         function openLightbox(url) {
             document.getElementById('lightbox-img').src = url;
             document.getElementById('lightbox').style.display = 'flex';
         }
         function closeLightbox() {
             document.getElementById('lightbox').style.display = 'none';
+        }
+
+        // Galeri Odasını Kapatma Fonksiyonu
+        function kapatGaleriSayfasi() {
+            document.getElementById('galeriSayfasi').style.display = 'none';
+            // Sekme butonunu otomatik olarak Anılar'a veya nötr duruma çekelim
+            tab('a');
         }
 
         async function load() {
@@ -280,7 +336,7 @@
                     g.insertAdjacentHTML('afterbegin', `
                         <div class="photo-card-big">
                             <button class="del-btn" onclick="del(${i+2})">×</button>
-                            <img src="${img}" onclick="openLightbox('${img}')" alt="Anı Fotoğrafı">
+                            <img src="${img}" onclick="openLightbox('${img}')" alt="Büyük Fotoğraf">
                         </div>
                     `);
                 } else if(txt && txt.trim() !== "") {
@@ -290,19 +346,30 @@
         }
 
         async function del(id) {
-            if(!confirm("Bu anıyı siliyorum, emin misin?")) return;
+            if(!confirm("Bunu siliyorum, emin misin?")) return;
             document.getElementById('loading').style.display = 'flex';
             await fetch(`${scriptUrl}?del=${id}`, {mode:'no-cors'});
             load();
             document.getElementById('loading').style.display = 'none';
         }
 
+        // Sekme Yönetimi ve Özel Sayfa Tetikleyicisi
         function tab(x) {
-            document.getElementById('gs').style.display = x==='g'?'flex':'none';
-            document.getElementById('as').style.display = x==='a'?'flex':'none';
-            document.getElementById('not-input-area').style.display = x==='a'?'block':'none';
-            document.getElementById('t1').classList.toggle('active', x==='g');
-            document.getElementById('t2').classList.toggle('active', x==='a');
+            if (x === 'g') {
+                // Galeri seçilirse özel tam ekran sayfayı aç
+                document.getElementById('galeriSayfasi').style.display = 'flex';
+                document.getElementById('as').style.display = 'none';
+                document.getElementById('not-input-area').style.display = 'none';
+                document.getElementById('t1').classList.add('active');
+                document.getElementById('t2').classList.remove('active');
+            } else {
+                // Anılar seçilirse ana sayfada anıları göster, galeriyi kapat
+                document.getElementById('galeriSayfasi').style.display = 'none';
+                document.getElementById('as').style.display = 'flex';
+                document.getElementById('not-input-area').style.display = 'block';
+                document.getElementById('t1').classList.remove('active');
+                document.getElementById('t2').classList.add('active');
+            }
         }
 
         function count() {
@@ -312,7 +379,7 @@
             document.getElementById('saat').innerText = `${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
         }
 
-        window.onload = () => { load(); setInterval(count, 1000); };
+        window.onload = () => { load(); setInterval(count, 1000); tab('a'); };
     </script>
 </body>
 </html>
