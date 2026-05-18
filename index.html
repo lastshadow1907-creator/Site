@@ -24,7 +24,6 @@
             min-height: 100vh; color: var(--text); padding-bottom: 50px; 
         }
 
-        /* Başlık */
         h1 { font-family: 'Pacifico'; font-size: 2.2rem; margin: 20px 0; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
 
         .card { 
@@ -46,25 +45,15 @@
         .k-btn:active { transform: scale(1.3) rotate(10deg); }
         .k-label { font-size: 1.3rem; font-weight: 800; color: var(--ana); font-family: 'Dancing Script', cursive; margin-top: 5px; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 
-        .game-box { 
-            background: rgba(255, 255, 255, 0.05); 
-            width: 92%; max-width: 380px; 
-            border-radius: 25px; padding: 20px; 
-            text-align: center; margin-top: 20px; 
-            border: 1px dashed var(--accent); 
-            box-sizing: border-box; 
-        }
-        #task-display { font-weight: 600; color: var(--accent); font-size: 1.1rem; }
-        #task-timer { font-size: 1.2rem; font-weight: bold; color: #ff4757; display: none; margin-top: 10px; letter-spacing: 1px; }
         .game-btn { background: var(--ana); color: white; border: none; padding: 14px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; box-shadow: 0 5px 15px rgba(255,71,87,0.3); }
 
         .tabs { display: flex; background: rgba(0,0,0,0.3); border-radius: 20px; margin: 25px 0; width: 92%; max-width: 380px; padding: 5px; }
         .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; color: rgba(255,255,255,0.5); cursor: pointer; border-radius: 15px; transition: 0.3s; }
         .tab.active { background: var(--card); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        /* 🖼️ ÖZEL GALERİ SAYFASI (TAM EKRAN KATMANI) */
+        /* 🖼️ ÖZEL GALERİ SAYFASI */
         .galeri-sayfasi {
-            display: none; /* İlk başta gizli */
+            display: none;
             position: fixed;
             inset: 0;
             background: linear-gradient(180deg, #1f0505 0%, #3a0d0d 100%);
@@ -86,12 +75,7 @@
             padding-bottom: 10px;
         }
 
-        .galeri-baslik {
-            font-family: 'Pacifico';
-            font-size: 1.8rem;
-            color: white;
-            margin: 0;
-        }
+        .galeri-baslik { font-family: 'Pacifico'; font-size: 1.8rem; color: white; margin: 0; }
 
         .geri-btn {
             background: rgba(255, 255, 255, 0.1);
@@ -104,19 +88,9 @@
             cursor: pointer;
             transition: 0.3s;
         }
+        .geri-btn:active { background: var(--ana); }
 
-        .geri-btn:active {
-            background: var(--ana);
-        }
-
-        /* Büyük Fotoğraf Kartları */
-        .buyuk-galeri-listesi {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            width: 100%;
-            max-width: 380px;
-        }
+        .buyuk-galeri-listesi { display: flex; flex-direction: column; gap: 25px; width: 100%; max-width: 380px; }
 
         .photo-card-big {
             background: rgba(0, 0, 0, 0.4);
@@ -128,17 +102,63 @@
             backdrop-filter: blur(10px);
         }
 
-        .photo-card-big img {
-            width: 100%;
-            height: auto;
-            max-height: 450px;
-            object-fit: cover;
-            border-radius: 18px;
-            display: block;
-            cursor: zoom-in;
+        .photo-card-big img { width: 100%; height: auto; max-height: 450px; object-fit: cover; border-radius: 18px; display: block; cursor: zoom-in; }
+
+        /* ✍️ TARIHLI ANI KARTLARI */
+        .not-item { 
+            background: var(--card); 
+            margin: 15px 0; 
+            padding: 20px; 
+            border-radius: 20px; 
+            width: 92%; 
+            max-width: 380px;
+            position: relative; 
+            border-left: 5px solid var(--ana); 
+            text-align: left; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+            backdrop-filter: blur(10px);
         }
 
-        /* Fotoğrafa Tıklayınca Tam Ekran Önizleme (Lightbox) */
+        .not-tarih {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .not-metin {
+            font-size: 1.05rem;
+            color: #ffffff;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .del-btn { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            background: var(--ana); 
+            color: white; 
+            border-radius: 50%; 
+            width: 28px; 
+            height: 28px; 
+            border: 2px solid #2c0808; 
+            font-weight: bold; 
+            cursor: pointer; 
+            z-index: 99; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 16px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4); 
+        }
+        .del-btn:hover { transform: scale(1.1); }
+
+        /* Lightbox */
         .lightbox {
             display: none;
             position: fixed;
@@ -149,16 +169,7 @@
             justify-content: center;
             cursor: zoom-out;
         }
-
-        .lightbox img {
-            max-width: 95%;
-            max-height: 85vh;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(255,255,255,0.1);
-        }
-
-        .not-item { background: rgba(255,255,255,0.1); margin: 10px; padding: 20px; border-radius: 15px; width: 85%; position: relative; border-left: 4px solid var(--ana); text-align: left; }
-        .del-btn { position: absolute; top: 20px; right: 20px; background: var(--ana); color: white; border-radius: 50%; width: 28px; height: 28px; border: 2px solid #2c0808; font-weight: bold; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
+        .lightbox img { max-width: 95%; max-height: 85vh; border-radius: 10px; box-shadow: 0 0 30px rgba(255,255,255,0.1); }
 
         .not-input-container { width: 92%; max-width: 380px; margin-bottom: 20px; }
         .not-input { width: 100%; padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: white; box-sizing: border-box; resize: none; font-family: 'Poppins'; }
@@ -190,24 +201,17 @@
         <div style="text-align: center;"><button onclick="at('O')" class="k-btn">💝</button><div class="k-label">Olcay</div></div>
     </div>
 
-    <div class="game-box">
-        <div id="task-display">Yeni bir görev çekmeye ne dersin? ✨</div>
-        <div id="task-timer">Kalan Süre: 03:00:00</div>
-        <button id="taskBtn" class="game-btn" onclick="getTask()">Görevi Çek</button>
-    </div>
-
     <div class="tabs">
-        <button id="t1" class="tab active" onclick="tab('g')">🖼️ Galeri</button>
-        <button id="t2" class="tab" onclick="tab('a')">✍️ Anılar</button>
+        <button id="t1" class="tab" onclick="tab('g')">🖼️ Galeri</button>
+        <button id="t2" class="tab active" onclick="tab('a')">✍️ Anılar</button>
     </div>
 
-    <div id="not-input-area" class="not-input-container" style="display:none;">
+    <div id="not-input-area" class="not-input-container">
         <textarea id="notTxt" class="not-input" placeholder="Anını buraya bırak... ❤️"></textarea>
         <button class="game-btn" onclick="saveNote()">Kaydet</button>
     </div>
 
-    <div id="as" style="display:none; width:100%; flex-direction:column; align-items:center;"></div>
-
+    <div id="as" style="display:flex; width:100%; flex-direction:column; align-items:center;"></div>
 
     <div id="galeriSayfasi" class="galeri-sayfasi">
         <div class="galeri-baslik-alani">
@@ -216,7 +220,6 @@
         </div>
         <div id="gs" class="buyuk-galeri-listesi"></div>
     </div>
-
 
     <div class="floating-ctrl">
         <input type="file" id="fotoInput" style="display:none;" accept="image/*" onchange="uploadPhoto(this)">
@@ -231,63 +234,24 @@
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbwi-0o6xAFHr8DlkR6BWPYiA9bDK2ecghWt_uUdvBsazcdVzU9BoNtLafblCXK27ZjTKA/exec';
         const start = new Date(2026, 2, 14, 0, 8, 0);
 
-        const tasks = [
-            "En sevdiğin fotoğrafimizi anılara ekle.",
-            "Şu anki hislerini anlatan kısa bir not yaz.",
-            "Bana 1 dakikalık sesli mesaj gönder.",
-            "Yarına özel bir plan yap ve bana söyle."
-        ];
-
-        let timerInterval;
-
         function at(k) {
-            let msg = "";
-            let target = "";
-            if(k === 'M') {
-                msg = "Muly seni çok özledi Olcay";
-                target = O_ID;
-            } else {
-                msg = "Olcayın yine aklındasın. Pardon ne zaman çıktın ki?";
-                target = M_ID;
-            }
+            let msg = ""; let target = "";
+            if(k === 'M') { msg = "Muly seni çok özledi Olcay"; target = O_ID; } 
+            else { msg = "Olcayın yine aklındasın. Pardon ne zaman çıktın ki?"; target = M_ID; }
             fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${target}&text=${encodeURIComponent(msg)}`);
         }
 
-        function getTask() {
-            const btn = document.getElementById('taskBtn');
-            const display = document.getElementById('task-display');
-            const timerDisplay = document.getElementById('task-timer');
-            const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
-            
-            display.innerText = randomTask;
-            btn.disabled = true;
-            btn.style.opacity = "0.5";
-            timerDisplay.style.display = "block";
-
-            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${O_ID}&text=${encodeURIComponent("⚠️ Görev Başladı: " + randomTask)}`);
-            fetch(`https://api.telegram.org/bot${T}/sendMessage?chat_id=${M_ID}&text=${encodeURIComponent("⚠️ Görev Başladı: " + randomTask)}`);
-
-            let timeLeft = 3 * 60 * 60;
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                let h = Math.floor(timeLeft / 3600);
-                let m = Math.floor((timeLeft % 3600) / 60);
-                let s = timeLeft % 60;
-                timerDisplay.innerText = `Kalan Süre: ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    timerDisplay.innerText = "Süre Doldu!";
-                    btn.disabled = false; btn.style.opacity = "1";
-                }
-                timeLeft--;
-            }, 1000);
+        function getBugunTarih() {
+            const d = new Date();
+            return `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
         }
 
         async function saveNote() {
             const val = document.getElementById('notTxt').value;
             if(!val) return;
             document.getElementById('loading').style.display = 'flex';
-            await fetch(`${scriptUrl}?ani=${encodeURIComponent(val)}&foto=`, {mode:'no-cors'});
+            const formatliNot = `📅 ${getBugunTarih()} | ${val}`;
+            await fetch(`${scriptUrl}?ani=${encodeURIComponent(formatliNot)}&foto=`, {mode:'no-cors'});
             document.getElementById('notTxt').value = "";
             load();
             document.getElementById('loading').style.display = 'none';
@@ -306,19 +270,14 @@
             document.getElementById('loading').style.display = 'none';
         }
 
-        // Pop-up Büyük Resim Önizleme Fonksiyonları
         function openLightbox(url) {
             document.getElementById('lightbox-img').src = url;
             document.getElementById('lightbox').style.display = 'flex';
         }
-        function closeLightbox() {
-            document.getElementById('lightbox').style.display = 'none';
-        }
-
-        // Galeri Odasını Kapatma Fonksiyonu
+        function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
+        
         function kapatGaleriSayfasi() {
             document.getElementById('galeriSayfasi').style.display = 'none';
-            // Sekme butonunu otomatik olarak Anılar'a veya nötr duruma çekelim
             tab('a');
         }
 
@@ -332,6 +291,7 @@
             lines.forEach((l, i) => {
                 const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 let txt = c[0]?.replace(/"/g,''), img = c[1]?.replace(/"/g,'');
+                
                 if(img && img.includes('http')) {
                     g.insertAdjacentHTML('afterbegin', `
                         <div class="photo-card-big">
@@ -340,7 +300,22 @@
                         </div>
                     `);
                 } else if(txt && txt.trim() !== "") {
-                    a.insertAdjacentHTML('afterbegin', `<div class="not-item"><button class="del-btn" onclick="del(${i+2})">×</button>${txt}</div>`);
+                    let tarih = "BİLİNMEYEN TARİH";
+                    let temizMetin = txt;
+                    
+                    if(txt.includes('|')) {
+                        const parca = txt.split('|');
+                        tarih = parca[0].replace('📅', '').trim();
+                        temizMetin = parca.slice(1).join('|').trim();
+                    }
+
+                    a.insertAdjacentHTML('afterbegin', `
+                        <div class="not-item">
+                            <button class="del-btn" onclick="del(${i+2})">×</button>
+                            <span class="not-tarih">📅 ${tarih}</span>
+                            <div class="not-metin">${temizMetin}</div>
+                        </div>
+                    `);
                 }
             });
         }
@@ -353,17 +328,14 @@
             document.getElementById('loading').style.display = 'none';
         }
 
-        // Sekme Yönetimi ve Özel Sayfa Tetikleyicisi
         function tab(x) {
             if (x === 'g') {
-                // Galeri seçilirse özel tam ekran sayfayı aç
                 document.getElementById('galeriSayfasi').style.display = 'flex';
                 document.getElementById('as').style.display = 'none';
                 document.getElementById('not-input-area').style.display = 'none';
                 document.getElementById('t1').classList.add('active');
                 document.getElementById('t2').classList.remove('active');
             } else {
-                // Anılar seçilirse ana sayfada anıları göster, galeriyi kapat
                 document.getElementById('galeriSayfasi').style.display = 'none';
                 document.getElementById('as').style.display = 'flex';
                 document.getElementById('not-input-area').style.display = 'block';
